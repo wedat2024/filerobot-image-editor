@@ -29,6 +29,9 @@
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.5",

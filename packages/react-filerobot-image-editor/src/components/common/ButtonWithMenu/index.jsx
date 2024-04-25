@@ -63,7 +63,7 @@ const ButtonWithMenu = ({
       return;
     }
 
-    if (typeof onClick === 'function') {
+    if (typeof onClick === 'function' && !filteredMenuItems[0]?.onClick) {
       onClick();
     } else if (filteredMenuItems[0]?.onClick) {
       filteredMenuItems[0].onClick();
