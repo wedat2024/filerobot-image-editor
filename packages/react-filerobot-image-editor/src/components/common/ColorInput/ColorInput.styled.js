@@ -19,4 +19,19 @@ const StyledPickerTrigger = styled.div.attrs(({ $color }) => ({
   box-sizing: border-box;
 `;
 
-export { StyledPickerTrigger };
+const StyledColor = styled.div.attrs(({ currentColor, isActive }) => ({
+  style: {
+    background: currentColor,
+    boxShadow: isActive && '0px 0px 15px blue',
+  },
+}))`
+  background: ${({ theme }) => theme.palette['icons-primary']};
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid ${({ theme }) => theme.palette[PC.BorderPrimaryStateless]};
+  cursor: pointer;
+  box-sizing: border-box;
+`;
+
+export { StyledPickerTrigger, StyledColor };

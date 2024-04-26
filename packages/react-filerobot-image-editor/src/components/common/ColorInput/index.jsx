@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useStore } from 'hooks';
 import { SET_LATEST_COLOR } from 'actions';
 import ColorPickerModal from '../ColorPickerModal';
-import { StyledPickerTrigger } from './ColorInput.styled';
+import { StyledColor, StyledPickerTrigger } from './ColorInput.styled';
 
 const pinnedColorsKey = 'FIE_pinnedColors';
 
@@ -23,6 +23,7 @@ const ColorInput = ({ onChange, color, colorFor }) => {
   const [currentColor, setCurrentColor] = useState(
     () => latestColor || color || annotationsCommon.fill,
   );
+  const [currentBlockColor, setCurrentBlockColor] = useState('');
   const [pinnedColors, setPinnedColors] = useState(
     window?.localStorage
       ? JSON.parse(localStorage.getItem(pinnedColorsKey) || '[]')
@@ -73,8 +74,23 @@ const ColorInput = ({ onChange, color, colorFor }) => {
     onChange(colorToSet);
   }, [color, selectionsIds]);
 
+  const allColors = ['green', 'red', 'blue', 'brown', 'yellow', 'white'];
+
+  const handleSingleColorClick = (selectedColor) => {
+    setCurrentBlockColor(selectedColor);
+    changeColor(selectedColor, selectedColor, pinnedColors);
+  };
+
   return (
     <>
+      {allColors.map((singleColor, index) => (
+        <StyledColor
+          key={`${singleColor}-${index.toString()}`}
+          currentColor={singleColor}
+          isActive={currentBlockColor === singleColor}
+          onClick={() => handleSingleColorClick(singleColor)}
+        />
+      ))}
       <StyledPickerTrigger
         className="FIE_color-picker-triggerer"
         onClick={togglePicker}
