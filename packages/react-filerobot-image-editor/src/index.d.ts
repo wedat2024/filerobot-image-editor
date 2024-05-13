@@ -38,10 +38,10 @@ declare const TOOLS = {
 } as const;
 
 // TABS_IDS
-type availableTabs = typeof TABS[keyof typeof TABS];
+type availableTabs = (typeof TABS)[keyof typeof TABS];
 
 // TOOLS_IDS
-type availableTools = typeof TOOLS[keyof typeof TOOLS];
+type availableTools = (typeof TOOLS)[keyof typeof TOOLS];
 
 type lineCap = 'butt' | 'round' | 'square';
 
@@ -270,11 +270,22 @@ export interface FilerobotImageEditorConfig {
   Rotate?: rotateAnnotation;
   // [TOOLS_IDS.WATERMARK]
   Watermark?: {
-    gallery?: string[] | ({ url: string, previewUrl: string })[] | [];
-    onUploadWatermarkImgClick?: (loadAndSetWatermarkImg: (imgUrl, revokeObjectUrl) => void) => Promise<{ url: string, revokeObjectUrl?: boolean }> | void
-    textScalingRatio?: number,
-    imageScalingRatio?: number,
+    gallery?: string[] | { url: string; previewUrl: string }[] | [];
+    onUploadWatermarkImgClick?: (
+      loadAndSetWatermarkImg: (
+        imgUrl: string,
+        revokeObjectUrl: () => void,
+      ) => void,
+    ) => Promise<{ url: string; revokeObjectUrl?: boolean }> | void;
+    textScalingRatio?: number;
+    imageScalingRatio?: number;
     hideTextWatermark?: boolean;
+    additionalFields?: {
+      key: string;
+      label: string;
+      icon: any;
+      onClick: (...args: any[]) => any;
+    }[];
   };
   // [TOOLS_IDS.CROP]
   Crop?: {
@@ -288,7 +299,16 @@ export interface FilerobotImageEditorConfig {
     presetsItems?: cropPresetItem[];
     presetsFolders?: cropPresetFolder[];
     autoResize?: boolean;
-    lockCropAreaAt?: 'top-left' |  'top-center' | 'top-right' | 'center-left' | 'center-center' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+    lockCropAreaAt?:
+      | 'top-left'
+      | 'top-center'
+      | 'top-right'
+      | 'center-left'
+      | 'center-center'
+      | 'center-right'
+      | 'bottom-left'
+      | 'bottom-center'
+      | 'bottom-right';
   };
   // TABS_IDS
   tabsIds?: availableTabs[] | [];

@@ -299,6 +299,16 @@ const config = {
     ],
     textScalingRatio: 0.33,
     imageScalingRatio: 0.33,
+    // additionalFields: [
+    //   {
+    //     key: 'Hello',
+    //     label: 'Hello 123',
+    //     icon: DuplicateIcon,
+    //     onClick: () => {
+    //       console.log('Clicked 123');
+    //     },
+    //   },
+    // ],
   },
   [TOOLS.TEXT]: {
     text: 'Filerobot...',

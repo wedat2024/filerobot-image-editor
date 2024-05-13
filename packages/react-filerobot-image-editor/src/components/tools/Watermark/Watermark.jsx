@@ -231,7 +231,12 @@ const Watermark = () => {
       icon: Text,
       onClick: addTextWatermark,
     },
-  ];
+    !!watermarkConfig.additionalFields &&
+      !!watermarkConfig.additionalFields.length &&
+      watermarkConfig.additionalFields.map((field) => ({
+        ...field,
+      })),
+  ].flat();
 
   const addWatermarkLabel = () => {
     if (isPhoneScreen) return t('plus');

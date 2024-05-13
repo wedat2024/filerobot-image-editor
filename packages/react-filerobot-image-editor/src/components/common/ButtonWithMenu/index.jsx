@@ -107,11 +107,11 @@ const ButtonWithMenu = ({
           position={menuPosition}
         >
           {menuItems.map(
-            (item) =>
+            (item, index) =>
               item && (
                 <StyledMenuItem
                   className={`${className}-menu-item`}
-                  key={item.key}
+                  key={`${item.key}-${index.toString()}`}
                   active={item.isActive}
                   onClick={() => handleMenuItemClick(item.onClick)}
                   size={buttonSize}
