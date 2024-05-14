@@ -280,12 +280,10 @@ export interface FilerobotImageEditorConfig {
     textScalingRatio?: number;
     imageScalingRatio?: number;
     hideTextWatermark?: boolean;
-    additionalFields?: {
-      key: string;
-      label: string;
+    addressBook?: {
       icon: any;
-      onClick: (...args: any[]) => any;
-    }[];
+      onSave: () => string;
+    };
   };
   // [TOOLS_IDS.CROP]
   Crop?: {

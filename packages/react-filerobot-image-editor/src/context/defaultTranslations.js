@@ -85,6 +85,7 @@ export default {
   addWatermarkTitle: 'Choose the watermark type',
   uploadWatermark: 'Upload watermark',
   addWatermarkAsText: 'Add as text',
+  addressBook: 'Address Book',
   padding: 'Padding',
   paddings: 'Paddings',
   shadow: 'Shadow',

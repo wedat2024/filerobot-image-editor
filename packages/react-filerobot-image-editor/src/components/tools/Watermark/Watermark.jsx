@@ -55,14 +55,27 @@ const Watermark = () => {
   const watermarkImageRatio =
     watermarkConfig.imageScalingRatio || WATERMARK_IMG_RATIO_FROM_ORIGINAL;
 
-  const addTextWatermark = () => {
+  const addTextWatermark = (textToShow) => {
     const dimensions = {};
     dimensions.height = layerHeight * watermarkTextRatio;
     dimensions.width = layerWidth * watermarkTextRatio;
 
+    console.log(config, config[TOOLS_IDS.TEXT], 'INFO 123');
+
+    let textWatermarkConfig = {
+      ...config[TOOLS_IDS.TEXT],
+    };
+
+    if (textToShow) {
+      textWatermarkConfig = {
+        ...textWatermarkConfig,
+        text: textToShow,
+      };
+    }
+
     const textWatermark = {
       ...config.annotationsCommon,
-      ...config[TOOLS_IDS.TEXT],
+      ...textWatermarkConfig,
       ...dimensions,
       padding: 1,
       x: layerCropX + layerWidth / 2 - dimensions.width / 2,
@@ -72,6 +85,8 @@ const Watermark = () => {
       name: TOOLS_IDS.TEXT,
       replaceCurrent: true,
     };
+
+    console.log(textWatermark, dimensions, 'INFO');
 
     dispatch({
       type: SET_ANNOTATION,
@@ -231,12 +246,19 @@ const Watermark = () => {
       icon: Text,
       onClick: addTextWatermark,
     },
-    !!watermarkConfig.additionalFields &&
-      !!watermarkConfig.additionalFields.length &&
-      watermarkConfig.additionalFields.map((field) => ({
-        ...field,
-      })),
-  ].flat();
+    !!watermarkConfig.addressBook && {
+      key: 'address-book',
+      label: t('addressBook'),
+      icon: watermarkConfig.addressBook.icon,
+      onClick: () => {
+        const value = watermarkConfig.addressBook.onSave();
+
+        if (value) {
+          addTextWatermark(value);
+        }
+      },
+    },
+  ];
 
   const addWatermarkLabel = () => {
     if (isPhoneScreen) return t('plus');

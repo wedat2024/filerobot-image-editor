@@ -299,6 +299,10 @@ const config = {
     ],
     textScalingRatio: 0.33,
     imageScalingRatio: 0.33,
+    // addressBook: {
+    //   icon: DuplicateIcon,
+    //   onSave: () => 'Address Book Value 123',
+    // },
     // additionalFields: [
     //   {
     //     key: 'Hello',
