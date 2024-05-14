@@ -282,7 +282,7 @@ export interface FilerobotImageEditorConfig {
     hideTextWatermark?: boolean;
     addressBook?: {
       icon: any;
-      onSave: () => string;
+      onSave: (value: string) => string;
       onOpen: (...args: any[]) => any;
     };
   };
