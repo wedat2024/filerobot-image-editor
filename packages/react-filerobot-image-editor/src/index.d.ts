@@ -283,6 +283,7 @@ export interface FilerobotImageEditorConfig {
     addressBook?: {
       icon: any;
       onSave: () => string;
+      onOpen: (...args: any[]) => any;
     };
   };
   // [TOOLS_IDS.CROP]
