@@ -251,10 +251,10 @@ const Watermark = () => {
       label: t('addressBook'),
       icon: watermarkConfig.addressBook.icon,
       onClick: () => {
-        const value = watermarkConfig.addressBook.onSave();
-
-        if (value) {
-          addTextWatermark(value);
+        if (watermarkConfig.addressBook.value) {
+          addTextWatermark(watermarkConfig.addressBook.value);
+        } else {
+          watermarkConfig.addressBook.onClick();
         }
       },
     },
