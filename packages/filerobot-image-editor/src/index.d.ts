@@ -3,7 +3,7 @@ import {
   TABS,
   TOOLS,
   getCurrentImgDataFunction,
-} from '../../react-filerobot-image-editor';
+} from '../../react-filerobot-image-editor/src';
 
 declare class FilerobotImageEditor {
   TABS: typeof TABS;

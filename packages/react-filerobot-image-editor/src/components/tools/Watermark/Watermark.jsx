@@ -55,23 +55,14 @@ const Watermark = () => {
   const watermarkImageRatio =
     watermarkConfig.imageScalingRatio || WATERMARK_IMG_RATIO_FROM_ORIGINAL;
 
-  const addTextWatermark = (textToShow) => {
+  const addTextWatermark = () => {
     const dimensions = {};
     dimensions.height = layerHeight * watermarkTextRatio;
     dimensions.width = layerWidth * watermarkTextRatio;
 
-    console.log(config, config[TOOLS_IDS.TEXT], 'INFO 123');
-
-    let textWatermarkConfig = {
+    const textWatermarkConfig = {
       ...config[TOOLS_IDS.TEXT],
     };
-
-    if (textToShow) {
-      textWatermarkConfig = {
-        ...textWatermarkConfig,
-        text: textToShow,
-      };
-    }
 
     const textWatermark = {
       ...config.annotationsCommon,
@@ -85,8 +76,6 @@ const Watermark = () => {
       name: TOOLS_IDS.TEXT,
       replaceCurrent: true,
     };
-
-    console.log(textWatermark, dimensions, 'INFO');
 
     dispatch({
       type: SET_ANNOTATION,
@@ -245,18 +234,6 @@ const Watermark = () => {
       label: t('addWatermarkAsText'),
       icon: Text,
       onClick: addTextWatermark,
-    },
-    !!watermarkConfig.addressBook && {
-      key: 'address-book',
-      label: t('addressBook'),
-      icon: watermarkConfig.addressBook.icon,
-      onClick: () => {
-        if (watermarkConfig.addressBook.value) {
-          addTextWatermark(watermarkConfig.addressBook.value);
-        } else {
-          watermarkConfig.addressBook.onClick();
-        }
-      },
     },
   ];
 

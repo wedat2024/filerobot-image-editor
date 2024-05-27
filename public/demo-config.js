@@ -299,20 +299,6 @@ const config = {
     ],
     textScalingRatio: 0.33,
     imageScalingRatio: 0.33,
-    // addressBook: {
-    //   icon: DuplicateIcon,
-    //   onSave: () => 'Address Book Value 123',
-    // },
-    // additionalFields: [
-    //   {
-    //     key: 'Hello',
-    //     label: 'Hello 123',
-    //     icon: DuplicateIcon,
-    //     onClick: () => {
-    //       console.log('Clicked 123');
-    //     },
-    //   },
-    // ],
   },
   [TOOLS.TEXT]: {
     text: 'Filerobot...',
@@ -325,6 +311,17 @@ const config = {
     //   }
     // },
   },
+  // Ellipse: {
+  //   fill: '#000000',
+  //   stroke: 'red',
+  //   strokeWidth: 5,
+  //   // shadowOffsetX: 0,
+  //   // shadowOffsetY: 0,
+  //   // shadowBlur: 0,
+  //   // shadowColor: '#000000',
+  //   // shadowOpacity: 1,
+  //   opacity: 1,
+  // },
   // onBeforeSave: (imageFileInfo) => {
   //   console.log('info', imageFileInfo);
   //   return false;
