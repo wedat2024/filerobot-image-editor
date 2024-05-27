@@ -156,11 +156,18 @@ const StyledDimensionsButtons = styled.div`
   align-items: center;
 `;
 
+const StyledRestoreButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: ${({ noMargin }) => (noMargin ? '0' : '12px')};
+  flex-shrink: 0;
+`;
+
 const StyledRestoreButton = styled(Button)`
-  margin: 10px;
-  min-width: 67px;
-  width: fit-content;
-  height: 32px;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
 `;
 
 export {
@@ -185,5 +192,6 @@ export {
   StyledMenuIconButton,
   StyledDimensionsButtons,
   StyledResizeOnSaveLabel,
+  StyledRestoreButtonWrapper,
   StyledRestoreButton,
 };
