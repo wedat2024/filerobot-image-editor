@@ -311,6 +311,12 @@ const config = {
     //   }
     // },
   },
+  // restoreConfig: {
+  //   showRestore: false,
+  //   onClick: () => {
+  //     alert('Hello');
+  //   },
+  // },
   // Ellipse: {
   //   fill: '#000000',
   //   stroke: 'red',
