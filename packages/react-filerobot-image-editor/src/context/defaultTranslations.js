@@ -2,6 +2,7 @@ export default {
   name: 'Name',
   save: 'Save',
   saveAs: 'Save as',
+  restore: 'Restore',
   back: 'Back',
   loading: 'Loading...',
   resetOperations: 'Reset/delete all operations',

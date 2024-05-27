@@ -20,10 +20,11 @@ import {
   StyledMenuIconButton,
 } from './Topbar.styled';
 import BackButton from './BackButton';
+import RestoreButton from './RestoreButton';
 
 const Topbar = ({ toggleMainMenu }) => {
   const {
-    config: { showBackButton },
+    config: { showBackButton, restoreConfig },
   } = useStore();
 
   const isPhoneScreen = usePhoneScreen(320);
@@ -40,6 +41,7 @@ const Topbar = ({ toggleMainMenu }) => {
           {(props) => <Menu {...props} />}
         </StyledMenuIconButton>
         {showBackButton ? <BackButton /> : <SaveButton />}
+        <RestoreButton restoreConfig={restoreConfig} />
       </StyledMainButtonsWrapper>
 
       <StyledFlexCenterAlignedContainer

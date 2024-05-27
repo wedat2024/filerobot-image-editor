@@ -156,6 +156,13 @@ const StyledDimensionsButtons = styled.div`
   align-items: center;
 `;
 
+const StyledRestoreButton = styled(Button)`
+  margin: 10px;
+  min-width: 67px;
+  width: fit-content;
+  height: 32px;
+`;
+
 export {
   StyledTopbar,
   StyledFlexCenterAlignedContainer,
@@ -178,4 +185,5 @@ export {
   StyledMenuIconButton,
   StyledDimensionsButtons,
   StyledResizeOnSaveLabel,
+  StyledRestoreButton,
 };
