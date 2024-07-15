@@ -302,6 +302,11 @@ const config = {
   },
   [TOOLS.TEXT]: {
     text: 'Filerobot...',
+    // rectConfig: {
+    //   fill: 'red',
+    //   opacity: 0.4,
+    //   cornerRadius: 10,
+    // },
     //   fonts: ['Arial', 'another', { label: 'Tahoma', value: 'Tahoma' }, 'hey-there'], // must be loaded in the website or the user have them on his system
     //   fontFamily: 'test',
     // onFontChange: (newFontFamily, reRenderCanvasFn) => {

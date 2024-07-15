@@ -5,6 +5,7 @@ import { Text } from 'react-konva';
 
 /** Internal Dependencies */
 import nodesCommonPropTypes from '../nodesCommonPropTypes';
+import RectNode from './RectNode';
 
 const TextNode = ({
   id,
@@ -33,37 +34,67 @@ const TextNode = ({
   letterSpacing,
   lineHeight,
   align,
+  rectConfig,
   ...otherProps
 }) => (
-  <Text
-    id={id}
-    name={name}
-    rotation={rotation}
-    scaleX={scaleX}
-    scaleY={scaleY}
-    stroke={stroke}
-    strokeWidth={strokeWidth}
-    shadowOffsetX={shadowOffsetX}
-    shadowOffsetY={shadowOffsetY}
-    shadowBlur={shadowBlur}
-    shadowColor={shadowColor}
-    shadowOpacity={shadowOpacity}
-    opacity={opacity}
-    fill={fill}
-    text={text}
-    fontFamily={fontFamily}
-    fontStyle={fontStyle}
-    fontSize={fontSize}
-    letterSpacing={letterSpacing}
-    lineHeight={lineHeight}
-    align={align}
-    x={x}
-    y={y}
-    width={width}
-    height={height}
-    {...annotationEvents}
-    {...otherProps}
-  />
+  <>
+    {rectConfig && (
+      <RectNode
+        id={id}
+        name={name}
+        scaleX={scaleX}
+        scaleY={scaleY}
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+        shadowOffsetX={shadowOffsetX}
+        shadowOffsetY={shadowOffsetY}
+        shadowBlur={shadowBlur}
+        shadowColor={shadowColor}
+        shadowOpacity={shadowOpacity}
+        fontFamily={fontFamily}
+        fontStyle={fontStyle}
+        fontSize={fontSize}
+        letterSpacing={letterSpacing}
+        lineHeight={lineHeight}
+        align={align}
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        annotationEvents={annotationEvents}
+        {...rectConfig}
+      />
+    )}
+    <Text
+      id={id}
+      name={name}
+      rotation={rotation}
+      scaleX={scaleX}
+      scaleY={scaleY}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      shadowOffsetX={shadowOffsetX}
+      shadowOffsetY={shadowOffsetY}
+      shadowBlur={shadowBlur}
+      shadowColor={shadowColor}
+      shadowOpacity={shadowOpacity}
+      opacity={opacity}
+      fill={fill}
+      text={text}
+      fontFamily={fontFamily}
+      fontStyle={fontStyle}
+      fontSize={fontSize}
+      letterSpacing={letterSpacing}
+      lineHeight={lineHeight}
+      align={align}
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      {...annotationEvents}
+      {...otherProps}
+    />
+  </>
 );
 
 TextNode.defaultProps = {
@@ -93,6 +124,17 @@ TextNode.propTypes = {
   letterSpacing: PropTypes.number,
   lineHeight: PropTypes.number,
   align: PropTypes.string,
+  rectFill: PropTypes.string,
+  rectConfig: PropTypes.shape({
+    ...nodesCommonPropTypes.definitions,
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    annotationEvents: PropTypes.instanceOf(Object).isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    fill: PropTypes.string,
+    cornerRadius: PropTypes.number,
+  }),
 };
 
 export default TextNode;

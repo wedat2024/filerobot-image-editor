@@ -33,7 +33,7 @@ RestoreButton.defaultProps = {
 };
 
 RestoreButton.propTypes = {
-  restoreConfig: PropTypes.objectOf({
+  restoreConfig: PropTypes.shape({
     showRestore: PropTypes.bool,
     onClick: PropTypes.func,
   }),
