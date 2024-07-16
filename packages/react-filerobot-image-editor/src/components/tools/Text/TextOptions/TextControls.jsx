@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from '@scaleflex/ui/core/menu-item';
 import FontBold from '@scaleflex/icons/font-bold';
@@ -15,6 +15,7 @@ import { useStore } from 'hooks';
 import {
   StyledFontFamilySelect,
   StyledFontSizeInput,
+  StyledFontSizeSelector,
   StyledToolsWrapper,
 } from './TextOptions.styled';
 import {
@@ -30,7 +31,7 @@ const TextControls = ({ text, saveText, children }) => {
   const { dispatch, textIdOfEditableContent, designLayer, t, config } =
     useStore();
   const { useCloudimage } = config;
-  const { fonts = [], onFontChange } = config[TOOLS_IDS.TEXT];
+  const { fonts = [], fontSizes = [], onFontChange } = config[TOOLS_IDS.TEXT];
 
   const changeTextProps = useCallback(
     (e) => {
@@ -116,6 +117,16 @@ const TextControls = ({ text, saveText, children }) => {
     };
   }, [textIdOfEditableContent]);
 
+  const standardFontSizes = useMemo(
+    () =>
+      Array.isArray(fontSizes) && !!fontSizes.length
+        ? Array.from(new Set(fontSizes))
+        : [15, 25, 35],
+    [fontSizes],
+  );
+
+  const [selectedFontSize, setSelectedFontSize] = useState();
+
   return (
     <AnnotationOptions
       className="FIE_text-tool-options"
@@ -147,16 +158,45 @@ const TextControls = ({ text, saveText, children }) => {
           ))}
         </StyledFontFamilySelect>
       )}
-      <StyledFontSizeInput
-        className="FIE_text-size-option"
-        value={text.fontSize || ''}
-        name="fontSize"
-        onChange={changeTextProps}
-        inputMode="numeric"
-        type="number"
-        size="sm"
-        placeholder={t('size')}
-      />
+      <div
+        style={{
+          maxWidth: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          overflow: 'auto',
+        }}
+      >
+        <StyledFontSizeInput
+          className="FIE_text-size-option"
+          value={text.fontSize || ''}
+          name="fontSize"
+          onChange={changeTextProps}
+          inputMode="numeric"
+          type="number"
+          size="sm"
+          placeholder={t('size')}
+        />
+
+        {standardFontSizes.map((standardFontSize) => {
+          return (
+            <StyledFontSizeSelector
+              className={`FIE_text-size-option-selector-${standardFontSize}`}
+              key={standardFontSize}
+              onClick={() => {
+                setSelectedFontSize(standardFontSize);
+                saveText((latestText) => ({
+                  id: latestText.id,
+                  fontSize: standardFontSize,
+                }));
+              }}
+              active={selectedFontSize === standardFontSize}
+            >
+              {standardFontSize}
+            </StyledFontSizeSelector>
+          );
+        })}
+      </div>
 
       <StyledToolsWrapper>
         {!useCloudimage && (
