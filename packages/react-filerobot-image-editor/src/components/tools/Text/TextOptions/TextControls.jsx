@@ -33,9 +33,12 @@ const TextControls = ({ text, saveText, children }) => {
   const { useCloudimage } = config;
   const { fonts = [], fontSizes = [], onFontChange } = config[TOOLS_IDS.TEXT];
 
+  const [selectedFontSize, setSelectedFontSize] = useState(null);
+
   const changeTextProps = useCallback(
     (e) => {
       const { name, value, type } = e.target;
+      setSelectedFontSize(null);
       saveText((latestText) => ({
         id: latestText.id,
         [name]: type === 'number' ? restrictNumber(value, 1, 500) : value,
@@ -124,8 +127,6 @@ const TextControls = ({ text, saveText, children }) => {
         : [15, 25, 35],
     [fontSizes],
   );
-
-  const [selectedFontSize, setSelectedFontSize] = useState();
 
   return (
     <AnnotationOptions
