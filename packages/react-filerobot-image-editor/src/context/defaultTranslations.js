@@ -78,6 +78,7 @@ export default {
   textAlignment: 'Text alignment',
   fontFamily: 'Font family',
   size: 'Size',
+  fontSizes: 'Font sizes',
   letterSpacing: 'Letter Spacing',
   lineHeight: 'Line height',
   warmthTool: 'Warmth',

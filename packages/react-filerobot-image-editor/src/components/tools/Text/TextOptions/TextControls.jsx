@@ -1,9 +1,8 @@
 /** External Dependencies */
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import MenuItem from '@scaleflex/ui/core/menu-item';
-import FontBold from '@scaleflex/icons/font-bold';
-import FontItalic from '@scaleflex/icons/font-italic';
+import { TooltipV2, MenuItem } from '@scaleflex/ui/core';
+import { FontBold, FontItalic } from '@scaleflex/icons';
 
 /** Internal Dependencies */
 import { TOOLS_IDS, TRANSFORMERS_LAYER_ID } from 'utils/constants';
@@ -16,6 +15,7 @@ import {
   StyledFontFamilySelect,
   StyledFontSizeInput,
   StyledFontSizeSelector,
+  StyledSelect,
   StyledToolsWrapper,
 } from './TextOptions.styled';
 import {
@@ -33,12 +33,19 @@ const TextControls = ({ text, saveText, children }) => {
   const { useCloudimage } = config;
   const { fonts = [], fontSizes = [], onFontChange } = config[TOOLS_IDS.TEXT];
 
+  const standardFontSizes = useMemo(
+    () =>
+      Array.isArray(fontSizes) && !!fontSizes.length
+        ? Array.from(new Set(fontSizes)).filter(Number)
+        : [15, 25, 35],
+    [fontSizes],
+  );
+
   const [selectedFontSize, setSelectedFontSize] = useState(null);
 
   const changeTextProps = useCallback(
     (e) => {
       const { name, value, type } = e.target;
-      setSelectedFontSize(null);
       saveText((latestText) => ({
         id: latestText.id,
         [name]: type === 'number' ? restrictNumber(value, 1, 500) : value,
@@ -120,12 +127,14 @@ const TextControls = ({ text, saveText, children }) => {
     };
   }, [textIdOfEditableContent]);
 
-  const standardFontSizes = useMemo(
-    () =>
-      Array.isArray(fontSizes) && !!fontSizes.length
-        ? Array.from(new Set(fontSizes))
-        : [15, 25, 35],
-    [fontSizes],
+  const changeFontSize = useCallback(
+    (selectedSize) => {
+      setSelectedFontSize(selectedSize);
+      changeTextProps({
+        target: { name: 'fontSize', value: selectedSize },
+      });
+    },
+    [changeTextProps],
   );
 
   return (
@@ -159,57 +168,77 @@ const TextControls = ({ text, saveText, children }) => {
           ))}
         </StyledFontFamilySelect>
       )}
-      <div
-        style={{
-          maxWidth: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          overflow: 'auto',
-        }}
-      >
+
+      <div>
         <StyledFontSizeInput
           className="FIE_text-size-option"
           value={text.fontSize || ''}
           name="fontSize"
-          onChange={changeTextProps}
+          onChange={(e) => {
+            setSelectedFontSize(null);
+            changeTextProps(e);
+          }}
           inputMode="numeric"
           type="number"
           size="sm"
           placeholder={t('size')}
         />
 
-        {standardFontSizes.map((standardFontSize) => {
-          return (
-            <StyledFontSizeSelector
-              className={`FIE_text-size-option-selector-${standardFontSize}`}
-              key={standardFontSize}
-              onClick={() => {
-                setSelectedFontSize(standardFontSize);
-                saveText((latestText) => ({
-                  id: latestText.id,
-                  fontSize: standardFontSize,
-                }));
-              }}
-              active={selectedFontSize === standardFontSize}
-            >
-              {standardFontSize}
-            </StyledFontSizeSelector>
-          );
-        })}
+        {standardFontSizes.length <= 5 ? (
+          standardFontSizes.map((standardFontSize) => {
+            return (
+              <TooltipV2
+                title={`Font Size: ${standardFontSize}`}
+                key={standardFontSize}
+              >
+                <StyledFontSizeSelector
+                  className={`FIE_text-size-option-selector-${standardFontSize}`}
+                  onClick={() => changeFontSize(standardFontSize)}
+                  active={selectedFontSize === standardFontSize}
+                >
+                  {standardFontSize}
+                </StyledFontSizeSelector>
+              </TooltipV2>
+            );
+          })
+        ) : (
+          <StyledSelect
+            className="FIE_text-font-size-option"
+            onChange={(e) => {
+              const { value } = e.target;
+              const numberValue = Number(value);
+
+              if (numberValue && !Number.isNaN(numberValue)) {
+                changeFontSize(numberValue);
+              }
+            }}
+            placeholder={t('fontSizes')}
+          >
+            {standardFontSizes.map((standardFontSize) => {
+              return (
+                <option key={standardFontSize} value={standardFontSize}>
+                  {standardFontSize}
+                </option>
+              );
+            })}
+          </StyledSelect>
+        )}
       </div>
 
       <StyledToolsWrapper>
         {!useCloudimage && (
           <>
-            <StyledIconWrapper
-              className="FIE_text-bold-option"
-              active={(text.fontStyle || '').includes('bold')}
-              onClick={() => changeFontStyle('bold')}
-              watermarkTool
-            >
-              <FontBold size={20} />
-            </StyledIconWrapper>
+            <TooltipV2 title="Font Style: Bold">
+              <StyledIconWrapper
+                className="FIE_text-bold-option"
+                active={(text.fontStyle || '').includes('bold')}
+                onClick={() => changeFontStyle('bold')}
+                watermarkTool
+              >
+                <FontBold size={20} />
+              </StyledIconWrapper>
+            </TooltipV2>
+
             <StyledIconWrapper
               className="FIE_text-italic-option"
               active={(text.fontStyle || '').includes('italic')}
