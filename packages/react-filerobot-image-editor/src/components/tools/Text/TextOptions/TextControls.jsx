@@ -15,7 +15,6 @@ import {
   StyledFontFamilySelect,
   StyledFontSizeInput,
   StyledFontSizeSelector,
-  StyledSelect,
   StyledToolsWrapper,
 } from './TextOptions.styled';
 import {
@@ -35,7 +34,7 @@ const TextControls = ({ text, saveText, children }) => {
 
   const [selectedTextIndex, setSelectedTextIndex] = useState(0);
   const [selectedText, setSelectedText] = useState(texts[0]);
-  const [selectedFontSize, setSelectedFontSize] = useState(null);
+  const [selectedFontSize, setSelectedFontSize] = useState('');
 
   useEffect(() => {
     saveText((latestText) => ({
@@ -51,7 +50,7 @@ const TextControls = ({ text, saveText, children }) => {
         setSelectedText((prevSelectedText) => {
           const foundText = texts[selectedValueIndex];
           if (foundText) {
-            setSelectedFontSize(null);
+            setSelectedFontSize('');
             return foundText;
           }
           return prevSelectedText;
@@ -155,12 +154,21 @@ const TextControls = ({ text, saveText, children }) => {
 
   const changeFontSize = useCallback(
     (selectedSize) => {
-      setSelectedFontSize(selectedSize);
-      changeTextProps({
-        target: { name: 'fontSize', value: selectedSize },
+      setSelectedFontSize((prevSize) => {
+        if (prevSize !== String(selectedSize)) {
+          changeTextProps({
+            target: { name: 'fontSize', value: selectedSize },
+          });
+          return String(selectedSize);
+        }
+
+        changeTextProps({
+          target: { name: 'fontSize', value: selectedText.fontSize },
+        });
+        return '';
       });
     },
-    [changeTextProps],
+    [selectedText, changeTextProps],
   );
 
   return (
@@ -228,7 +236,7 @@ const TextControls = ({ text, saveText, children }) => {
           value={text.fontSize || ''}
           name="fontSize"
           onChange={(e) => {
-            setSelectedFontSize(null);
+            setSelectedFontSize('');
             changeTextProps(e);
           }}
           inputMode="numeric"
@@ -258,26 +266,35 @@ const TextControls = ({ text, saveText, children }) => {
             );
           })
         ) : (
-          <StyledSelect
+          <Select
             className="FIE_text-font-size-option"
             onChange={(e) => {
-              const { value } = e.target;
-              const numberValue = Number(value);
+              const numberValue = Number(e);
 
               if (numberValue && !Number.isNaN(numberValue)) {
                 changeFontSize(numberValue);
               }
             }}
             placeholder={t('fontSizes')}
+            value={String(selectedFontSize)}
+            size="sm"
+            style={{
+              width: '160px',
+              marginLeft: '5px',
+            }}
           >
             {standardFontSizes.map((standardFontSize) => {
               return (
-                <option key={standardFontSize} value={standardFontSize}>
-                  {standardFontSize}
-                </option>
+                <MenuItem
+                  key={String(standardFontSize)}
+                  className="FIE_font-size-selection-item"
+                  value={String(standardFontSize)}
+                >
+                  {String(standardFontSize)}
+                </MenuItem>
               );
             })}
-          </StyledSelect>
+          </Select>
         )}
       </div>
 

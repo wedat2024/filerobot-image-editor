@@ -8,17 +8,6 @@ const StyledFontFamilySelect = styled(Select)`
   width: 160px;
 `;
 
-const StyledSelect = styled.select`
-  width: 160px;
-  margin-left: 5px;
-  height: 30px;
-  border: 1px solid rgb(204, 214, 222);
-  padding: 6px 10px;
-  color: rgb(55, 65, 75);
-  background-color: rgb(255, 255, 255);
-  border-radius: 4px;
-`;
-
 const StyledFontSizeInput = styled(Input)`
   width: 72px;
 `;
@@ -43,7 +32,6 @@ const StyledToolsWrapper = styled.div`
 
 export {
   StyledFontFamilySelect,
-  StyledSelect,
   StyledFontSizeInput,
   StyledToolsWrapper,
   StyledFontSizeSelector,
