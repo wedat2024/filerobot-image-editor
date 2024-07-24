@@ -5,11 +5,13 @@ import Select from '@scaleflex/ui/core/select';
 import Button from '@scaleflex/ui/core/button';
 
 const StyledFontFamilySelect = styled(Select)`
-  width: 160px;
+  min-width: 160px;
+  width: max-content;
 `;
 
 const StyledFontSizeInput = styled(Input)`
   width: 72px;
+  height: auto;
 `;
 
 const StyledFontSizeSelector = styled(Button).attrs((props) => ({

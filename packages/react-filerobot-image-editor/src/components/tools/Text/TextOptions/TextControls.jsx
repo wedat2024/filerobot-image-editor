@@ -279,7 +279,8 @@ const TextControls = ({ text, saveText, children }) => {
             value={String(selectedFontSize)}
             size="sm"
             style={{
-              width: '160px',
+              minWidth: '160px',
+              width: 'max-content',
               marginLeft: '5px',
             }}
           >

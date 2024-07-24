@@ -38,7 +38,7 @@ export default {
         align: 'left', // left, center, right
         fontStyle: 'normal', // 'bold', 'italic', 'bold italic'
         onFontChange: undefined,
-        fontSizes: [10, 20, 30],
+        fontSizes: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
       },
     ],
   },
