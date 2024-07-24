@@ -74,6 +74,7 @@ export default {
   resetSize: 'Reset to original image size',
   rotateTool: 'Rotate',
   textTool: 'Text',
+  textSelection: 'Text Selection',
   textSpacings: 'Text spacings',
   textAlignment: 'Text alignment',
   fontFamily: 'Font family',

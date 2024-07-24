@@ -1,7 +1,7 @@
 /** External Dependencies */
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { TooltipV2, MenuItem } from '@scaleflex/ui/core';
+import { TooltipV2, MenuItem, Select } from '@scaleflex/ui/core';
 import { FontBold, FontItalic } from '@scaleflex/icons';
 
 /** Internal Dependencies */
@@ -31,17 +31,43 @@ const TextControls = ({ text, saveText, children }) => {
   const { dispatch, textIdOfEditableContent, designLayer, t, config } =
     useStore();
   const { useCloudimage } = config;
-  const { fonts = [], fontSizes = [], onFontChange } = config[TOOLS_IDS.TEXT];
+  const { texts = [] } = config[TOOLS_IDS.TEXT];
+
+  const [selectedTextIndex, setSelectedTextIndex] = useState(0);
+  const [selectedText, setSelectedText] = useState(texts[0]);
+  const [selectedFontSize, setSelectedFontSize] = useState(null);
+
+  useEffect(() => {
+    saveText((latestText) => ({
+      ...latestText,
+      ...selectedText,
+    }));
+  }, [selectedText, saveText]);
+
+  const changeDefaultText = useCallback(
+    (selectedValueIndex) => {
+      if (selectedValueIndex !== selectedTextIndex) {
+        setSelectedTextIndex(selectedValueIndex);
+        setSelectedText((prevSelectedText) => {
+          const foundText = texts[selectedValueIndex];
+          if (foundText) {
+            setSelectedFontSize(null);
+            return foundText;
+          }
+          return prevSelectedText;
+        });
+      }
+    },
+    [texts, selectedTextIndex],
+  );
 
   const standardFontSizes = useMemo(
     () =>
-      Array.isArray(fontSizes) && !!fontSizes.length
-        ? Array.from(new Set(fontSizes)).filter(Number)
+      Array.isArray(selectedText?.fontSizes) && !!selectedText.fontSizes.length
+        ? Array.from(new Set(selectedText.fontSizes)).filter(Number)
         : [15, 25, 35],
-    [fontSizes],
+    [selectedText],
   );
-
-  const [selectedFontSize, setSelectedFontSize] = useState(null);
 
   const changeTextProps = useCallback(
     (e) => {
@@ -64,10 +90,10 @@ const TextControls = ({ text, saveText, children }) => {
         typeof onFontChange === 'function'
       ) {
         const reRenderCanvasFn = designLayer.draw.bind(designLayer);
-        onFontChange(newFontFamily, reRenderCanvasFn);
+        selectedText?.onFontChange?.(newFontFamily, reRenderCanvasFn);
       }
     },
-    [changeTextProps, text, designLayer],
+    [changeTextProps, text, designLayer, selectedText],
   );
 
   const changeFontStyle = useCallback(
@@ -148,7 +174,34 @@ const TextControls = ({ text, saveText, children }) => {
       }
       t={t}
     >
-      {Array.isArray(fonts) && fonts.length > 1 && (
+      {texts && Array.isArray(texts) && texts.length > 1 && (
+        <Select
+          className="FIE_text-selection-option"
+          onChange={changeDefaultText}
+          value={selectedTextIndex}
+          placeholder={t('textSelection')}
+          size="sm"
+          style={{
+            width: '160px',
+          }}
+        >
+          {texts.map((filteredText, index) => (
+            <MenuItem
+              className="FIE_text-selection-item"
+              key={
+                filteredText.text
+                  ? `${filteredText.text}-${index.toString()}`
+                  : index.toString()
+              }
+              value={index}
+            >
+              {filteredText.text}
+            </MenuItem>
+          ))}
+        </Select>
+      )}
+
+      {Array.isArray(selectedText?.fonts) && selectedText.fonts.length > 1 && (
         <StyledFontFamilySelect
           className="FIE_text-font-family-option"
           onChange={changeFontFamily}
@@ -157,7 +210,7 @@ const TextControls = ({ text, saveText, children }) => {
           size="sm"
         >
           {/* fontFamily is string or object */}
-          {fonts.map((fontFamily = '') => (
+          {selectedText.fonts.map((fontFamily = '') => (
             <MenuItem
               className="FIE_text-font-family-item"
               key={fontFamily.value ?? fontFamily}
@@ -194,7 +247,10 @@ const TextControls = ({ text, saveText, children }) => {
                 <StyledFontSizeSelector
                   className={`FIE_text-size-option-selector-${standardFontSize}`}
                   onClick={() => changeFontSize(standardFontSize)}
-                  active={selectedFontSize === standardFontSize}
+                  active={
+                    selectedFontSize === standardFontSize ||
+                    standardFontSize === Number(text.fontSize)
+                  }
                 >
                   {standardFontSize}
                 </StyledFontSizeSelector>

@@ -245,13 +245,22 @@ export interface FilerobotImageEditorConfig {
   source: string | HTMLImageElement;
   annotationsCommon?: annotationsCommon;
   // [TOOLS_IDS.TEXT]
-  Text?: textAnnotation & {
-    fonts?: (string | { label: string; value: string })[];
-    onFontChange?: (
-      newFontFamily: string,
-      reRenderCanvasFn: () => void,
-    ) => void;
-  };
+  Text?: {
+        texts: (textAnnotation & {
+          fonts?: (string | { label: string; value: string })[];
+          onFontChange?: (
+            newFontFamily: string,
+            reRenderCanvasFn: () => void,
+          ) => void;
+        })[];
+      }
+    | (textAnnotation & {
+        fonts?: (string | { label: string; value: string })[];
+        onFontChange?: (
+          newFontFamily: string,
+          reRenderCanvasFn: () => void,
+        ) => void;
+      });
   // [TOOLS_IDS.IMAGE]
   Image?: imageAnnotation;
   // [TOOLS_IDS.ELLIPSE]
@@ -371,7 +380,7 @@ export interface FilerobotImageEditorConfig {
   restoreConfig?: {
     showRestore: boolean;
     onClick: (...args: any[]) => void;
-  }
+  };
 }
 
 declare const FilerobotImageEditor: FunctionComponent<FilerobotImageEditorConfig>;

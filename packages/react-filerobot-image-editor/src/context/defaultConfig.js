@@ -22,21 +22,25 @@ export default {
     opacity: 1,
   },
   [TOOLS_IDS.TEXT]: {
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    fontFamily: 'Arial',
-    fonts: [
-      { label: 'Arial', value: 'Arial' },
-      'Tahoma',
-      'Sans-serif',
-      { label: 'Comic Sans', value: 'Comic-sans' },
+    texts: [
+      {
+        text: 'Filerobot...',
+        fontFamily: 'Arial',
+        fonts: [
+          { label: 'Arial', value: 'Arial' },
+          'Tahoma',
+          'Sans-serif',
+          { label: 'Comic Sans', value: 'Comic-sans' },
+        ],
+        fontSize: 14,
+        letterSpacing: 0,
+        lineHeight: 1,
+        align: 'left', // left, center, right
+        fontStyle: 'normal', // 'bold', 'italic', 'bold italic'
+        onFontChange: undefined,
+        fontSizes: [10, 20, 30],
+      },
     ],
-    fontSize: 14,
-    letterSpacing: 0,
-    lineHeight: 1,
-    align: 'left', // left, center, right
-    fontStyle: 'normal', // 'bold', 'italic', 'bold italic'
-    onFontChange: undefined,
-    fontSizes: [10, 20, 30],
   },
   [TOOLS_IDS.IMAGE]: {
     fill: undefined,
@@ -103,7 +107,7 @@ export default {
   defaultSavedImageType: null,
   defaultSavedImageQuality: 0.92,
   forceToPngInEllipticalCrop: false,
-  useBackendTranslations: true,
+  useBackendTranslations: false,
   translations: null,
   language: 'en',
   avoidChangesNotSavedAlertOnLeave: false,
