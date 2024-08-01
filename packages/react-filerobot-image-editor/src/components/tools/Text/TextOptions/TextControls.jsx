@@ -1,7 +1,7 @@
 /** External Dependencies */
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { TooltipV2, MenuItem, Select } from '@scaleflex/ui/core';
+import { MenuItem, Select } from '@scaleflex/ui/core';
 import { FontBold, FontItalic } from '@scaleflex/icons';
 
 /** Internal Dependencies */
@@ -248,21 +248,17 @@ const TextControls = ({ text, saveText, children }) => {
         {standardFontSizes.length <= 5 ? (
           standardFontSizes.map((standardFontSize) => {
             return (
-              <TooltipV2
-                title={`Font Size: ${standardFontSize}`}
+              <StyledFontSizeSelector
                 key={standardFontSize}
+                className={`FIE_text-size-option-selector-${standardFontSize}`}
+                onClick={() => changeFontSize(standardFontSize)}
+                active={
+                  selectedFontSize === standardFontSize ||
+                  standardFontSize === Number(text.fontSize)
+                }
               >
-                <StyledFontSizeSelector
-                  className={`FIE_text-size-option-selector-${standardFontSize}`}
-                  onClick={() => changeFontSize(standardFontSize)}
-                  active={
-                    selectedFontSize === standardFontSize ||
-                    standardFontSize === Number(text.fontSize)
-                  }
-                >
-                  {standardFontSize}
-                </StyledFontSizeSelector>
-              </TooltipV2>
+                {standardFontSize}
+              </StyledFontSizeSelector>
             );
           })
         ) : (
@@ -302,16 +298,14 @@ const TextControls = ({ text, saveText, children }) => {
       <StyledToolsWrapper>
         {!useCloudimage && (
           <>
-            <TooltipV2 title="Font Style: Bold">
-              <StyledIconWrapper
-                className="FIE_text-bold-option"
-                active={(text.fontStyle || '').includes('bold')}
-                onClick={() => changeFontStyle('bold')}
-                watermarkTool
-              >
-                <FontBold size={20} />
-              </StyledIconWrapper>
-            </TooltipV2>
+            <StyledIconWrapper
+              className="FIE_text-bold-option"
+              active={(text.fontStyle || '').includes('bold')}
+              onClick={() => changeFontStyle('bold')}
+              watermarkTool
+            >
+              <FontBold size={20} />
+            </StyledIconWrapper>
 
             <StyledIconWrapper
               className="FIE_text-italic-option"
