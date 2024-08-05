@@ -37,10 +37,15 @@ const TextControls = ({ text, saveText, children }) => {
   const [selectedFontSize, setSelectedFontSize] = useState('');
 
   useEffect(() => {
-    saveText((latestText) => ({
-      ...latestText,
-      ...selectedText,
-    }));
+    saveText((latestText) => {
+      // eslint-disable-next-line no-shadow
+      const { name, text, ...restSelectedText } = selectedText;
+
+      return {
+        ...latestText,
+        ...restSelectedText,
+      };
+    });
   }, [selectedText, saveText]);
 
   const changeDefaultText = useCallback(
@@ -111,7 +116,7 @@ const TextControls = ({ text, saveText, children }) => {
         },
       });
     },
-    [text],
+    [text, changeTextProps],
   );
 
   const disableTextEdit = useCallback(() => {
@@ -121,17 +126,20 @@ const TextControls = ({ text, saveText, children }) => {
         textIdOfEditableContent: null,
       },
     });
-  }, []);
+  }, [dispatch]);
 
-  const changeTextContent = useCallback((newContent) => {
-    changeTextProps({
-      target: {
-        name: 'text',
-        value: newContent,
-      },
-    });
-    disableTextEdit();
-  }, []);
+  const changeTextContent = useCallback(
+    (newContent) => {
+      changeTextProps({
+        target: {
+          name: 'text',
+          value: newContent,
+        },
+      });
+      disableTextEdit();
+    },
+    [changeTextProps, disableTextEdit],
+  );
 
   useEffect(() => {
     let transformer;
@@ -150,7 +158,13 @@ const TextControls = ({ text, saveText, children }) => {
     return () => {
       if (transformer && textIdOfEditableContent) deactivateTextChange();
     };
-  }, [textIdOfEditableContent]);
+  }, [
+    textIdOfEditableContent,
+    text.id,
+    designLayer,
+    changeTextContent,
+    disableTextEdit,
+  ]);
 
   const changeFontSize = useCallback(
     (selectedSize) => {
@@ -197,13 +211,13 @@ const TextControls = ({ text, saveText, children }) => {
             <MenuItem
               className="FIE_text-selection-item"
               key={
-                filteredText.text
-                  ? `${filteredText.text}-${index.toString()}`
+                filteredText.name
+                  ? `${filteredText.name}-${index.toString()}`
                   : index.toString()
               }
               value={index}
             >
-              {filteredText.text}
+              {filteredText.name || `Sample ${index + 1}`}
             </MenuItem>
           ))}
         </Select>
