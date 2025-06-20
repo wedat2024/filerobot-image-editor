@@ -49,8 +49,8 @@ const ColorInput = ({ onChange, color, colorFor }) => {
 
   const changeColor = (_newColorHex, rgba, newPinnedColors) => {
     setCurrentColor(rgba);
-    onChange(rgba);
     changePinnedColors(newPinnedColors);
+    onChange(rgba);
 
     if (latestColor !== rgba) {
       dispatch({
@@ -74,7 +74,15 @@ const ColorInput = ({ onChange, color, colorFor }) => {
     onChange(colorToSet);
   }, [color, selectionsIds]);
 
-  const allColors = ['green', 'red', 'blue', 'brown', 'yellow', 'white'];
+  const allColors = [
+    'transparent',
+    'green',
+    'red',
+    'blue',
+    'brown',
+    'yellow',
+    'white',
+  ];
 
   const handleSingleColorClick = (selectedColor) => {
     setCurrentBlockColor(selectedColor);
@@ -86,7 +94,11 @@ const ColorInput = ({ onChange, color, colorFor }) => {
       {allColors.map((singleColor, index) => (
         <StyledColor
           key={`${singleColor}-${index.toString()}`}
-          currentColor={singleColor}
+          currentColor={
+            singleColor === 'transparent'
+              ? 'repeating-conic-gradient(rgb(93, 109, 126) 0%, rgb(93, 109, 126) 25%, transparent 0%, transparent 50%) 50% center / 8px 8px'
+              : singleColor
+          }
           isActive={currentBlockColor === singleColor}
           onClick={() => handleSingleColorClick(singleColor)}
         />

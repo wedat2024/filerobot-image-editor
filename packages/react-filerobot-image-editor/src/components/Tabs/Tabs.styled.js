@@ -52,6 +52,8 @@ const StyledTabItemLabel = styled(Label)(
   ${theme.typography.font[FV.LabelSmall]};
   font-size: 12px;
   line-height: 14px;
+  text-align: center;
+  word-break: break-word;
 
   span {
     white-space: normal;

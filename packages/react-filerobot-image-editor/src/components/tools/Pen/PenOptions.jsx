@@ -75,7 +75,10 @@ const PenOptions = ({ t }) => {
   }, [getPointerPosition]);
 
   const handlePointerUp = useCallback(() => {
-    if (updatedPen.current.id && config[TOOLS_IDS.PEN].selectAnnotationAfterDrawing) { 
+    if (
+      updatedPen.current.id &&
+      config[TOOLS_IDS.PEN].selectAnnotationAfterDrawing
+    ) {
       dispatch({
         type: SELECT_ANNOTATION,
         payload: {
@@ -132,7 +135,7 @@ const PenOptions = ({ t }) => {
       updateAnnotation={savePenDebounced}
       t={t}
       hidePositionField
-      hideFillOption
+      // hideFillOption
     />
   );
 };

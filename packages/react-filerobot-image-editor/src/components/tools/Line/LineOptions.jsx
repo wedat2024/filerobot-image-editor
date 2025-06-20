@@ -19,7 +19,7 @@ const LineOptions = ({ t }) => {
       updateAnnotation={saveLine}
       t={t}
       hidePositionField
-      hideFillOption
+      // hideFillOption
     />
   );
 };

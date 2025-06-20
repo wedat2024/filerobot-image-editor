@@ -5,9 +5,9 @@ import { usePhoneScreen, useStore } from 'hooks';
 import { Label } from '@scaleflex/ui/core';
 import Menu from '@scaleflex/ui/core/menu';
 import Transparency from '@scaleflex/icons/transparency';
-import Shadow from '@scaleflex/icons/shadow';
+// import Shadow from '@scaleflex/icons/shadow';
+// import Position from '@scaleflex/icons/position';
 import Stroke from '@scaleflex/icons/stroke';
-import Position from '@scaleflex/icons/position';
 
 /** Internal Dependencies */
 import OpacityField from './OpacityField';
@@ -19,6 +19,7 @@ import {
   StyledOptions,
   StyledOptionsWrapper,
   StyledIconWrapper,
+  ColorInputWrapper,
 } from './AnnotationOptions.styled';
 import { POPPABLE_OPTIONS } from './AnnotationOptions.constants';
 import ColorInput from '../ColorInput';
@@ -33,6 +34,7 @@ const AnnotationOptions = ({
   hideFillOption,
   hidePositionField,
   className,
+  withoutOptions,
   ...rest
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -40,32 +42,45 @@ const AnnotationOptions = ({
   const {
     config: { useCloudimage },
     t,
+    toolId,
   } = useStore();
 
   const isPhoneScreen = usePhoneScreen(320);
+  const isBigPhoneScreen = usePhoneScreen(425);
 
   const options = useMemo(
-    () => [
-      ...morePoppableOptionsPrepended,
-      {
-        titleKey: 'opacity',
-        name: POPPABLE_OPTIONS.OPACITY,
-        Icon: Transparency,
-      },
-      ...(!useCloudimage
-        ? [
-            { titleKey: 'stroke', name: POPPABLE_OPTIONS.STROKE, Icon: Stroke },
-            { titleKey: 'shadow', name: POPPABLE_OPTIONS.SHADOW, Icon: Shadow },
-          ]
-        : []),
-      !hidePositionField
-        ? {
-            titleKey: 'position',
-            name: POPPABLE_OPTIONS.POSITION,
-            Icon: Position,
-          }
-        : undefined,
-    ],
+    () =>
+      withoutOptions
+        ? []
+        : [
+            ...morePoppableOptionsPrepended,
+            {
+              titleKey: 'opacity',
+              name: POPPABLE_OPTIONS.OPACITY,
+              Icon: Transparency,
+            },
+            ...(!useCloudimage
+              ? [
+                  {
+                    titleKey: 'stroke',
+                    name: POPPABLE_OPTIONS.STROKE,
+                    Icon: Stroke,
+                  },
+                  // {
+                  //   titleKey: 'shadow',
+                  //   name: POPPABLE_OPTIONS.SHADOW,
+                  //   Icon: Shadow,
+                  // },
+                ]
+              : []),
+            // !hidePositionField
+            //   ? {
+            //       titleKey: 'position',
+            //       name: POPPABLE_OPTIONS.POSITION,
+            //       Icon: Position,
+            //     }
+            //   : undefined,
+          ],
     [morePoppableOptionsPrepended],
   );
 
@@ -87,11 +102,28 @@ const AnnotationOptions = ({
     setCurrentOption(targetOptionName);
   }, []);
 
-  const changeAnnotationFill = useCallback(
-    (newFill) => {
-      updateAnnotation({ fill: newFill });
+  const isStrokeTool = useMemo(
+    () => toolId === 'Pen' || toolId === 'Line' || toolId === 'Arrow',
+    [toolId],
+  );
+
+  const isShape = useMemo(
+    () => toolId === 'Rect' || toolId === 'Ellipse' || toolId === 'Polygon',
+  );
+
+  const changeStrokeColor = (newStrokeColor) => {
+    updateAnnotation({ stroke: newStrokeColor });
+  };
+
+  const changeAnnotationStrokeOrFill = useCallback(
+    (newColor) => {
+      if (isStrokeTool) {
+        updateAnnotation({ stroke: newColor });
+      } else {
+        updateAnnotation({ fill: newColor });
+      }
     },
-    [updateAnnotation],
+    [updateAnnotation, isStrokeTool],
   );
 
   const OptionPopupComponent =
@@ -115,12 +147,41 @@ const AnnotationOptions = ({
       className={`FIE_annotations-options${className ? ` ${className}` : ''}`}
       isPhoneScreen={isPhoneScreen}
     >
-      {!hideFillOption && (
+      {!hideFillOption && (!isShape || isBigPhoneScreen) && (
         <ColorInput
-          color={annotation.fill}
-          onChange={changeAnnotationFill}
-          colorFor="fill"
+          color={isStrokeTool ? annotation.stroke : annotation.fill}
+          onChange={changeAnnotationStrokeOrFill}
+          colorFor={isStrokeTool ? 'stroke' : 'fill'}
         />
+      )}
+
+      {isShape && !isBigPhoneScreen && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {!hideFillOption && (
+            <ColorInputWrapper>
+              <span>{t('fillColor')}</span>
+              <ColorInput
+                color={isStrokeTool ? annotation.stroke : annotation.fill}
+                onChange={changeAnnotationStrokeOrFill}
+                colorFor={isStrokeTool ? 'stroke' : 'fill'}
+              />
+            </ColorInputWrapper>
+          )}
+
+          <ColorInputWrapper withMarginTop>
+            <span>{t('lineColor')}</span>
+            <ColorInput
+              color={annotation.stroke}
+              onChange={changeStrokeColor}
+              colorFor="stroke"
+            />
+          </ColorInputWrapper>
+        </div>
       )}
 
       {children}
@@ -157,6 +218,8 @@ const AnnotationOptions = ({
               <OptionPopupComponent
                 annotation={annotation}
                 updateAnnotation={updateAnnotation}
+                showStroke={!isStrokeTool}
+                isPhone={isBigPhoneScreen}
                 {...rest}
               />
             )}
@@ -175,6 +238,7 @@ AnnotationOptions.defaultProps = {
   hideFillOption: false,
   hidePositionField: false,
   className: undefined,
+  withoutOptions: false,
 };
 
 AnnotationOptions.propTypes = {
@@ -187,6 +251,7 @@ AnnotationOptions.propTypes = {
   moreOptionsPopupComponentsObj: PropTypes.instanceOf(Object),
   hidePositionField: PropTypes.bool,
   className: PropTypes.string,
+  withoutOptions: PropTypes.bool,
 };
 
 export default AnnotationOptions;

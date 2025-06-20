@@ -138,6 +138,21 @@ const StyledIconLabel = styled(Label)`
   color: ${({ theme: { palette } }) => palette[PC.TextPrimary]};
 `;
 
+const ColorInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-top: ${({ withMarginTop }) => (withMarginTop ? '10px' : '')};
+
+  span {
+    min-width: 80px; /* Adjust as needed */
+    text-align: left;
+    display: inline-block;
+  }
+`;
+
 export {
   StyledTwoColumnsContainer,
   StyledColumn,
@@ -147,4 +162,5 @@ export {
   StyledOptionsWrapper,
   StyledOptionPopupContent,
   StyledIconLabel,
+  ColorInputWrapper,
 };

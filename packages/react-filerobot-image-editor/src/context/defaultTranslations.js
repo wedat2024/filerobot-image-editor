@@ -88,6 +88,7 @@ export default {
   addWatermarkTitle: 'Choose the watermark type',
   uploadWatermark: 'Upload watermark',
   addWatermarkAsText: 'Add as text',
+  addWatermarkAsAddressBook: 'Add as Address Book',
   addressBook: 'Address Book',
   padding: 'Padding',
   paddings: 'Paddings',
@@ -117,4 +118,6 @@ export default {
   height: 'Height',
   plus: '+',
   cropItemNoEffect: 'No preview available for this crop item',
+  fillColor: 'Fill Color',
+  lineColor: 'Line Color',
 };

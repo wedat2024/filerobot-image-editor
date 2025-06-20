@@ -1,5 +1,5 @@
 import { ThemeOverride } from '@scaleflex/ui/theme';
-import { FunctionComponent, RefObject } from 'react';
+import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
 
 declare const TABS = {
   FINETUNE: 'Finetune',
@@ -245,22 +245,11 @@ export interface FilerobotImageEditorConfig {
   source: string | HTMLImageElement;
   annotationsCommon?: annotationsCommon;
   // [TOOLS_IDS.TEXT]
-  Text?: {
-        texts: (textAnnotation & {
-          fonts?: (string | { label: string; value: string })[];
-          onFontChange?: (
-            newFontFamily: string,
-            reRenderCanvasFn: () => void,
-          ) => void;
-        })[];
+  Text?:
+    | {
+        texts?: textAnnotation[];
       }
-    | (textAnnotation & {
-        fonts?: (string | { label: string; value: string })[];
-        onFontChange?: (
-          newFontFamily: string,
-          reRenderCanvasFn: () => void,
-        ) => void;
-      });
+    | textAnnotation;
   // [TOOLS_IDS.IMAGE]
   Image?: imageAnnotation;
   // [TOOLS_IDS.ELLIPSE]
@@ -289,6 +278,14 @@ export interface FilerobotImageEditorConfig {
     textScalingRatio?: number;
     imageScalingRatio?: number;
     hideTextWatermark?: boolean;
+    addressBook?: {
+      // Added for AddressBook plugin
+      visible: boolean;
+      open: () => void;
+      isSaved: boolean;
+      setIsSaved: Dispatch<SetStateAction<boolean>>;
+      addressBookWatermark: string;
+    };
   };
   // [TOOLS_IDS.CROP]
   Crop?: {
@@ -377,9 +374,15 @@ export interface FilerobotImageEditorConfig {
   noCrossOrigin?: boolean;
   disableSaveIfNoChanges?: boolean;
   removeSaveButton?: boolean;
+  resetOnImageSourceChange?: boolean;
   restoreConfig?: {
     showRestore: boolean;
     onClick: (...args: any[]) => void;
+  };
+  controls?: {
+    withControls?: boolean;
+    onPrev?: () => void;
+    onNext?: () => void;
   };
 }
 
