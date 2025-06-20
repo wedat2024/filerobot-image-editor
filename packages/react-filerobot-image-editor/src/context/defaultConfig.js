@@ -40,6 +40,28 @@ export default {
         onFontChange: undefined,
         fontSizes: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
       },
+      // {
+      //   text: 'First Text',
+      //   name: 'First Sample',
+      //   fontFamily: 'Arial',
+      //   fontSize: 14,
+      //   letterSpacing: 0,
+      //   lineHeight: 1,
+      //   align: 'left', // left, center, right
+      //   fontStyle: 'normal', // 'normal', 'bold', 'italic', 'bold italic'
+      //   fontSizes: [10, 20, 30],
+      // },
+      // {
+      //   text: 'Second Text',
+      //   name: 'Second Sample',
+      //   fontFamily: 'Arial',
+      //   fontSize: 35,
+      //   letterSpacing: 0,
+      //   lineHeight: 1,
+      //   align: 'left', // left, center, right
+      //   fontStyle: 'bold italic', // 'normal', 'bold', 'italic', 'bold italic'
+      //   fontSizes: [15, 25, 35],
+      // },
     ],
   },
   [TOOLS_IDS.IMAGE]: {
@@ -49,6 +71,9 @@ export default {
   },
   [TOOLS_IDS.RECT]: {
     cornerRadius: 0,
+    // fill: 'red',
+    // stroke: 'green',
+    // strokeWidth: 5,
   },
   [TOOLS_IDS.ELLIPSE]: {},
   [TOOLS_IDS.POLYGON]: {
@@ -76,6 +101,14 @@ export default {
     imageScalingRatio: 0.5,
     hideTextWatermark: false,
     onUploadWatermarkImgClick: undefined,
+    // addressBook: {
+    //   // Added for AddressBook plugin
+    //   visible: true,
+    //   open: () => {},
+    //   isSaved: true,
+    //   setIsSaved: (value) => value,
+    //   addressBookWatermark: 123,
+    // },
   },
   [TOOLS_IDS.CROP]: {
     minWidth: MIN_CROP.WIDTH,
@@ -140,4 +173,8 @@ export default {
   noCrossOrigin: false,
   disableSaveIfNoChanges: false,
   removeSaveButton: false,
+  resetOnImageSourceChange: true,
+  controls: {
+    withControls: true,
+  },
 };

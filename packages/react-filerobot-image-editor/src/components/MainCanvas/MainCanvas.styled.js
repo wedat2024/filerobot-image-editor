@@ -1,4 +1,5 @@
 /** External Dependencies */
+import Button from '@scaleflex/ui/core/button';
 import { Stage } from 'react-konva';
 import styled from 'styled-components';
 
@@ -29,4 +30,19 @@ const StyledCanvasNode = styled(Stage)`
   background: ${({ theme }) => theme.palette['bg-hover']};
 `;
 
-export { CanvasContainer, StyledOrignalImage, StyledCanvasNode };
+const StyledArrowButton = styled(Button)`
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  border-radius: 8px;
+  padding: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+`;
+
+export {
+  CanvasContainer,
+  StyledOrignalImage,
+  StyledCanvasNode,
+  StyledArrowButton,
+};

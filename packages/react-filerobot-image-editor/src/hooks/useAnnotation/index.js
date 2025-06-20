@@ -1,5 +1,11 @@
-/** External Dependencies */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from 'react';
 
 /** Internal Dependencies */
 import { SELECT_ANNOTATION, SET_ANNOTATION } from 'actions';
@@ -7,10 +13,10 @@ import randomId from 'utils/randomId';
 import debounce from 'utils/debounce';
 import { TOOLS_IDS } from 'utils/constants';
 import { useStore } from 'hooks';
+import { isEqual } from 'lodash';
 import previewThenCallAnnotationAdding from './previewThenCallAnnotationAdding';
 import useDebouncedCallback from '../useDebouncedCallback';
 
-// TODO: Imporve the logic and separate the selected annotation options from handling preview and options before draw.
 const useAnnotation = (annotation = {}, enablePreview = true) => {
   const {
     dispatch,
@@ -28,36 +34,46 @@ const useAnnotation = (annotation = {}, enablePreview = true) => {
     ...annotation,
     ...annotations[selectionsIds[0]],
   }));
-  const annotationBeforeSelection = useRef();
+  const previousTmpAnnotation = useRef(tmpAnnotation);
+  const annotationBeforeSelection = useRef(null);
   const canvas = previewGroup?.getStage();
 
-  const saveAnnotation = useCallback((annotationData) => {
-    const { fonts, onFontChange, ...savableAnnotationData } = annotationData;
-    dispatch({
-      type: SET_ANNOTATION,
-      payload: savableAnnotationData,
-    });
-    if (savableAnnotationData.id && annotation.name !== TOOLS_IDS.PEN) {
-      debounce(() => {
-        dispatch({
-          type: SELECT_ANNOTATION,
-          payload: {
-            annotationId: savableAnnotationData.id,
-          },
-        });
-      }, 30)();
-    }
-  }, []);
+  const saveAnnotation = useCallback(
+    (annotationData) => {
+      const { fonts, onFontChange, ...savableAnnotationData } = annotationData;
+      dispatch({
+        type: SET_ANNOTATION,
+        payload: savableAnnotationData,
+      });
+      if (savableAnnotationData.id && annotation.name !== TOOLS_IDS.PEN) {
+        debounce(() => {
+          dispatch({
+            type: SELECT_ANNOTATION,
+            payload: { annotationId: savableAnnotationData.id },
+          });
+        }, 30)();
+      }
+    },
+    [annotation.name, dispatch],
+  );
 
   const updateTmpAnnotation = useDebouncedCallback((updatesObjOrFn) => {
-    setTmpAnnotation((latest) => ({
-      ...latest,
-      shouldSave: false,
-      neverSave: false,
-      ...(typeof updatesObjOrFn === 'function'
-        ? updatesObjOrFn(latest)
-        : updatesObjOrFn),
-    }));
+    setTmpAnnotation((latest) => {
+      const updates =
+        typeof updatesObjOrFn === 'function'
+          ? updatesObjOrFn(latest)
+          : updatesObjOrFn;
+
+      if (!isEqual(updates, latest)) {
+        return {
+          ...latest,
+          shouldSave: false,
+          neverSave: false,
+          ...updates,
+        };
+      }
+      return latest;
+    });
   }, 15);
 
   const getAnnotationInitialProps = useCallback(
@@ -92,27 +108,39 @@ const useAnnotation = (annotation = {}, enablePreview = true) => {
         ...annotation,
       };
     },
-    [],
+    [annotationDefaults, annotation],
   );
 
-  const saveAnnotationNoDebounce = useCallback((newAnnotationData) => {
-    setTmpAnnotation((latest) => {
-      const initialProps = getAnnotationInitialProps(
-        latest,
-        newAnnotationData.name || annotation.name,
-      );
+  const saveAnnotationNoDebounce = useCallback(
+    (newAnnotationData) => {
+      setTmpAnnotation((latest) => {
+        const initialProps = getAnnotationInitialProps(
+          latest,
+          newAnnotationData.name || annotation.name,
+        );
 
-      return {
-        ...initialProps,
-        ...newAnnotationData,
-        id:
-          newAnnotationData.id ||
-          randomId(newAnnotationData.name || latest.name),
-        shouldSave: true,
-        neverSave: false,
-      };
-    });
-  }, []);
+        const mergedAnnotation = {
+          ...initialProps,
+          ...newAnnotationData,
+          id:
+            newAnnotationData.id ||
+            randomId(newAnnotationData.name || latest.name),
+          shouldSave: true,
+          neverSave: false,
+        };
+
+        if (
+          previousTmpAnnotation.current.text &&
+          mergedAnnotation.text === annotationDefaults.text
+        ) {
+          mergedAnnotation.text = previousTmpAnnotation.current.text;
+        }
+
+        return mergedAnnotation;
+      });
+    },
+    [getAnnotationInitialProps, annotation.name, annotationDefaults.text],
+  );
 
   useEffect(() => {
     const { shouldSave, neverSave, ...savableAnnotation } = tmpAnnotation;
@@ -124,25 +152,33 @@ const useAnnotation = (annotation = {}, enablePreview = true) => {
         id: shouldSave ? savableAnnotation.id : selection.id,
       });
     }
-  }, [tmpAnnotation]);
+    previousTmpAnnotation.current = tmpAnnotation;
+  }, [tmpAnnotation, saveAnnotation, selectionsIds, annotations]);
 
   useEffect(() => {
-    // setTimeout to make the state changes after the annotation is drawn not before.
-    setTimeout(() => {
-      if (selectionsIds.length === 1) {
-        annotationBeforeSelection.current = tmpAnnotation;
-        setTmpAnnotation({ ...annotations[selectionsIds[0]], neverSave: true });
-      } else if (annotationBeforeSelection.current) {
-        setTmpAnnotation({
-          ...annotationBeforeSelection.current,
-          neverSave: true,
-        });
-        annotationBeforeSelection.current = null;
+    if (selectionsIds.length === 1) {
+      const selectedAnnotation = annotations[selectionsIds[0]];
+
+      saveAnnotation({
+        ...selectedAnnotation,
+        neverSave: true,
+      });
+
+      if (selectedAnnotation?.id !== tmpAnnotation.id) {
+        setTmpAnnotation({ ...selectedAnnotation, neverSave: true });
+      } else {
+        setTmpAnnotation({ ...tmpAnnotation, neverSave: true });
       }
-    });
-  }, [selectionsIds, annotations]);
+    } else if (annotationBeforeSelection.current) {
+      setTmpAnnotation({
+        ...annotationBeforeSelection.current,
+        neverSave: true,
+      });
+      annotationBeforeSelection.current = null;
+    }
+  }, [selectionsIds, annotations, tmpAnnotation.id, saveAnnotation]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let stopAnnotationEventsListening = null;
 
     if (canvas && enablePreview) {
@@ -160,11 +196,17 @@ const useAnnotation = (annotation = {}, enablePreview = true) => {
     }
 
     return () => {
-      if (stopAnnotationEventsListening) {
-        stopAnnotationEventsListening();
-      }
+      stopAnnotationEventsListening?.();
     };
-  }, [canvas, tmpAnnotation, previewGroup]);
+  }, [
+    canvas,
+    tmpAnnotation,
+    previewGroup,
+    enablePreview,
+    annotation.name,
+    getAnnotationInitialProps,
+    saveAnnotationNoDebounce,
+  ]);
 
   return useMemo(
     () => [tmpAnnotation, updateTmpAnnotation, saveAnnotationNoDebounce],

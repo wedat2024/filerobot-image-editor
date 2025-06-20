@@ -11,7 +11,12 @@ import Slider from '../Slider';
 const MIN_PERCENTANGE = 0;
 const MAX_PERCENTANGE = 100;
 
-const StrokeFields = ({ annotation, updateAnnotation }) => {
+const StrokeFields = ({
+  annotation,
+  updateAnnotation,
+  showStroke,
+  isPhone,
+}) => {
   const { stroke, strokeWidth } = annotation;
 
   const changeStrokeWidth = (newStrokeWidth) => {
@@ -36,18 +41,27 @@ const StrokeFields = ({ annotation, updateAnnotation }) => {
         value={strokeWidth}
         noMargin
       />
-      <ColorInput
-        color={stroke}
-        onChange={changeStrokeColor}
-        colorFor="stroke"
-      />
+      {showStroke && isPhone && (
+        <ColorInput
+          color={stroke}
+          onChange={changeStrokeColor}
+          colorFor="stroke"
+        />
+      )}
     </StyledSpacedOptionFields>
   );
+};
+
+StrokeFields.defaultProps = {
+  showStroke: true,
+  isPhone: false,
 };
 
 StrokeFields.propTypes = {
   annotation: PropTypes.instanceOf(Object).isRequired,
   updateAnnotation: PropTypes.func.isRequired,
+  showStroke: PropTypes.bool,
+  isPhone: PropTypes.bool,
 };
 
 export default StrokeFields;

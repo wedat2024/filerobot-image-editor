@@ -1,7 +1,6 @@
 /** External Dependencies */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Text from '@scaleflex/icons/text';
-import UploadOutline from '@scaleflex/icons/upload-outline';
+import { Text, UploadOutline, Bookmark } from '@scaleflex/icons';
 
 /** Internal Dependencies */
 import {
@@ -82,6 +81,62 @@ const Watermark = () => {
       payload: textWatermark,
     });
   };
+
+  // Added for AddressBook plugin
+  const addAddressBookWatermark = (addressBookWatermark) => {
+    const dimensions = {};
+    dimensions.height = layerHeight * watermarkTextRatio;
+    dimensions.width = layerWidth * watermarkTextRatio;
+
+    const textWatermarkConfig = {
+      ...config[TOOLS_IDS.TEXT],
+    };
+
+    const textWatermark = {
+      ...config.annotationsCommon,
+      ...textWatermarkConfig,
+      ...dimensions,
+      padding: 1,
+      x: layerCropX + layerWidth / 2 - dimensions.width / 2,
+      y: layerCropY + layerHeight / 2 - dimensions.height / 2,
+      lineHeight: !Number.isNaN(Number(textWatermarkConfig.lineHeight))
+        ? textWatermarkConfig.lineHeight
+        : 1,
+      letterSpacing: !Number.isNaN(Number(textWatermarkConfig.letterSpacing))
+        ? textWatermarkConfig.letterSpacing
+        : 0,
+      strokeWidth: !Number.isNaN(Number(textWatermarkConfig.borderWidth))
+        ? textWatermarkConfig.borderWidth
+        : 0,
+      opacity: !Number.isNaN(Number(textWatermarkConfig.opacity))
+        ? textWatermarkConfig.opacity
+        : 1,
+      fontSize: !Number.isNaN(Number(textWatermarkConfig.fontSize))
+        ? textWatermarkConfig.fontSize
+        : 14,
+      stroke: textWatermarkConfig.borderColor || '#000000',
+      fill: textWatermarkConfig.fillColor || '#000000',
+      id: WATERMARK_ANNOTATION_ID,
+      name: TOOLS_IDS.TEXT,
+      replaceCurrent: true,
+      text: addressBookWatermark,
+    };
+
+    dispatch({
+      type: SET_ANNOTATION,
+      payload: textWatermark,
+    });
+  };
+
+  useEffect(() => {
+    const { addressBook = {} } = watermarkConfig;
+    const { isSaved, addressBookWatermark, setIsSaved } = addressBook;
+
+    if (isSaved && addressBookWatermark) {
+      addAddressBookWatermark(addressBookWatermark);
+      setIsSaved(false);
+    }
+  }, [watermarkConfig]);
 
   const addImgWatermark = (loadedImg) => {
     const imgRatio = loadedImg.width / loadedImg.height;
@@ -234,6 +289,13 @@ const Watermark = () => {
       label: t('addWatermarkAsText'),
       icon: Text,
       onClick: addTextWatermark,
+    },
+    // Added for AddressBook plugin
+    !!watermarkConfig?.addressBook?.visible && {
+      key: 'add-address-book-watermark',
+      label: t('addWatermarkAsAddressBook'),
+      icon: Bookmark,
+      onClick: () => watermarkConfig.addressBook?.open?.(),
     },
   ];
 

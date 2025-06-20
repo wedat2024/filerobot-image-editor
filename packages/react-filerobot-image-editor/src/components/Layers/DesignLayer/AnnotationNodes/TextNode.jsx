@@ -1,11 +1,10 @@
 /** External Dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'react-konva';
+import { Text, Rect, Group } from 'react-konva';
 
 /** Internal Dependencies */
 import nodesCommonPropTypes from '../nodesCommonPropTypes';
-// import RectNode from './RectNode';
 
 const TextNode = ({
   id,
@@ -34,69 +33,72 @@ const TextNode = ({
   letterSpacing,
   lineHeight,
   align,
-  rectConfig,
+  backgroundConfig,
   ...otherProps
-}) => (
-  // <>
-  //   {rectConfig && (
-  //     <RectNode
-  //       {...rectConfig}
-  //       text={text}
-  //       id={id}
-  //       name={name}
-  //       scaleX={scaleX}
-  //       scaleY={scaleY}
-  //       stroke={stroke}
-  //       strokeWidth={strokeWidth}
-  //       shadowOffsetX={shadowOffsetX}
-  //       shadowOffsetY={shadowOffsetY}
-  //       shadowBlur={shadowBlur}
-  //       shadowColor={shadowColor}
-  //       shadowOpacity={shadowOpacity}
-  //       fontFamily={fontFamily}
-  //       fontStyle={fontStyle}
-  //       fontSize={fontSize}
-  //       letterSpacing={letterSpacing}
-  //       lineHeight={lineHeight}
-  //       align={align}
-  //       x={x}
-  //       y={y}
-  //       width={width}
-  //       height={height}
-  //       annotationEvents={annotationEvents}
-  //     />
-  //   )}
-  <Text
-    id={id}
-    name={name}
-    rotation={rotation}
-    scaleX={scaleX}
-    scaleY={scaleY}
-    stroke={stroke}
-    strokeWidth={strokeWidth}
-    shadowOffsetX={shadowOffsetX}
-    shadowOffsetY={shadowOffsetY}
-    shadowBlur={shadowBlur}
-    shadowColor={shadowColor}
-    shadowOpacity={shadowOpacity}
-    opacity={opacity}
-    fill={fill}
-    text={text}
-    fontFamily={fontFamily}
-    fontStyle={fontStyle}
-    fontSize={fontSize}
-    letterSpacing={letterSpacing}
-    lineHeight={lineHeight}
-    align={align}
-    x={x}
-    y={y}
-    width={width}
-    height={height}
-    {...annotationEvents}
-    {...otherProps}
-  />
-  // </>
-);
+}) => {
+  const textRef = React.useRef(null);
+
+  const textConfig = {
+    id,
+    name,
+    rotation,
+    scaleX,
+    scaleY,
+    stroke,
+    strokeWidth,
+    shadowOffsetX,
+    shadowOffsetY,
+    shadowBlur,
+    shadowColor,
+    shadowOpacity,
+    opacity,
+    fill,
+    text,
+    fontFamily,
+    fontStyle,
+    fontSize,
+    letterSpacing,
+    lineHeight,
+    align,
+    x,
+    y,
+    width,
+    height,
+  };
+
+  return (
+    <Group>
+      {/* Background Rectangle */}
+      {backgroundConfig && !!Object.keys(backgroundConfig).length && (
+        <Rect
+          x={x}
+          y={y}
+          width={width || (textRef.current && textRef.current.width())}
+          height={height || (textRef.current && textRef.current.height())}
+          fill={backgroundConfig.fill}
+          stroke={backgroundConfig.stroke}
+          strokeWidth={backgroundConfig.strokeWidth}
+          cornerRadius={backgroundConfig.cornerRadius}
+          shadowOffsetX={backgroundConfig.shadowOffsetX}
+          shadowOffsetY={backgroundConfig.shadowOffsetY}
+          shadowBlur={backgroundConfig.shadowBlur}
+          shadowColor={backgroundConfig.shadowColor}
+          shadowOpacity={backgroundConfig.shadowOpacity}
+          opacity={backgroundConfig.opacity}
+        />
+      )}
+
+      {/* Text Node */}
+      <Text
+        ref={textRef}
+        {...textConfig}
+        {...annotationEvents}
+        {...otherProps}
+      />
+    </Group>
+  );
+};
+
 TextNode.defaultProps = {
   ...nodesCommonPropTypes.defaults,
   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur imperdiet tortor quis odio facilisis, id aliquet nulla facilisis. Etiam tincidunt tempor odio nec placerat.',
@@ -108,6 +110,18 @@ TextNode.defaultProps = {
   letterSpacing: undefined,
   lineHeight: undefined,
   align: 'left',
+  backgroundConfig: {
+    fill: 'transparent',
+    stroke: 'none',
+    strokeWidth: 0,
+    cornerRadius: 0,
+    shadowOffsetX: 0,
+    shadowOffsetY: 0,
+    shadowBlur: 0,
+    shadowColor: 'black',
+    shadowOpacity: 0,
+    opacity: 1,
+  },
 };
 
 TextNode.propTypes = {
@@ -124,24 +138,18 @@ TextNode.propTypes = {
   letterSpacing: PropTypes.number,
   lineHeight: PropTypes.number,
   align: PropTypes.string,
-  rectFill: PropTypes.string,
-  // rectConfig: PropTypes.shape({
-  //   rotation: PropTypes.number,
-  //   scaleX: PropTypes.number,
-  //   scaleY: PropTypes.number,
-  //   stroke: PropTypes.string,
-  //   strokeWidth: PropTypes.number,
-  //   shadowOffsetX: PropTypes.number,
-  //   shadowOffsetY: PropTypes.number,
-  //   shadowBlur: PropTypes.number,
-  //   shadowColor: PropTypes.string,
-  //   shadowOpacity: PropTypes.number,
-  //   opacity: PropTypes.number,
-  //   width: PropTypes.number,
-  //   height: PropTypes.number,
-  //   fill: PropTypes.string,
-  //   cornerRadius: PropTypes.number,
-  // }),
+  backgroundConfig: PropTypes.shape({
+    fill: PropTypes.string,
+    stroke: PropTypes.string,
+    strokeWidth: PropTypes.number,
+    cornerRadius: PropTypes.number,
+    shadowOffsetX: PropTypes.number,
+    shadowOffsetY: PropTypes.number,
+    shadowBlur: PropTypes.number,
+    shadowColor: PropTypes.string,
+    shadowOpacity: PropTypes.number,
+    opacity: PropTypes.number,
+  }),
 };
 
 export default TextNode;

@@ -19,7 +19,7 @@ const ArrowOptions = ({ t }) => {
       updateAnnotation={saveArrow}
       t={t}
       hidePositionField
-      hideFillOption
+      // hideFillOption
     />
   );
 };
