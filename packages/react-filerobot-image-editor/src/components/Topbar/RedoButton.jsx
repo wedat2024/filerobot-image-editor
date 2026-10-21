@@ -8,10 +8,12 @@ import Redo from '@scaleflex/icons/redo';
 /** Internal Dependencies */
 import { REDO } from 'actions';
 import { useStore } from 'hooks';
+
 import TopbarStyles from './Topbar.module.css';
 
 const RedoButton = ({ margin }) => {
   const { dispatch, hasRedo = false, t } = useStore();
+
   const dispatchRedo = useCallback(() => {
     dispatch({ type: REDO });
   }, []);

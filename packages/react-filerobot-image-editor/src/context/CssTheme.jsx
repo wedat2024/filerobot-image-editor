@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useStore } from 'hooks';
+
 import styles from './Theme.module.css';
 
 // Apply the same scope to the editor root and to content rendered in portals.

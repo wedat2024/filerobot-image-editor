@@ -14,6 +14,7 @@ import { MenuItemLabel } from '@scaleflex/ui/core/menu-item';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
+
 import ButtonWithMenuStyles from './ButtonWithMenu.module.css';
 
 const ButtonWithMenu = ({
@@ -32,9 +33,11 @@ const ButtonWithMenu = ({
   noMargin,
 }) => {
   const { t } = useStore();
+
   const isMounted = useRef(true);
 
   const [anchorEl, setAnchorEl] = useState(null);
+
   const buttonSize = 'sm';
 
   const filteredMenuItems = menuItems.filter(Boolean);
@@ -63,6 +66,7 @@ const ButtonWithMenu = ({
   const handleButtonClick = (e) => {
     if (menuFromBtn && hasMultipleMenuItems) {
       openMenu(e);
+
       return;
     }
 

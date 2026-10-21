@@ -17,6 +17,7 @@ import getSizeAfterRotation from 'utils/getSizeAfterRotation';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
 import restrictNumber from 'utils/restrictNumber';
 import { DEFAULT_ZOOM_FACTOR } from 'utils/constants';
+
 import ResizeStyles from './Resize.module.css';
 
 const Resize = ({
@@ -37,9 +38,11 @@ const Resize = ({
 
   const changeResize = (e) => {
     const { name, value } = e.target;
+
     if (parseFloat(value) < 1) {
       return;
     }
+
     const maxResizeNumber = Math.min(
       originalImage.width * 10,
       originalImage.height * 10,
@@ -56,10 +59,12 @@ const Resize = ({
     const isHeight = name === 'height';
     const secondDimensionName = isHeight ? 'width' : 'height';
     const isRatioUnlocked = currentSize.ratioUnlocked ?? resize.ratioUnlocked;
+
     if (!isRatioUnlocked) {
       const originalImgRatio =
         originalImgSizeAfterRotation.width /
         originalImgSizeAfterRotation.height;
+
       newResize[secondDimensionName] = isHeight
         ? Math.round(newResize[name] * originalImgRatio)
         : Math.round(newResize[name] / originalImgRatio);
@@ -74,6 +79,7 @@ const Resize = ({
 
     if (typeof onChange === 'function') {
       onChange(newResize);
+
       return;
     }
 
@@ -87,6 +93,7 @@ const Resize = ({
     const dimensUsedInFit =
       (crop.width && crop.height && crop) || shownImageDimensions;
     const updatedResize = { ...resize, ...newResize };
+
     dispatch({
       type: ZOOM_CANVAS,
       payload: {
@@ -102,6 +109,7 @@ const Resize = ({
   const toggleRatioLock = () => {
     if (typeof onChange === 'function') {
       onChange({ ratioUnlocked: !currentSize.ratioUnlocked });
+
       return;
     }
 
@@ -122,8 +130,10 @@ const Resize = ({
         ratioUnlocked: false,
       },
     });
+
     const dimensUsedInFit =
       (crop.width && crop.height && crop) || shownImageDimensions;
+
     // Fitting after reset resize
     dispatch({
       type: ZOOM_CANVAS,
@@ -152,6 +162,7 @@ const Resize = ({
     typeof resize.width !== 'undefined' && !resize.width;
   const isEmptyEditedHeight =
     typeof resize.height !== 'undefined' && !resize.height;
+
   return (
     <div
       style={{ '--fie-resize-alignment': alignment || 'center' }}

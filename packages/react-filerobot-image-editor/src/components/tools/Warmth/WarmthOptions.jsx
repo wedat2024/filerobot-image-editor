@@ -13,6 +13,7 @@ import { useFinetune } from 'hooks';
 import restrictNumber from 'utils/restrictNumber';
 import { Warmth as CustomWarmth } from 'custom/finetunes';
 import Slider from 'components/common/Slider';
+
 import toolsStyles from '../tools.module.css';
 
 const MIN_VALUE = 0;

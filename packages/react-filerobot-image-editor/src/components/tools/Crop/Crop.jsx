@@ -9,11 +9,14 @@ import { Crop as CropIcon } from '@scaleflex/icons/crop';
 import { useStore } from 'hooks';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
 import { TOOLS_IDS } from 'utils/constants';
+
 import ToolsBarStyles from 'components/ToolsBar/ToolsBar.module.css';
+
 import CropPresetsOption from './CropPresetsOption';
 
 const Crop = ({ selectTool, isSelected }) => {
   const { config, t } = useStore();
+
   const [anchorEl, setAnchorEl] = useState();
 
   const selectToolAndShowPresets = (toolId, e) => {

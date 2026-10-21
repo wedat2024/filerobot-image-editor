@@ -1,5 +1,6 @@
 .scope {
   font-family: var(--fie-font-family, Arial);
+
   --fie-bg-secondary: #ffffff;
   --fie-bg-stateless: #ffffff;
   --fie-bg-primary-active: #ecf3ff;
@@ -9,53 +10,66 @@
   --fie-icons-secondary: #97a6b6;
   --fie-light-shadow: rgba(146, 166, 188, 0.2);
   --fie-txt-primary: rgba(55, 65, 75, 1);
+
   --fie-font-label-extra-small-up-font-family: "Roboto";
   --fie-font-label-extra-small-up-font-style: normal;
   --fie-font-label-extra-small-up-font-weight: 400;
   --fie-font-label-extra-small-up-font-size: 11px;
   --fie-font-label-extra-small-up-line-height: 12px;
+
   --fie-txt-secondary: rgba(118, 138, 159, 1);
+
   --fie-font-label-medium-font-family: "Roboto";
   --fie-font-label-medium-font-style: normal;
   --fie-font-label-medium-font-weight: 400;
   --fie-font-label-medium-font-size: 14px;
   --fie-font-label-medium-line-height: 16px;
+
   --fie-borders-item: rgba(226, 232, 236, 1);
   --fie-bg-hover: rgba(249, 251, 252, 1);
   --fie-border-primary-stateless: rgba(204, 214, 222, 1);
   --fie-icon-primary: rgba(118, 138, 159, 1);
+
   --fie-font-title-h3-font-family: "Roboto";
   --fie-font-title-h3-font-style: normal;
   --fie-font-title-h3-font-weight: 500;
   --fie-font-title-h3-font-size: 18px;
   --fie-font-title-h3-line-height: 27px;
+
   --fie-font-text-large-font-family: "Roboto";
   --fie-font-text-large-font-style: normal;
   --fie-font-text-large-font-weight: 400;
   --fie-font-text-large-font-size: 16px;
   --fie-font-text-large-line-height: 22px;
+
   --fie-orange-0-1-overlay: rgba(250, 157, 47, 0.1);
+
   --fie-font-label-medium-emphasis-font-family: "Roboto";
   --fie-font-label-medium-emphasis-font-style: normal;
   --fie-font-label-medium-emphasis-font-weight: 500;
   --fie-font-label-medium-emphasis-font-size: 14px;
   --fie-font-label-medium-emphasis-line-height: 16px;
+
   --fie-font-input-md-font-family: "Roboto";
   --fie-font-input-md-font-style: normal;
   --fie-font-input-md-font-weight: 400;
   --fie-font-input-md-font-size: 14px;
   --fie-font-input-md-line-height: 16px;
+
   --fie-font-input-sm-font-family: "Roboto";
   --fie-font-input-sm-font-style: normal;
   --fie-font-input-sm-font-weight: 400;
   --fie-font-input-sm-font-size: 12px;
   --fie-font-input-sm-line-height: 14px;
+
   --fie-bg-active: rgba(243, 247, 250, 1);
+
   --fie-font-btn-md-emphasis-font-family: "Roboto";
   --fie-font-btn-md-emphasis-font-style: normal;
   --fie-font-btn-md-emphasis-font-weight: 500;
   --fie-font-btn-md-emphasis-font-size: 14px;
   --fie-font-btn-md-emphasis-line-height: 16px;
+
   --fie-txt-placeholder: rgba(169, 182, 194, 1);
   --fie-icons-muted: rgba(169, 182, 194, 1);
   --fie-accent-primary: rgba(104, 121, 235, 1);

@@ -14,7 +14,9 @@ import { DEFAULT_ZOOM_FACTOR, TOOLS_IDS } from 'utils/constants';
 import { useStore } from 'hooks';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
+
 import TopbarStyles from './Topbar.module.css';
+
 import { ZOOM_FACTORS_PRESETS } from './Topbar.constants';
 
 const MULTIPLY_ZOOM_FACTOR = 1.1;
@@ -32,7 +34,9 @@ const CanvasZooming = ({ showBackButton }) => {
     adjustments: { crop },
     config: { useZoomPresetsMenu },
   } = useStore();
+
   const isBlockerError = feedback.duration === 0;
+
   const [zoomingMenuAnchorEl, setZoomingMenuAnchorEl] = useState(null);
 
   const saveZoom = (zoomFactor, isAbsoluteZoom) => {
@@ -58,6 +62,7 @@ const CanvasZooming = ({ showBackButton }) => {
       (crop.width && crop.height && crop) || shownImageDimensions,
       usedAsOrgDimens,
     );
+
     saveZoom(fitCanvasFactor || DEFAULT_ZOOM_FACTOR, true);
   };
 
@@ -73,8 +78,10 @@ const CanvasZooming = ({ showBackButton }) => {
     if (factor === 'fit') {
       fitCanvas();
       toggleZoomingMenu();
+
       return;
     }
+
     const factorToAchieveSelected =
       resize.width || resize.height
         ? factor
@@ -82,6 +89,7 @@ const CanvasZooming = ({ showBackButton }) => {
             (factor * originalImage.width) / shownImageDimensions.width,
             (factor * originalImage.height) / shownImageDimensions.height,
           );
+
     saveZoom(factorToAchieveSelected, true);
     toggleZoomingMenu();
   };

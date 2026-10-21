@@ -7,6 +7,7 @@ import { useStore } from 'hooks';
 import { TOOLS_IDS, WATERMARK_ANNOTATION_ID } from 'utils/constants';
 import Carousel from 'components/common/Carousel';
 import { SET_FEEDBACK } from 'actions';
+
 import styles from './Watermark.module.css';
 
 const WatermarksGallery = ({
@@ -23,6 +24,7 @@ const WatermarksGallery = ({
 
   const getWatermarkImgAndSelect = (e) => {
     const watermarkImgEl = e.currentTarget.children[0];
+
     if (watermarkImgEl.complete) {
       if (!watermarkImgEl.naturalWidth) {
         dispatch({
@@ -34,6 +36,7 @@ const WatermarksGallery = ({
             },
           },
         });
+
         return;
       }
 

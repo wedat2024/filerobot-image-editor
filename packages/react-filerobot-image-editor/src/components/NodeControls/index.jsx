@@ -10,21 +10,26 @@ import { useStore } from 'hooks';
 import { DUPLICATE_ANNOTATIONS, REMOVE_ANNOTATIONS } from 'actions';
 import { NODES_TRANSFORMER_ID, WATERMARK_ANNOTATION_ID } from 'utils/constants';
 import debounce from 'utils/debounce';
+
 import styles from './NodeControls.module.css';
 
 const NodeControls = () => {
   const { selectionsIds = [], designLayer, annotations, dispatch } = useStore();
+
   const [position, setPosition] = useState({ left: 0, top: 0 });
+
   const nodesTransformer = useMemo(
     () => designLayer?.getStage()?.findOne(`#${NODES_TRANSFORMER_ID}`),
     [designLayer],
   );
+
   const selectionsLength = selectionsIds.length;
 
   const updatePosition = debounce(() => {
     if (!nodesTransformer) {
       return;
     }
+
     setPosition({
       left:
         (nodesTransformer.x() + nodesTransformer.width() / 2) *

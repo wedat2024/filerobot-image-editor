@@ -7,7 +7,9 @@ import Label from '@scaleflex/ui/core/label';
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
 import ColorInput from 'components/common/ColorInput';
+
 import AnnotationOptionsStyles from './AnnotationOptions.module.css';
+
 import Slider from '../Slider';
 
 const ShadowFields = ({ annotation, updateAnnotation, t }) => {

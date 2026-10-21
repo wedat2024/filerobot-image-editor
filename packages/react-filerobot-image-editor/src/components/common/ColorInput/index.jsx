@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { useStore } from 'hooks';
 import { SET_LATEST_COLOR } from 'actions';
 import ColorPickerModal from '../ColorPickerModal';
+
 import ColorInputStyles from './ColorInput.module.css';
 
 const pinnedColorsKey = 'FIE_pinnedColors';
@@ -20,7 +21,9 @@ const ColorInput = ({ onChange, color, colorFor }) => {
     dispatch,
     latestColors = {},
   } = useStore();
+
   const latestColor = latestColors[colorFor];
+
   const [anchorEl, setAnchorEl] = useState();
   const [currentColor, setCurrentColor] = useState(
     () => latestColor || color || annotationsCommon.fill,
@@ -36,11 +39,14 @@ const ColorInput = ({ onChange, color, colorFor }) => {
     if (!window?.localStorage) {
       return;
     }
+
     const localStoragePinnedColors =
       window.localStorage.getItem(pinnedColorsKey);
+
     if (JSON.stringify(newPinnedColors) !== localStoragePinnedColors) {
       const maxOfSavedColors = 9;
       const pinnedColorsToSave = newPinnedColors.slice(-maxOfSavedColors);
+
       window.localStorage.setItem(
         pinnedColorsKey,
         JSON.stringify(pinnedColorsToSave),
@@ -72,6 +78,7 @@ const ColorInput = ({ onChange, color, colorFor }) => {
 
   useEffect(() => {
     const colorToSet = (selectionsIds.length === 0 && latestColor) || color;
+
     setCurrentColor(colorToSet);
     onChange(colorToSet);
   }, [color, selectionsIds]);

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
 import { useStore } from 'hooks';
 import CropPresetItem from './CropPresetItem';
+
 import CropStyles from './Crop.module.css';
 
 const CropPresetGroup = ({

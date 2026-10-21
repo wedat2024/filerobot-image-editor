@@ -1,12 +1,15 @@
 .ratioLockIcon.ratioLockIcon svg {
   margin-bottom: 1px;
 }
+
 .resetButton.resetButton {
   margin-left: 12px;
 }
+
 .resizeInput.resizeInput {
   width: 100px;
 }
+
 .resizeInput.resizeInput span {
   color: var(--fie-txt-secondary);
   font-family: var(--fie-font-label-medium-font-family);
@@ -15,9 +18,11 @@
   font-size: var(--fie-font-label-medium-font-size);
   line-height: var(--fie-font-label-medium-line-height);
 }
+
 .resizeInput.resizeInput.fullWidth {
   width: 100%;
 }
+
 .resizeWrapper {
   display: flex;
   justify-content: var(--fie-resize-alignment);
@@ -25,6 +30,7 @@
   gap: 3px;
   flex-wrap: wrap;
 }
+
 .resizeWrapper.noWrap {
   flex-wrap: nowrap;
 }

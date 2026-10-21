@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
 import ColorInput from 'components/common/ColorInput';
+
 import AnnotationOptionsStyles from './AnnotationOptions.module.css';
+
 import Slider from '../Slider';
 
 const MIN_PERCENTANGE = 0;

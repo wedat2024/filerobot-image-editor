@@ -11,7 +11,9 @@ import { TOGGLE_ORIGINAL_IMAGE_DISPLAY } from 'actions';
 import { useStore } from 'hooks';
 import getProperDimensions from 'utils/getProperDimensions';
 import Separator from 'components/common/Separator';
+
 import TopbarStyles from './Topbar.module.css';
+
 import CanvasZooming from './CanvasZooming';
 
 const ImageDimensionsAndDisplayToggle = ({ showBackButton, isPhoneScreen }) => {

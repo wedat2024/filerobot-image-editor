@@ -26,13 +26,16 @@ import {
 } from 'utils/constants';
 import { useStore } from 'hooks';
 import { endTouchesZooming, zoomOnTouchesMove } from './touchZoomingEvents';
+
 import MainCanvasStyles from './MainCanvas.module.css';
 
 const ZOOM_DELTA_TO_SCALE_CONVERT_FACTOR = 0.006;
 
 const CanvasNode = ({ children }) => {
   useStrictMode(true);
+
   const canvasRef = useRef();
+
   const {
     dispatch,
     pointerCssIcon,
@@ -45,9 +48,12 @@ const CanvasNode = ({ children }) => {
     zoom = {},
     config: { previewPixelRatio, disableZooming },
   } = useStore();
+
   Konva.pixelRatio = previewPixelRatio;
+
   const defaultZoomFactor = DEFAULT_ZOOM_FACTOR;
   const isZoomEnabled = !disableZooming && toolId !== TOOLS_IDS.CROP;
+
   const [isPanningEnabled, setIsPanningEnabled] = useState(
     tabId !== TABS_IDS.ANNOTATE &&
       tabId !== TABS_IDS.WATERMARK &&
@@ -113,6 +119,7 @@ const CanvasNode = ({ children }) => {
 
   const handleZoom = (e) => {
     e.evt.preventDefault();
+
     const newScale =
       (zoom.factor || defaultZoomFactor) +
       e.evt.deltaY * -ZOOM_DELTA_TO_SCALE_CONVERT_FACTOR;
@@ -189,6 +196,7 @@ const CanvasNode = ({ children }) => {
 
     // Remove & register the event on changing tabId, zoom.factor, defaultZoomFactor to always access latest state.
     let canvasContainer;
+
     if (canvasRef.current) {
       canvasContainer = canvasRef.current.container();
       canvasContainer.addEventListener('mouseenter', focusCanvasOnEnter);
@@ -209,6 +217,7 @@ const CanvasNode = ({ children }) => {
   // it's done by toggling panning through mouse right click (enable/disable) then drag mouse.
   const zoomedResponsiveCanvasScale =
     canvasScale * ((isZoomEnabled && zoom.factor) || defaultZoomFactor);
+
   return (
     <FieCanvasNode
       tabIndex={-1}

@@ -2,18 +2,22 @@
   width: var(--fie-modal-width);
   max-width: unset;
 }
+
 .modalActions.modalActions {
   gap: 12px;
   padding: 24px;
 }
+
 .modalActions.modalActions :global(.SfxButton-root) {
   flex: 1;
   margin: 0;
   height: 40px;
 }
+
 .modalTitle.modalTitle {
   padding-bottom: 0;
 }
+
 .modalTitle.modalTitle :global(.SfxModalTitle-LabelPrimary) {
   margin-bottom: 24px;
   font-family: var(--fie-font-title-h3-font-family);
@@ -22,6 +26,7 @@
   font-size: var(--fie-font-title-h3-font-size);
   line-height: var(--fie-font-title-h3-line-height);
 }
+
 .modalTitle.modalTitle :global(.SfxModalTitle-LabelSecondary) {
   font-family: var(--fie-font-text-large-font-family);
   font-style: var(--fie-font-text-large-font-style);
@@ -30,6 +35,7 @@
   line-height: var(--fie-font-text-large-line-height);
   text-align: center;
 }
+
 .modalTitle.modalTitle.warning :global(.SfxModalTitle-Icon) {
   background-color: var(--fie-orange-0-1-overlay);
 }

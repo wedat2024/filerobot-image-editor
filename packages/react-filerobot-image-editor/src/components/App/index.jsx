@@ -34,6 +34,7 @@ import filterStrToClass from 'utils/filterStrToClass';
 import isSameImage from 'utils/isSameImage';
 import useUpdateEffect from 'hooks/useUpdateEffect';
 import TabsDrawer from 'components/TabsDrawer';
+
 import AppStyles from './App.module.css';
 
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
     t,
     feedback = {},
   } = useStore();
+
   const {
     loadableDesignState,
     useCloudimage,
@@ -69,17 +71,21 @@ const App = () => {
   const showTabsDrawer = window.matchMedia('(max-width: 760px)').matches;
 
   const [observeResize, unobserveElement] = useResizeObserver();
+
   const [rootSize, setRootSize] = useState({
     width: undefined,
     height: undefined,
   });
+
   const isPhoneScreen = usePhoneScreen();
+
   const pluginRootRef = useRef(null);
   const cloudimageQueryLoaded = useRef(false);
   const imageBeingLoadedSrc = useRef(null);
   // Hacky solution, For being used in beforeunload event
   // as it won't be possible to have the latest value of the state variable in js event handler.
   const haveNotSavedChangesRef = useRef(haveNotSavedChanges);
+
   const transformImgFn = useTransformedImgData();
 
   const setNewOriginalImage = useCallback((newOriginalImage) => {
@@ -107,6 +113,7 @@ const App = () => {
   const loadAndSetOriginalImage = (imgToLoad) =>
     new Promise((resolve) => {
       const imgSrc = imgToLoad?.src || imgToLoad;
+
       if (
         imageBeingLoadedSrc.current === imgSrc ||
         (!imgSrc && originalImage) ||
@@ -115,6 +122,7 @@ const App = () => {
         if (!imageBeingLoadedSrc.current) {
           resolve();
         }
+
         return;
       }
 
@@ -144,11 +152,13 @@ const App = () => {
             // eslint-disable-next-line no-param-reassign
             imgToLoad.name = defaultSavedImageName;
           }
+
           if (!imgToLoad.complete) {
             imgToLoad.addEventListener('load', () => {
               setNewOriginalImage(imgToLoad);
               triggerResolve();
             });
+
             return;
           }
 
@@ -206,6 +216,7 @@ const App = () => {
 
   useUpdateEffect(() => {
     const newImgSrc = loadableDesignState?.imgSrc;
+
     if (newImgSrc && !isSameImage(newImgSrc, originalImage)) {
       handleLoading(() => [
         loadAndSetOriginalImage(newImgSrc).then(
@@ -242,6 +253,7 @@ const App = () => {
 
   useEffect(() => {
     let isUnmounted = false;
+
     if (observePluginContainerSize && pluginRootRef.current) {
       observeResize(pluginRootRef.current.parentNode, ({ width, height }) =>
         setRootSize({ width, height }),

@@ -19,6 +19,7 @@ const banner = `/**
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
   const isGithubPagesBuild = process.env.VITE_BUILD_TYPE === 'gh-pages';
+
   console.log(`🕺🏽Running in ${isProduction ? 'Production' : 'Development'}.`);
 
   if (isGithubPagesBuild) {
@@ -35,7 +36,7 @@ export default defineConfig(({ mode }) => {
         moduleDirectories: [
           './packages/react-filerobot-image-editor/src',
           'node_modules',
-        ]
+        ],
       }),
       react(
         isProduction
@@ -48,7 +49,8 @@ export default defineConfig(({ mode }) => {
           : {},
       ),
       isProduction && uglify(),
-      isProduction && !isGithubPagesBuild &&
+      isProduction &&
+        !isGithubPagesBuild &&
         cssInjectedByJsPlugin({ styleId: 'filerobot-image-editor-styles' }),
     ],
     server: {

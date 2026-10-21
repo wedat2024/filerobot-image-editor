@@ -15,6 +15,7 @@ import PT from 'prop-types';
 import ColorPickerIcon from '@scaleflex/icons/color-picker';
 
 import { useStore } from 'hooks';
+
 import ColorPickerModalStyles from './ColorPickerModal.module.css';
 
 const modalStyles = { zIndex: 1301 };

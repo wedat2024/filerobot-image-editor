@@ -41,6 +41,7 @@ const AppProvider = ({ children, config = {} }) => {
   }, [config.useBackendTranslations, config.language, config.translations]);
 
   const theme = useTheme();
+
   // Adapt the public theme prop once; CSS Modules do not read the UI palette.
   const themeVariables = useMemo(() => {
     const variables = Object.fromEntries(
@@ -49,10 +50,13 @@ const AppProvider = ({ children, config = {} }) => {
         value,
       ]),
     );
+
     const typography = config.theme?.typography || {};
+
     if (typography.fontFamily) {
       variables['--fie-font-family'] = typography.fontFamily;
     }
+
     Object.entries(typography.font || {}).forEach(([variant, properties]) => {
       Object.entries(properties).forEach(([property, value]) => {
         const name = property.replace(
@@ -62,13 +66,16 @@ const AppProvider = ({ children, config = {} }) => {
         const needsUnit =
           typeof value === 'number' &&
           ['fontSize', 'letterSpacing', 'wordSpacing'].includes(property);
+
         variables[`--fie-font-${variant}-${name}`] = needsUnit
           ? `${value}px`
           : value;
       });
     });
+
     return variables;
   }, [config.theme]);
+
   const providedValue = useMemo(
     () => ({
       ...state,

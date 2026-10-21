@@ -1,6 +1,7 @@
 .accordion.accordion :global(.SfxAccordionHeader-icon) {
   padding-left: 0;
 }
+
 .accordion.accordion :global(.SfxAccordionHeader-label) {
   font-family: var(--fie-font-label-medium-emphasis-font-family);
   font-style: var(--fie-font-label-medium-emphasis-font-style);
@@ -9,18 +10,21 @@
   line-height: var(--fie-font-label-medium-emphasis-line-height);
   color: var(--fie-txt-primary);
 }
+
 .accordion.accordion :global(.SfxAccordionHeader-root) {
   display: flex;
   flex-direction: row-reverse;
   width: fit-content;
   gap: 10px;
 }
+
 .menu {
   min-width: 270px;
   border-radius: 4px;
   overflow: hidden;
   background-color: var(--fie-bg-stateless);
 }
+
 .menuItem.menuItem {
   display: flex;
   gap: 10px;
@@ -29,16 +33,20 @@
   border-radius: 4px;
   padding: 8px 16px;
 }
+
 .menuItem.menuItem.accordionItem {
   padding-left: 22px;
 }
+
 .menuItem.menuItem.listItem {
   padding: 0;
 }
+
 .menuItemIcon svg,
 .menuItemIcon span {
   vertical-align: middle;
 }
+
 .menuItemLabel.menuItemLabel {
   color: var(--fie-txt-primary);
   font-family: var(--fie-font-input-md-font-family);
@@ -47,10 +55,12 @@
   font-size: var(--fie-font-input-md-font-size);
   line-height: var(--fie-font-input-md-line-height);
 }
+
 .openMenuButton.openMenuButton {
   margin: 0 0 0 6px;
   padding: 0;
 }
+
 .ratioDescription.ratioDescription {
   cursor: pointer;
   font-family: var(--fie-font-input-sm-font-family);
@@ -59,6 +69,7 @@
   font-size: var(--fie-font-input-sm-font-size);
   line-height: var(--fie-font-input-sm-line-height);
 }
+
 .toolsBarItemButtonWrapper {
   display: flex;
 }

@@ -8,7 +8,9 @@ import PropTypes from 'prop-types';
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
 import { Label } from '@scaleflex/ui/core';
+
 import AnnotationOptionsStyles from './AnnotationOptions.module.css';
+
 import Slider from '../Slider';
 
 const MIN_PERCENTANGE = 0;

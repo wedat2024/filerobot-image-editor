@@ -6,7 +6,9 @@ import Label from '@scaleflex/ui/core/label';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
+
 import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
+
 import Slider from 'components/common/Slider';
 
 const MIN_VALUE = 0;

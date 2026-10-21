@@ -5,7 +5,9 @@ import ArrowLeftOutline from '@scaleflex/icons/arrow-left-outline';
 
 /** Internal Dependencies */
 import { usePhoneScreen, useStore } from 'hooks';
+
 import TopbarStyles from './Topbar.module.css';
+
 import ConfirmationModal from './ConfirmationModal';
 
 const BackButton = () => {

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import { usePhoneScreen } from 'hooks';
+
 import ToolsBarStyles from './ToolsBar.module.css';
 
 const ToolsBarItemButton = ({

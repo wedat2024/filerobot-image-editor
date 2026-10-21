@@ -26,6 +26,7 @@ import Slider from 'components/common/Slider';
 import restrictNumber from 'utils/restrictNumber';
 import { Resize } from 'components/tools/Resize';
 import ButtonWithMenu from 'components/common/ButtonWithMenu';
+
 import TopbarStyles from './Topbar.module.css';
 
 const sliderStyle = { marginBottom: 16 };
@@ -36,7 +37,9 @@ let isFieSaveMounted = true;
 
 const SaveButton = () => {
   const state = useStore();
+
   const optionSaveFnRef = useRef();
+
   const {
     dispatch,
     originalImage,
@@ -62,11 +65,14 @@ const SaveButton = () => {
       removeSaveButton,
     },
   } = state;
+
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [imageFileInfo, setImageFileInfo] = useState({
     quality: getDefaultSaveQuality(defaultSavedImageQuality),
   });
+
   const transformImgFn = useTransformedImgData();
+
   const isQualityAcceptable = ['jpeg', 'jpg', 'webp'].includes(
     imageFileInfo.extension,
   );
@@ -90,6 +96,7 @@ const SaveButton = () => {
     const hideLoadingSpinner = () => {
       dispatch({ type: HIDE_LOADER });
     };
+
     if (savingResult instanceof Promise) {
       savingResult.finally(hideLoadingSpinner);
     } else {
@@ -97,6 +104,7 @@ const SaveButton = () => {
     }
 
     optionSaveFnRef.current = null;
+
     if (closeAfterSave && onClose) {
       onClose(CLOSING_REASONS.AFTER_SAVE, haveNotSavedChanges);
     }
@@ -110,9 +118,11 @@ const SaveButton = () => {
 
   const validateInfoThenSave = () => {
     const onSaveFn = optionSaveFnRef.current || onSave;
+
     if (typeof onSaveFn !== 'function') {
       throw new Error('Please provide onSave function handler.');
     }
+
     if (!imageFileInfo.name || !imageFileInfo.extension) {
       dispatch({
         type: SET_FEEDBACK,
@@ -122,6 +132,7 @@ const SaveButton = () => {
           },
         },
       });
+
       return;
     }
 
@@ -130,6 +141,7 @@ const SaveButton = () => {
 
   const changeFileName = (e) => {
     const name = e.target.value;
+
     setImageFileInfo({
       ...imageFileInfo,
       name,
@@ -151,10 +163,12 @@ const SaveButton = () => {
     if (useCloudimage) {
       const transformedCloudimageData = transformImgFn(imageFileInfo);
       const onSaveFn = optionSaveFnRef.current || onSave;
+
       onSaveFn(
         transformedCloudimageData.imageData,
         transformedCloudimageData.designState,
       );
+
       return;
     }
 
@@ -164,6 +178,7 @@ const SaveButton = () => {
       onBeforeSave(imageFileInfo) === false
     ) {
       validateInfoThenSave();
+
       return;
     }
 

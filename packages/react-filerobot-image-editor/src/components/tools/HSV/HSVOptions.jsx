@@ -12,6 +12,7 @@ import Konva from 'konva';
 /** Internal Dependencies */
 import { useFinetune, usePhoneScreen } from 'hooks';
 import Slider from 'components/common/Slider';
+
 import toolsStyles from '../tools.module.css';
 
 const DEFAULT_VALUE = {
@@ -27,6 +28,7 @@ const MAX_VALUE = {
 };
 
 const sliderStyle = { padding: 0, margin: 0 };
+
 const isPhoneScreen = usePhoneScreen();
 
 const HSVOptions = ({ t }) => {

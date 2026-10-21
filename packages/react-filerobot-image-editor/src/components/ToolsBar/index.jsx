@@ -9,7 +9,9 @@ import { TABS_TOOLS, TOOLS_ITEMS } from 'components/tools/tools.constants';
 import { TABS_IDS } from 'utils/constants';
 import { useStore } from 'hooks';
 import Carousel from 'components/common/Carousel';
+
 import ToolsBarStyles from './ToolsBar.module.css';
+
 import ToolsBarItemOptionsWrapper from './ToolsBarItemOptionsWrapper';
 
 const style = { maxWidth: '100%', width: '100%' };
@@ -24,6 +26,7 @@ const ToolsBar = ({ isPhoneScreen }) => {
     selectionsIds = [],
     config: { defaultTabId, defaultToolId, useCloudimage },
   } = useStore();
+
   const currentTabId = tabId || defaultTabId;
   const currentToolId =
     toolId || defaultToolId || TABS_TOOLS[currentTabId]?.[0];
@@ -69,10 +72,13 @@ const ToolsBar = ({ isPhoneScreen }) => {
 
     if (currentTabId === TABS_IDS.ANNOTATE) {
       const selectionsLength = selectionsIds.length;
+
       if (selectionsLength === 1) {
         const selectedAnnotation = annotations[selectionsIds[0]];
+
         return TOOLS_ITEMS[selectedAnnotation.name]?.ItemOptions;
       }
+
       if (selectionsLength > 1) {
         return null;
       }

@@ -9,7 +9,9 @@ import { ArrowRight, Point } from '@scaleflex/icons';
 import { POSITIONS } from 'utils/constants';
 import mapPositionStringToPoint from 'utils/mapPositionStringToPoint';
 import { useStore } from 'hooks';
+
 import AnnotationOptionsStyles from './AnnotationOptions.module.css';
+
 import {
   AVAILABLE_POSITIONS,
   posCssRotateDegFromRightSide,

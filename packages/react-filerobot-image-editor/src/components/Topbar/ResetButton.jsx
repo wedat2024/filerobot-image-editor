@@ -7,7 +7,9 @@ import Reset from '@scaleflex/icons/reset';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
+
 import TopbarStyles from './Topbar.module.css';
+
 import ConfirmationModal from './ConfirmationModal';
 
 const ResetButton = ({ margin }) => {

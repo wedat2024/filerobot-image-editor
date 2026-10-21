@@ -8,11 +8,14 @@ import Undo from '@scaleflex/icons/undo';
 /** Internal Dependencies */
 import { UNDO } from 'actions';
 import { useStore } from 'hooks';
+
 import TopbarStyles from './Topbar.module.css';
 
 const UndoButton = ({ margin }) => {
   const { dispatch, hasUndo = false, t, feedback } = useStore();
+
   const isBlockerError = feedback.duration === 0;
+
   const dispatchUndo = useCallback(() => {
     dispatch({ type: UNDO });
   }, []);

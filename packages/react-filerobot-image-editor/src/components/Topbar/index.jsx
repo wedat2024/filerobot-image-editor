@@ -13,7 +13,9 @@ import ResetButton from './ResetButton';
 import UndoButton from './UndoButton';
 import RedoButton from './RedoButton';
 import ImageDimensionsAndDisplayToggle from './ImageDimensionsAndDisplayToggle';
+
 import TopbarStyles from './Topbar.module.css';
+
 import BackButton from './BackButton';
 import RestoreButton from './RestoreButton';
 

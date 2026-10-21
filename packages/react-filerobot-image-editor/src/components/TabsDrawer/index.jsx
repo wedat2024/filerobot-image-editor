@@ -12,7 +12,9 @@ import { Menu } from '@scaleflex/icons';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
+
 import AppStyles from 'components/App/App.module.css';
+
 import Tabs from 'components/Tabs';
 
 const TabsDrawer = ({ toggleMainMenu }) => {

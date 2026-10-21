@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { useFinetune } from 'hooks';
 import restrictNumber from 'utils/restrictNumber';
 import Slider from 'components/common/Slider';
+
 import toolsStyles from '../tools.module.css';
 
 const MIN_VALUE = -1;

@@ -21,6 +21,7 @@ const FilterItem = ({
   image,
 }) => {
   const imageNodeRef = useRef();
+
   const handleFilterApplying = useCallback(() => {
     applyFilter(filterFn);
   }, [filterFn]);

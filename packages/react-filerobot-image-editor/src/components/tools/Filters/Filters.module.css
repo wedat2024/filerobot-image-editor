@@ -6,14 +6,17 @@
   font-size: var(--fie-font-label-extra-small-up-font-size);
   line-height: var(--fie-font-label-extra-small-up-line-height);
 }
+
 [aria-selected='true'] .filterItemLabel.filterItemLabel {
   color: var(--fie-accent-primary-active);
 }
+
 [aria-selected='true'] .filterItemPreview.filterItemPreview {
   padding: 1px;
   border: 1px solid var(--fie-accent-primary-active);
   border-radius: 2px;
 }
+
 .filterItem {
   display: inline-flex;
   flex-direction: column;
@@ -24,6 +27,7 @@
   cursor: pointer;
   border-radius: 2px;
 }
+
 .filterItem canvas {
   border-radius: 2px;
 }

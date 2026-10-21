@@ -9,6 +9,7 @@ import NodeControls from 'components/NodeControls';
 import PropTypes from 'prop-types';
 import { ArrowLeftOutline, ArrowRightOutline } from '@scaleflex/icons';
 import CanvasNode from './CanvasNode';
+
 import MainCanvasStyles from './MainCanvas.module.css';
 
 const MainCanvas = ({ controls = {} }) => {
@@ -20,6 +21,7 @@ const MainCanvas = ({ controls = {} }) => {
 
   const [observeResize] = useResizeObserver();
   const providedAppContext = useStore();
+
   const canvasContainerRef = useRef(null);
 
   const setNewCanvasSize = useCallback(

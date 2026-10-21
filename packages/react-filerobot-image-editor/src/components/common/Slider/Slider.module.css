@@ -4,20 +4,25 @@
   user-select: none;
   padding: 0;
 }
+
 .slider.slider :global(.SfxSlider-annotation) {
   display: none;
 }
+
 .slider.slider :global(.SfxSlider-thumb) {
   background-color: var(--fie-accent-stateless);
 }
+
 .slider.slider :global(.SfxSlider-Track) {
   height: 2px;
   color: var(--fie-accent-stateless);
 }
+
 .slider.slider :global(.SfxSlider-rail) {
   height: 2px;
   background-color: var(--fie-borders-item);
 }
+
 .slider.slider.withMargin {
   margin-bottom: 16px;
 }

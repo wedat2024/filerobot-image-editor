@@ -10,12 +10,15 @@ import Padding from '@scaleflex/icons/padding';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
+
 import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
+
 import Slider from 'components/common/Slider';
 import { Label } from '@scaleflex/ui/core';
 
 const WatermarkPadding = ({ watermark, saveWatermark, t }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+
   const openOptionPopup = (e) => {
     setAnchorEl(e.currentTarget);
   };

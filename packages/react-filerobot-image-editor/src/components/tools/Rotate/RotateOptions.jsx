@@ -17,6 +17,7 @@ import restrictNumber from 'utils/restrictNumber';
 import getSizeAfterRotation from 'utils/getSizeAfterRotation';
 import { TOOLS_IDS } from 'utils/constants';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
+
 import RotateStyles from './Rotate.module.css';
 
 const RotateOptions = () => {
@@ -26,7 +27,9 @@ const RotateOptions = () => {
     resize = {},
     config,
   } = useStore();
+
   const rotateConfig = config[TOOLS_IDS.ROTATE];
+
   const isPhoneScreen = usePhoneScreen();
 
   const changeRotation = useDebouncedCallback((_e, newRotation) => {
@@ -45,6 +48,7 @@ const RotateOptions = () => {
         resize.height,
         rotationAngle,
       );
+
       dispatch({
         type: SET_RESIZE,
         payload: {
@@ -57,10 +61,13 @@ const RotateOptions = () => {
 
   const changeRotationButtonPositive = (e) => {
     const newAngle = rotation + rotateConfig.angle;
+
     changeRotation(e, newAngle);
   };
+
   const changeRotationButtonNegative = (e) => {
     const newAngle = rotation - rotateConfig.angle;
+
     changeRotation(e, newAngle);
   };
 

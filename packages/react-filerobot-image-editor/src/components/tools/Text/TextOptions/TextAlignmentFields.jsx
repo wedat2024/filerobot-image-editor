@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
+
 import { TextAlignCenter, TextAlignLeft } from '@scaleflex/icons';
 
 const rightAlignmentCssTransform = { transform: 'scaleX(-1)' };

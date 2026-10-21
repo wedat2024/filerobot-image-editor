@@ -5,21 +5,25 @@
   font-size: var(--fie-font-btn-md-emphasis-font-size);
   line-height: var(--fie-font-btn-md-emphasis-line-height);
 }
+
 .closeButton.closeButton {
   padding: 8px;
   z-index: 111;
 }
+
 .controlButtonsWrapper {
   display: flex;
   align-items: center;
   order: 3;
   gap: 4px;
 }
+
 .dimensionsButtons {
   display: flex;
   gap: 12px;
   align-items: center;
 }
+
 .dimensionsLabel.dimensionsLabel {
   flex-shrink: 0;
   color: var(--fie-txt-placeholder);
@@ -29,6 +33,7 @@
   font-size: var(--fie-font-label-medium-font-size);
   line-height: var(--fie-font-label-medium-line-height);
 }
+
 .fileExtensionSelect.fileExtensionSelect {
   margin-top: 16px;
 }
@@ -39,6 +44,7 @@
   width: 100%;
   order: 4;
 }
+
 @media (min-width: 761px) {
   .flexCenterAlignedContainer {
     display: flex;
@@ -48,75 +54,94 @@
     order: 2;
   }
 }
+
 .historyButton.historyButton {
   margin: var(--fie-history-margin);
 }
+
 .historyButton.historyButton svg {
   color: var(--fie-icon-primary);
 }
+
 .historyButton.historyButton.disabled svg {
   color: var(--fie-icons-muted);
 }
+
 .historyButtons {
   display: flex;
   gap: 6px;
 }
+
 .imageOptionsButtons {
   display: flex;
   gap: 12px;
   justify-content: center;
 }
+
 .imageOptionsButtons.phone {
   justify-content: space-between;
 }
+
 .mainButtonsWrapper {
   display: flex;
   align-items: center;
   order: 1;
 }
+
 @media (min-width: 761px) {
   .menuIconButton.menuIconButton {
     display: none;
   }
 }
+
 .qualityWrapper {
   width: 100%;
   margin-top: 16px;
 }
+
 .resizeOnSave {
   margin-top: 16px;
   width: 100%;
 }
+
 .resizeOnSaveLabel.resizeOnSaveLabel {
   margin-bottom: 4px;
 }
+
 .restoreButton.restoreButton {
   flex-grow: 1;
   justify-content: center;
   align-items: center;
   padding: 6px 12px;
 }
+
 .restoreButtonWrapper {
   display: flex;
   align-items: center;
   margin-left: 12px;
   flex-shrink: 0;
 }
+
 .restoreButtonWrapper.noMargin {
   margin-left: 0;
 }
+
 .saveButton.saveButton {
   padding: 4px 12px;
 }
+
 .smallButton.smallButton {
   padding: 8px;
 }
+
 .smallButton.smallButton svg {
   color: var(--fie-icons-muted);
 }
+
 .smallButton.smallButton.backButton svg {
   color: var(--fie-icon-primary);
 }
+
 .topbar {
   padding: 16px;
   box-sizing: border-box;
@@ -129,13 +154,16 @@
   justify-content: space-between;
   border-bottom: 1px solid var(--fie-borders-secondary);
 }
+
 [data-phone='true'] .topbar {
   padding: 6px 6px 4px 6px;
 }
+
 [data-phone='true'] .topbar.phone {
   padding: 12px 12px 0px;
   gap: 12px;
 }
+
 .zoomPercentageLabel.zoomPercentageLabel {
   cursor: pointer;
   color: var(--fie-txt-primary);
@@ -145,6 +173,7 @@
   font-size: var(--fie-font-input-md-font-size);
   line-height: var(--fie-font-input-md-line-height);
 }
+
 .zoomingWrapper {
   display: flex;
   align-items: center;

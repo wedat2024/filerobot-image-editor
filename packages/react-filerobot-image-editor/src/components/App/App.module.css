@@ -12,9 +12,11 @@
   min-height: 250px;
   background: var(--fie-bg-secondary);
 }
+
 .appWrapper.drawerShown {
   overflow: unset;
 }
+
 .canvasAndTools {
   height: 100%;
   width: calc(100% - 80px);
@@ -23,19 +25,23 @@
   display: flex;
   flex-direction: column;
 }
+
 .canvasAndTools.drawerShown {
   overflow-y: unset;
 }
+
 .drawer.drawer {
   transition: transform 200ms ease-in-out;
   width: 92px;
   height: 100%;
   padding: 12px;
 }
+
 .drawer.drawer :global(.SfxDrawer-list),
 .drawer.drawer :global(.SfxDrawer-item) {
   padding: 0;
 }
+
 .mainContent {
   display: flex;
   align-items: flex-start;
@@ -44,9 +50,11 @@
   height: calc(100% - 95px);
   flex-grow: 1;
 }
+
 [data-phone='true'] .mainContent {
   padding: 0;
 }
+
 .tabs {
   min-width: 108px;
   height: 100%;
@@ -58,6 +66,7 @@
   max-height: 100%;
   box-shadow: 6px 8px 12px 0px rgba(146, 166, 188, 0.14);
 }
+
 [data-phone='true'] .tabs {
   display: flex;
   padding: 0;

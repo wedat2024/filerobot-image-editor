@@ -11,7 +11,9 @@ import AnnotationOptions from 'components/common/AnnotationOptions';
 import { ENABLE_TEXT_CONTENT_EDIT } from 'actions';
 import restrictNumber from 'utils/restrictNumber';
 import { useStore } from 'hooks';
+
 import TextOptionsStyles from './TextOptions.module.css';
+
 import {
   activateTextChange,
   deactivateTextChange,
@@ -20,6 +22,7 @@ import {
 const TextControls = ({ text, saveText, children }) => {
   const { dispatch, textIdOfEditableContent, designLayer, t, config } =
     useStore();
+
   const { texts = [] } = config[TOOLS_IDS.TEXT];
 
   const [selectedTextIndex, setSelectedTextIndex] = useState(0);
@@ -43,10 +46,13 @@ const TextControls = ({ text, saveText, children }) => {
         setSelectedTextIndex(selectedValueIndex);
         setSelectedText((prevSelectedText) => {
           const foundText = texts[selectedValueIndex];
+
           if (foundText) {
             setSelectedFontSize('');
+
             return foundText;
           }
+
           return prevSelectedText;
         });
       }
@@ -71,6 +77,7 @@ const TextControls = ({ text, saveText, children }) => {
   const changeTextProps = useCallback(
     (e) => {
       const { name, value, type } = e.target;
+
       saveText((latestText) => ({
         id: latestText.id,
         [name]: type === 'number' ? restrictNumber(value, 1, 500) : value,
@@ -103,8 +110,10 @@ const TextControls = ({ text, saveText, children }) => {
 
   useEffect(() => {
     let transformer;
+
     if (textIdOfEditableContent && text.id === textIdOfEditableContent) {
       const canvasStage = designLayer.getStage();
+
       [transformer] = canvasStage.findOne(`#${TRANSFORMERS_LAYER_ID}`).children;
       activateTextChange(
         textIdOfEditableContent,
@@ -133,12 +142,14 @@ const TextControls = ({ text, saveText, children }) => {
           changeTextProps({
             target: { name: 'fontSize', value: selectedSize },
           });
+
           return String(selectedSize);
         }
 
         changeTextProps({
           target: { name: 'fontSize', value: selectedText.fontSize },
         });
+
         return '';
       });
     },

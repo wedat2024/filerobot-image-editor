@@ -5,6 +5,7 @@ import Popper from '@scaleflex/ui/core/popper';
 
 /** Internal Dependencies */
 import ThemeScope from 'context/CssTheme';
+
 import styles from './Image.module.css';
 
 const ImagesGallery = ({ gallery, anchorEl, onClose, onSelect }) => {
@@ -37,6 +38,7 @@ const ImagesGallery = ({ gallery, anchorEl, onClose, onSelect }) => {
     </Popper>
   );
 };
+
 ImagesGallery.defaultProps = {
   gallery: [],
   anchorEl: null,

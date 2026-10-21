@@ -7,14 +7,18 @@ import { ArrowLeftOutline, ArrowRightOutline } from '@scaleflex/icons';
 import { useResizeObserver } from 'hooks';
 import debounce from 'utils/debounce';
 import getScrollOffset from 'utils/getScrollOffset';
+
 import styles from './Carousel.module.css';
 
 const Carousel = ({ children, style, className }) => {
   const scrollingByDraggingLatestX = useRef(false);
   const carouselRef = useRef();
+
   const [observeResize] = useResizeObserver();
+
   const [isPrevArrowShown, setIsPrevArrowShown] = useState(false);
   const [isNextArrowShown, setIsNextArrowShown] = useState(false);
+
   const childrenArray = Children.toArray(children);
 
   const updateArrowsVisibility = () => {
@@ -22,6 +26,7 @@ const Carousel = ({ children, style, className }) => {
       const { scrollWidth, offsetWidth, scrollLeft } = carouselRef.current;
       const scrollableWidth = Math.round(scrollWidth - offsetWidth);
       const scrollRight = Math.round(scrollableWidth - scrollLeft);
+
       setIsPrevArrowShown(scrollLeft > 0);
       setIsNextArrowShown(scrollRight > 0);
     }
@@ -31,6 +36,7 @@ const Carousel = ({ children, style, className }) => {
     const liIndex = foundElements.findIndex((element) =>
       element.classList.contains('FIE_carousel-item'),
     );
+
     if (liIndex !== -1) {
       foundElements[liIndex].scrollIntoView({
         inline: direction,
@@ -50,6 +56,7 @@ const Carousel = ({ children, style, className }) => {
       e.pageX + e.currentTarget.offsetWidth - leftOffset,
       e.pageY - topOffset,
     );
+
     scrollCarouselToElement(currentElements, 'end');
   };
 
@@ -59,12 +66,14 @@ const Carousel = ({ children, style, className }) => {
       e.pageX - e.currentTarget.offsetWidth - leftOffset,
       e.pageY - topOffset,
     );
+
     scrollCarouselToElement(currentElements, 'start');
   };
 
   const scrollByDragging = (e) => {
     if (scrollingByDraggingLatestX.current) {
       const currentX = (e.touches?.[0] || e).pageX;
+
       carouselRef.current.scrollBy(
         scrollingByDraggingLatestX.current - currentX,
         0,

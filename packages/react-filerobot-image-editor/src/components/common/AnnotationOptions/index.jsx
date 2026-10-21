@@ -17,7 +17,9 @@ import OpacityField from './OpacityField';
 import StrokeFields from './StrokeFields';
 import ShadowFields from './ShadowFields';
 import PositionFields from './PositionFields';
+
 import AnnotationOptionsStyles from './AnnotationOptions.module.css';
+
 import { POPPABLE_OPTIONS } from './AnnotationOptions.constants';
 import ColorInput from '../ColorInput';
 
@@ -36,6 +38,7 @@ const AnnotationOptions = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentOption, setCurrentOption] = useState(null);
+
   const {
     config: { useCloudimage },
     t,
@@ -95,6 +98,7 @@ const AnnotationOptions = ({
 
   const toggleOptionPopup = useCallback((e, targetOptionName) => {
     const targetAnchorEl = e?.currentTarget;
+
     setAnchorEl(targetAnchorEl);
     setCurrentOption(targetOptionName);
   }, []);

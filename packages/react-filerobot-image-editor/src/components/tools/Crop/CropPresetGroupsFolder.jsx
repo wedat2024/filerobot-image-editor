@@ -6,8 +6,11 @@ import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
+
 import themeStyles from 'context/Theme.module.css';
+
 import CropPresetGroup from './CropPresetGroup';
+
 import CropStyles from './Crop.module.css';
 
 const CropPresetGroupsFolder = ({
@@ -23,6 +26,7 @@ const CropPresetGroupsFolder = ({
       crop: { ratioFolderKey, ratioGroupKey },
     },
   } = useStore();
+
   const [expandedGroup, setExpandedGroup] = useState('');
 
   const onItemSelectFromFolder = (e, newRatio, cropProps) => {

@@ -4,22 +4,27 @@
   margin-left: 12px;
   flex-shrink: 0;
 }
+
 .buttonWrapper.noMargin {
   margin-left: 0;
 }
+
 .mainButton.mainButton {
   flex-grow: 1;
   justify-content: center;
   align-items: center;
 }
+
 .menu.menu {
   padding: 8px;
   background-color: var(--fie-bg-stateless);
 }
+
 .menuIcon.menuIcon {
   display: flex;
   align-items: center;
 }
+
 .menuItem.menuItem {
   border-radius: 4px;
 }

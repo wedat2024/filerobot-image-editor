@@ -6,10 +6,12 @@ import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
+
 import TopbarStyles from './Topbar.module.css';
 
 const RestoreButton = ({ restoreConfig }) => {
   const state = useStore();
+
   const { t } = state;
 
   return restoreConfig.showRestore ? (

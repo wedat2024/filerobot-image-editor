@@ -9,7 +9,9 @@ import PropTypes from 'prop-types';
 /** Internal Dependencies */
 import { SET_CROP, SET_RESIZE, ZOOM_CANVAS } from 'actions';
 import { usePhoneScreen, useStore } from 'hooks';
+
 import ToolsBarStyles from 'components/ToolsBar/ToolsBar.module.css';
+
 import { DEFAULT_ZOOM_FACTOR, ORIGINAL_CROP, TOOLS_IDS } from 'utils/constants';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
@@ -18,6 +20,7 @@ import { Menu } from '@scaleflex/ui/core';
 import { DEFAULT_CROP_PRESETS } from './Crop.constants';
 import CropPresetGroupsList from './CropPresetGroupsFolder';
 import CropPresetItem from './CropPresetItem';
+
 import CropStyles from './Crop.module.css';
 
 const CropPresetsOption = ({ anchorEl, onClose }) => {
@@ -30,8 +33,10 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
     shownImageDimensions,
     config,
   } = useStore();
+
   const currentRatio = appliedRatio || ORIGINAL_CROP; // we consider original as default one if no ratio has been set.
   const cropConfig = config[TOOLS_IDS.CROP];
+
   const isPhoneScreen = usePhoneScreen();
 
   const allPresets = useMemo(() => {
@@ -43,6 +48,7 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
     const defaultPresets = lockCropAreaAt
       ? DEFAULT_CROP_PRESETS.filter((item) => !item.hide?.({ lockCropAreaAt }))
       : DEFAULT_CROP_PRESETS;
+
     return [...presetsFolders, ...defaultPresets, ...presetsItems];
   }, [cropConfig]);
 
@@ -82,6 +88,7 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
         },
       });
     }
+
     onClose();
   };
 
