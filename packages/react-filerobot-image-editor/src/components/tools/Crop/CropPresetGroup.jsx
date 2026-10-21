@@ -1,3 +1,4 @@
+import { Accordion as FieAccordion } from '@scaleflex/ui/core';
 /** External Dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -6,7 +7,7 @@ import PropTypes from 'prop-types';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
 import { useStore } from 'hooks';
 import CropPresetItem from './CropPresetItem';
-import { StyledAccordion } from './Crop.styled';
+import CropStyles from './Crop.module.css';
 
 const CropPresetGroup = ({
   groupTitleKey,
@@ -20,7 +21,6 @@ const CropPresetGroup = ({
     adjustments: {
       crop: { ratio: currentRatio, ratioGroupKey, ratioTitleKey },
     },
-    theme,
   } = useStore();
 
   const toggleExpand = () => {
@@ -35,10 +35,11 @@ const CropPresetGroup = ({
   };
 
   return (
-    <StyledAccordion
+    <FieAccordion
       label={t(groupTitleKey)}
       onChange={toggleExpand}
       expanded={isExpanded}
+      className={CropStyles.accordion}
     >
       {items.map(
         ({
@@ -65,7 +66,6 @@ const CropPresetGroup = ({
               height={height}
               ratio={newRatio}
               Icon={icon}
-              theme={theme}
               isAccordion
               disableManualResize={disableManualResize}
               isActive={
@@ -78,7 +78,7 @@ const CropPresetGroup = ({
           );
         },
       )}
-    </StyledAccordion>
+    </FieAccordion>
   );
 };
 

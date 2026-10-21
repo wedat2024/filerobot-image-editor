@@ -1,15 +1,14 @@
+import FieIconLabel from '@scaleflex/ui/core/label';
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
 import { Label } from '@scaleflex/ui/core';
-import {
-  StyledSpacedOptionFields,
-  StyledIconLabel,
-  StyledOptionPopupContent,
-} from './AnnotationOptions.styled';
+import AnnotationOptionsStyles from './AnnotationOptions.module.css';
 import Slider from '../Slider';
 
 const MIN_PERCENTANGE = 0;
@@ -30,18 +29,26 @@ const OpacityField = ({ annotation, updateAnnotation, t }) => {
   };
 
   return (
-    <StyledOptionPopupContent disablePadding>
+    <ThemeScope
+      as="div"
+      className={cx(
+        AnnotationOptionsStyles.optionPopupContent,
+        AnnotationOptionsStyles.noPadding,
+      )}
+    >
       <Label>{t('transparency')}</Label>
-      <StyledSpacedOptionFields>
+      <div className={AnnotationOptionsStyles.spacedOptionFields}>
         <Slider
           annotation="%"
           onChange={changeOpacity}
           value={opacityValue}
           noMargin
         />
-        <StyledIconLabel>{`${opacityValue}%`}</StyledIconLabel>
-      </StyledSpacedOptionFields>
-    </StyledOptionPopupContent>
+        <FieIconLabel
+          className={AnnotationOptionsStyles.iconLabel}
+        >{`${opacityValue}%`}</FieIconLabel>
+      </div>
+    </ThemeScope>
   );
 };
 

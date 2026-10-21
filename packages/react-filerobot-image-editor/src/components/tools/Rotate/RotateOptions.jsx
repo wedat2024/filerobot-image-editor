@@ -1,5 +1,11 @@
+import {
+  RotationSlider as FieRotationSlider,
+  IconButton as FieRotateButton,
+} from '@scaleflex/ui/core';
+
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import RotationLeft from '@scaleflex/icons/rotation-left';
 import RotationRight from '@scaleflex/icons/rotation-right';
 import { Rotate90 } from '@scaleflex/icons';
@@ -11,11 +17,7 @@ import restrictNumber from 'utils/restrictNumber';
 import getSizeAfterRotation from 'utils/getSizeAfterRotation';
 import { TOOLS_IDS } from 'utils/constants';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
-import {
-  StyledRotationOptions,
-  StyledRotationSlider,
-  StyledRotateButton,
-} from './Rotate.styled';
+import RotateStyles from './Rotate.module.css';
 
 const RotateOptions = () => {
   const {
@@ -84,9 +86,8 @@ const RotateOptions = () => {
   }
 
   return (
-    <StyledRotationOptions>
-      <StyledRotationSlider
-        className="FIE_rotate-slider"
+    <div className={RotateStyles.rotationOptions}>
+      <FieRotationSlider
         showCurrentMarkText
         min={-180}
         max={180}
@@ -94,15 +95,17 @@ const RotateOptions = () => {
         value={rotation}
         angle={rotateConfig.angle || 90}
         onChange={changeRotation}
+        className={cx(RotateStyles.rotationSlider, 'FIE_rotate-slider')}
       />
-      <StyledRotateButton
+      <FieRotateButton
         size="sm"
         color="basic"
         onClick={(e) => changeRotation(e, rotation + 90)}
+        className={RotateStyles.rotateButton}
       >
         <Rotate90 width={15} />
-      </StyledRotateButton>
-    </StyledRotationOptions>
+      </FieRotateButton>
+    </div>
   );
 };
 

@@ -1,5 +1,11 @@
+import {
+  Label as FieSliderLabel,
+  Input as FieSliderInput,
+} from '@scaleflex/ui/core';
+
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -7,12 +13,7 @@ import { useFinetune } from 'hooks';
 import restrictNumber from 'utils/restrictNumber';
 import { Warmth as CustomWarmth } from 'custom/finetunes';
 import Slider from 'components/common/Slider';
-import {
-  StyledSliderContainer,
-  StyledSliderInput,
-  StyledSliderLabel,
-  StyledSliderWrapper,
-} from '../tools.styled';
+import toolsStyles from '../tools.module.css';
 
 const MIN_VALUE = 0;
 const DEFAULT_VALUE = {
@@ -34,11 +35,15 @@ const WarmthOptions = ({ t }) => {
   };
 
   return (
-    <StyledSliderContainer className="FIE_warmth-option-wrapper">
-      <StyledSliderLabel className="FIE_warmth-option-label">
+    <div
+      className={cx(toolsStyles.sliderContainer, 'FIE_warmth-option-wrapper')}
+    >
+      <FieSliderLabel
+        className={cx(toolsStyles.sliderLabel, 'FIE_warmth-option-label')}
+      >
         {t('warmthTool')}
-      </StyledSliderLabel>
-      <StyledSliderWrapper>
+      </FieSliderLabel>
+      <div className={toolsStyles.sliderWrapper}>
         <Slider
           className="FIE_warmth-option"
           min={MIN_VALUE}
@@ -48,12 +53,13 @@ const WarmthOptions = ({ t }) => {
           onChange={changeValue}
           style={sliderStyle}
         />
-        <StyledSliderInput
+        <FieSliderInput
           value={finetuneProps.warmth ?? DEFAULT_VALUE.warmth}
           onChange={({ target: { value } }) => changeValue(value)}
+          className={toolsStyles.sliderInput}
         />
-      </StyledSliderWrapper>
-    </StyledSliderContainer>
+      </div>
+    </div>
   );
 };
 

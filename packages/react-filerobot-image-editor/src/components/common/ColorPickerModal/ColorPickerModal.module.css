@@ -1,0 +1,40 @@
+.colorPickerModal.colorPickerModal {
+  max-width: 350px;
+}
+.colorPickerWrap :global(.SfxColorPicker-root) {
+  max-width: 100%;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+}
+.colorPickerWrap :global(.SfxColorPicker-action) {
+  display: flex;
+  gap: 12px;
+}
+.colorPickerWrap
+  :global(.SfxColorPicker-action)
+  :global(.SfxColorPicker-select) {
+  width: 100px;
+}
+.colorPickerWrap :global(.SfxColorPicker-action) :global(.SfxInput-root) {
+  width: 190px !important;
+}
+.colorPickerWrap :global(.SfxColorPicker-icon) {
+  color: var(--fie-icon-primary);
+}
+.colorPickerWrap :global(.SfxColorPicker-range-picker),
+.colorPickerWrap :global(.SfxColorPicker-bar-wrapper) {
+  width: 100%;
+}
+.colorPickerWrap.withoutTitle :global(.SfxColorPicker-root) {
+  padding-top: 12px;
+}
+.modalActions.modalActions {
+  gap: 12px;
+  padding: 24px;
+}
+.modalActions.modalActions :global(.SfxButton-root) {
+  flex: 1;
+  margin: 0;
+  height: 40px;
+}

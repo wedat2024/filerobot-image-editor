@@ -1,14 +1,14 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
+
+import FieFilterItemLabel from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { memo, useCallback, useEffect, useRef } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Layer, Image } from 'react-konva';
+import { Layer, Image, Stage as FieFilterItemPreview } from 'react-konva';
 
 /** Internal Dependencies */
-import {
-  StyledFilterItem,
-  FilterItemPreview,
-  FilterItemLabel,
-} from './Filters.styled';
+import FiltersStyles from './Filters.module.css';
 
 const MAX_FILTER_PREVIEW_WIDTH = 60;
 const MAX_FILTER_PREVIEW_HEIGHT = 45;
@@ -53,15 +53,18 @@ const FilterItem = ({
     : MAX_FILTER_PREVIEW_HEIGHT;
 
   return (
-    <StyledFilterItem
-      className="FIE_filters-item"
+    <div
       onClick={handleFilterApplying}
       aria-selected={isActive}
+      className={cx(FiltersStyles.filterItem, 'FIE_filters-item')}
     >
-      <FilterItemPreview
-        className="FIE_filters-item-preview"
+      <FieFilterItemPreview
         width={MAX_FILTER_PREVIEW_WIDTH}
         height={MAX_FILTER_PREVIEW_HEIGHT}
+        className={cx(
+          FiltersStyles.filterItemPreview,
+          'FIE_filters-item-preview',
+        )}
       >
         <Layer onTap={handleFilterApplying}>
           <Image
@@ -74,11 +77,13 @@ const FilterItem = ({
             ref={imageNodeRef}
           />
         </Layer>
-      </FilterItemPreview>
-      <FilterItemLabel className="FIE_filters-item-label">
+      </FieFilterItemPreview>
+      <FieFilterItemLabel
+        className={cx(FiltersStyles.filterItemLabel, 'FIE_filters-item-label')}
+      >
         {filterLabel}
-      </FilterItemLabel>
-    </StyledFilterItem>
+      </FieFilterItemLabel>
+    </div>
   );
 };
 

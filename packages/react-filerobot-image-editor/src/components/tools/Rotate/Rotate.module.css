@@ -1,0 +1,46 @@
+.rotationOptions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.rotationSlider.rotationSlider :global(.SfxRotationSlider-control) {
+  width: 1px;
+  height: 10px;
+  background-color: var(--fie-icons-secondary);
+}
+.rotationSlider.rotationSlider :global(.SfxRotationSlider-control):before {
+  box-shadow: unset;
+}
+.rotationSlider.rotationSlider :global(.SfxRotationSlider-mark),
+.rotationSlider.rotationSlider :global(.SfxRotationSlider-small-dot-wrapper) {
+  padding: 0;
+}
+.rotationSlider.rotationSlider
+  :global(.SfxRotationSlider-mark)
+  :global(.SfxRotationSlider-mark-text),
+.rotationSlider.rotationSlider
+  :global(.SfxRotationSlider-small-dot-wrapper)
+  :global(.SfxRotationSlider-mark-text) {
+  top: 10px;
+}
+.rotationSlider.rotationSlider
+  :global(.SfxRotationSlider-mark)
+  :global(.SfxRotationSlider-big-dot),
+.rotationSlider.rotationSlider
+  :global(.SfxRotationSlider-small-dot-wrapper)
+  :global(.SfxRotationSlider-big-dot) {
+  width: 4px;
+  height: 4px;
+}
+.rotationSlider.rotationSlider
+  :global(.SfxRotationSlider-mark)
+  :global(.SfxRotationSlider-small-dot),
+.rotationSlider.rotationSlider
+  :global(.SfxRotationSlider-small-dot-wrapper)
+  :global(.SfxRotationSlider-small-dot) {
+  width: 1px;
+  height: 1px;
+}
+.rotationSlider.rotationSlider :global(.SfxRotationSlider-list) {
+  gap: 4px;
+}

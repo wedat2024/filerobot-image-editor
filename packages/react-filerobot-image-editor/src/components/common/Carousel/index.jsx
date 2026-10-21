@@ -7,13 +7,7 @@ import { ArrowLeftOutline, ArrowRightOutline } from '@scaleflex/icons';
 import { useResizeObserver } from 'hooks';
 import debounce from 'utils/debounce';
 import getScrollOffset from 'utils/getScrollOffset';
-import {
-  StyledCarouselWrapper,
-  StyledCarousel,
-  StyledCarouselItem,
-  StyledNextArrowWrapper,
-  StyledPrevArrowWrapper,
-} from './Carousel.styled';
+import styles from './Carousel.module.css';
 
 const Carousel = ({ children, style, className }) => {
   const scrollingByDraggingLatestX = useRef(false);
@@ -107,39 +101,42 @@ const Carousel = ({ children, style, className }) => {
   }, []);
 
   return (
-    <StyledCarouselWrapper
-      className={`${className}-wrapper`}
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Preserve existing mouse/touch dragging during the CSS migration.
+    <div
+      className={`${styles.wrapper} ${className}-wrapper`}
       style={style}
       onMouseDown={startScrollByDragging}
       onTouchStart={startScrollByDragging}
     >
       {isPrevArrowShown && (
-        <StyledPrevArrowWrapper
-          className="FIE_carousel-prev-button"
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve the existing div/click behavior during the CSS migration.
+        <div
+          className={`${styles.arrow} ${styles.previous} FIE_carousel-prev-button`}
           onClick={scrollToPrev}
         >
           <ArrowLeftOutline />
-        </StyledPrevArrowWrapper>
+        </div>
       )}
-      <StyledCarousel className={`${className}-items`} ref={carouselRef}>
+      <ul className={`${styles.items} ${className}-items`} ref={carouselRef}>
         {childrenArray.map((child) => (
-          <StyledCarouselItem
-            className={`${className}-item-wrapper FIE_carousel-item`}
+          <li
+            className={`${styles.item} ${className}-item-wrapper FIE_carousel-item`}
             key={child.key}
           >
             {child}
-          </StyledCarouselItem>
+          </li>
         ))}
-      </StyledCarousel>
+      </ul>
       {isNextArrowShown && (
-        <StyledNextArrowWrapper
-          className="FIE_carousel-next-button"
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve the existing div/click behavior during the CSS migration.
+        <div
+          className={`${styles.arrow} ${styles.next} FIE_carousel-next-button`}
           onClick={scrollToNext}
         >
           <ArrowRightOutline />
-        </StyledNextArrowWrapper>
+        </div>
       )}
-    </StyledCarouselWrapper>
+    </div>
   );
 };
 

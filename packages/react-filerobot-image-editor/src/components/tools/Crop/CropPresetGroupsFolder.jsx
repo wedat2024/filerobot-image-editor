@@ -1,22 +1,24 @@
+import { MenuItem as FieMenuItem } from '@scaleflex/ui/core';
 /** External Dependencies */
 import React, { useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Color as PC } from '@scaleflex/ui/utils/types/palette';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
+import themeStyles from 'context/Theme.module.css';
 import CropPresetGroup from './CropPresetGroup';
-import { StyledMenuItem, StyledMenuItemIcon } from './Crop.styled';
+import CropStyles from './Crop.module.css';
 
 const CropPresetGroupsFolder = ({
   titleKey,
   Icon,
-  theme,
   groups,
   onItemSelect,
   t,
 }) => {
   const {
+    themeVariables,
     adjustments: {
       crop: { ratioFolderKey, ratioGroupKey },
     },
@@ -31,21 +33,20 @@ const CropPresetGroupsFolder = ({
   };
 
   return (
-    <StyledMenuItem
-      isListItem
+    <FieMenuItem
       list={[
         {
           content: t(titleKey),
           key: titleKey,
           active: titleKey === ratioFolderKey,
           prefix: Icon && (
-            <StyledMenuItemIcon>
+            <div className={CropStyles.menuItemIcon}>
               {typeof Icon === 'string' ? ( // eslint-disable-next-line react/no-danger
                 <span dangerouslySetInnerHTML={{ __html: Icon }} />
               ) : (
-                <Icon color={theme.palette['icon-primary']} />
+                <Icon color="var(--fie-icon-primary)" />
               )}
-            </StyledMenuItemIcon>
+            </div>
           ),
           subList: groups.map(({ titleKey: groupTitleKey, items }) => ({
             content: (
@@ -66,10 +67,15 @@ const CropPresetGroupsFolder = ({
             disableHover: true,
           })),
           subMenuProps: {
-            style: { backgroundColor: theme.palette[PC.BackgroundStateless] },
+            className: themeStyles.scope,
+            style: {
+              ...themeVariables,
+              backgroundColor: 'var(--fie-bg-stateless)',
+            },
           },
         },
       ]}
+      className={cx(CropStyles.menuItem, CropStyles.listItem)}
     />
   );
 };
@@ -83,7 +89,6 @@ CropPresetGroupsFolder.propTypes = {
   groups: PropTypes.instanceOf(Array).isRequired,
   onItemSelect: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  theme: PropTypes.instanceOf(Object).isRequired,
   Icon: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.string,

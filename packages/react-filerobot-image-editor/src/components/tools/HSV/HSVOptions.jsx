@@ -1,18 +1,18 @@
+import {
+  Label as FieSliderLabel,
+  Input as FieSliderInput,
+} from '@scaleflex/ui/core';
+
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Konva from 'konva';
 
 /** Internal Dependencies */
 import { useFinetune, usePhoneScreen } from 'hooks';
 import Slider from 'components/common/Slider';
-import {
-  StyledHSVOptions,
-  StyledSliderContainer,
-  StyledSliderLabel,
-  StyledSliderInput,
-  StyledSliderWrapper,
-} from '../tools.styled';
+import toolsStyles from '../tools.module.css';
 
 const DEFAULT_VALUE = {
   hue: 0,
@@ -42,12 +42,18 @@ const HSVOptions = ({ t }) => {
   };
 
   return (
-    <StyledHSVOptions isPhoneScreen={isPhoneScreen}>
-      <StyledSliderContainer className="FIE_hue-option-wrapper">
-        <StyledSliderLabel className="FIE_hue-option-label">
+    <div
+      className={cx(toolsStyles.hSVOptions, isPhoneScreen && toolsStyles.phone)}
+    >
+      <div
+        className={cx(toolsStyles.sliderContainer, 'FIE_hue-option-wrapper')}
+      >
+        <FieSliderLabel
+          className={cx(toolsStyles.sliderLabel, 'FIE_hue-option-label')}
+        >
           {t('hue')}
-        </StyledSliderLabel>
-        <StyledSliderWrapper>
+        </FieSliderLabel>
+        <div className={toolsStyles.sliderWrapper}>
           <Slider
             className="FIE_hue-option"
             min={0}
@@ -57,17 +63,25 @@ const HSVOptions = ({ t }) => {
             onChange={(val) => changeValue('hue', val)}
             style={sliderStyle}
           />
-          <StyledSliderInput
+          <FieSliderInput
             value={finetuneProps.hue ?? DEFAULT_VALUE.hue}
             onChange={({ target: { value } }) => changeValue('hue', value)}
+            className={toolsStyles.sliderInput}
           />
-        </StyledSliderWrapper>
-      </StyledSliderContainer>
-      <StyledSliderContainer className="FIE_saturation-option-wrapper">
-        <StyledSliderLabel className="FIE_saturation-option-label">
+        </div>
+      </div>
+      <div
+        className={cx(
+          toolsStyles.sliderContainer,
+          'FIE_saturation-option-wrapper',
+        )}
+      >
+        <FieSliderLabel
+          className={cx(toolsStyles.sliderLabel, 'FIE_saturation-option-label')}
+        >
           {t('saturation')}
-        </StyledSliderLabel>
-        <StyledSliderWrapper>
+        </FieSliderLabel>
+        <div className={toolsStyles.sliderWrapper}>
           <Slider
             className="FIE_saturation-option"
             min={-2}
@@ -77,19 +91,24 @@ const HSVOptions = ({ t }) => {
             onChange={(val) => changeValue('saturation', val)}
             style={sliderStyle}
           />
-          <StyledSliderInput
+          <FieSliderInput
             value={finetuneProps.saturation ?? DEFAULT_VALUE.saturation}
             onChange={({ target: { value } }) =>
               changeValue('saturation', value)
             }
+            className={toolsStyles.sliderInput}
           />
-        </StyledSliderWrapper>
-      </StyledSliderContainer>
-      <StyledSliderContainer className="FIE_value-option-wrapper">
-        <StyledSliderLabel className="FIE_value-option-label">
+        </div>
+      </div>
+      <div
+        className={cx(toolsStyles.sliderContainer, 'FIE_value-option-wrapper')}
+      >
+        <FieSliderLabel
+          className={cx(toolsStyles.sliderLabel, 'FIE_value-option-label')}
+        >
           {t('value')}
-        </StyledSliderLabel>
-        <StyledSliderWrapper>
+        </FieSliderLabel>
+        <div className={toolsStyles.sliderWrapper}>
           <Slider
             className="FIE_value-option"
             min={-2}
@@ -99,13 +118,14 @@ const HSVOptions = ({ t }) => {
             onChange={(val) => changeValue('value', val)}
             style={sliderStyle}
           />
-          <StyledSliderInput
+          <FieSliderInput
             value={finetuneProps.value ?? DEFAULT_VALUE.value}
             onChange={({ target: { value } }) => changeValue('value', value)}
+            className={toolsStyles.sliderInput}
           />
-        </StyledSliderWrapper>
-      </StyledSliderContainer>
-    </StyledHSVOptions>
+        </div>
+      </div>
+    </div>
   );
 };
 

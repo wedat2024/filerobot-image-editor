@@ -1,11 +1,12 @@
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Label from '@scaleflex/ui/core/label';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
-import { StyledSpacedOptionFields } from 'components/common/AnnotationOptions/AnnotationOptions.styled';
+import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
 import Slider from 'components/common/Slider';
 
 const MIN_VALUE = 0;
@@ -24,7 +25,12 @@ const TextSpacingsFields = ({
   };
 
   return (
-    <StyledSpacedOptionFields preventFlex>
+    <div
+      className={cx(
+        AnnotationOptionsStyles.spacedOptionFields,
+        AnnotationOptionsStyles.block,
+      )}
+    >
       <Label>{t('letterSpacing')}</Label>
       <Slider
         annotation="px"
@@ -41,7 +47,7 @@ const TextSpacingsFields = ({
         value={lineHeight}
         step={SLIDER_STEP}
       />
-    </StyledSpacedOptionFields>
+    </div>
   );
 };
 

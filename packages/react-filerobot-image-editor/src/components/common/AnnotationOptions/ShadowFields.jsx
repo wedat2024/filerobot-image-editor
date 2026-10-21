@@ -1,16 +1,13 @@
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Label from '@scaleflex/ui/core/label';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
 import ColorInput from 'components/common/ColorInput';
-import {
-  StyledTwoColumnsContainer,
-  StyledColumn,
-  StyledSpacedOptionFields,
-} from './AnnotationOptions.styled';
+import AnnotationOptionsStyles from './AnnotationOptions.module.css';
 import Slider from '../Slider';
 
 const ShadowFields = ({ annotation, updateAnnotation, t }) => {
@@ -33,10 +30,15 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
   };
 
   return (
-    <StyledSpacedOptionFields preventFlex>
+    <div
+      className={cx(
+        AnnotationOptionsStyles.spacedOptionFields,
+        AnnotationOptionsStyles.block,
+      )}
+    >
       <Label>{t('shadow')}</Label>
-      <StyledTwoColumnsContainer>
-        <StyledColumn>
+      <div className={AnnotationOptionsStyles.twoColumnsContainer}>
+        <div className={AnnotationOptionsStyles.column}>
           <Label>{t('horizontal')}</Label>
           <Slider
             annotation="px"
@@ -48,8 +50,8 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
             value={shadowOffsetX || 0}
             hideTrack
           />
-        </StyledColumn>
-        <StyledColumn>
+        </div>
+        <div className={AnnotationOptionsStyles.column}>
           <Label>{t('vertical')}</Label>
           <Slider
             annotation="px"
@@ -61,18 +63,18 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
             value={shadowOffsetY || 0}
             hideTrack
           />
-        </StyledColumn>
-      </StyledTwoColumnsContainer>
-      <StyledTwoColumnsContainer>
-        <StyledColumn>
+        </div>
+      </div>
+      <div className={AnnotationOptionsStyles.twoColumnsContainer}>
+        <div className={AnnotationOptionsStyles.column}>
           <Label>{t('blur')}</Label>
           <Slider
             annotation="%"
             onChange={(val) => changeSliderValue('shadowBlur', val)}
             value={shadowBlur}
           />
-        </StyledColumn>
-        <StyledColumn>
+        </div>
+        <div className={AnnotationOptionsStyles.column}>
           <Label>{t('opacity')}</Label>
           <Slider
             annotation="%"
@@ -81,14 +83,14 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
             }
             value={Math.round(shadowOpacity * 100)}
           />
-        </StyledColumn>
-      </StyledTwoColumnsContainer>
+        </div>
+      </div>
       <ColorInput
         color={shadowColor}
         onChange={changeShadowColor}
         colorFor="shadow"
       />
-    </StyledSpacedOptionFields>
+    </div>
   );
 };
 

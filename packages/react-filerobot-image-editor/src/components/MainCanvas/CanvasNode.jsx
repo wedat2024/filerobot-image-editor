@@ -1,3 +1,4 @@
+import { Stage as FieCanvasNode, useStrictMode } from 'react-konva';
 /** External Dependencies */
 import React, {
   memo,
@@ -7,9 +8,9 @@ import React, {
   useState,
   useRef,
 } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Konva from 'konva';
-import { useStrictMode } from 'react-konva';
 
 /** Internal Dependencies */
 import {
@@ -25,7 +26,7 @@ import {
 } from 'utils/constants';
 import { useStore } from 'hooks';
 import { endTouchesZooming, zoomOnTouchesMove } from './touchZoomingEvents';
-import { StyledCanvasNode } from './MainCanvas.styled';
+import MainCanvasStyles from './MainCanvas.module.css';
 
 const ZOOM_DELTA_TO_SCALE_CONVERT_FACTOR = 0.006;
 
@@ -209,8 +210,7 @@ const CanvasNode = ({ children }) => {
   const zoomedResponsiveCanvasScale =
     canvasScale * ((isZoomEnabled && zoom.factor) || defaultZoomFactor);
   return (
-    <StyledCanvasNode
-      className="FIE_canvas-node"
+    <FieCanvasNode
       tabIndex={-1}
       ref={canvasRef}
       width={canvasWidth}
@@ -232,9 +232,10 @@ const CanvasNode = ({ children }) => {
       draggable={isZoomEnabled && isPanningEnabled}
       onDragEnd={handleCanvasDragEnd}
       style={cursorStyle}
+      className={cx(MainCanvasStyles.canvasNode, 'FIE_canvas-node')}
     >
       {children}
-    </StyledCanvasNode>
+    </FieCanvasNode>
   );
 };
 

@@ -15,10 +15,7 @@ import ImageControls from 'components/tools/Image/ImageControls';
 import { usePhoneScreen, useStore } from 'hooks';
 import { FEEDBACK_STATUSES, TOOLS_IDS } from 'utils/constants';
 import HiddenUploadInput from 'components/common/HiddenUploadInput';
-import {
-  StyledControlsWrapper,
-  StyledWatermarkWrapper,
-} from './Watermark.styled';
+import styles from './Watermark.module.css';
 import WatermarksGallery from './WatermarksGallery';
 import WatermarkPadding from './WatermarkPadding';
 
@@ -318,7 +315,7 @@ const Watermark = () => {
   return (
     <div className="FIE_watermark-tool-wrapper">
       {watermark?.name === TOOLS_IDS.TEXT && (
-        <StyledControlsWrapper className="FIE_watermark-options-wrapper">
+        <div className={`${styles.controls} FIE_watermark-options-wrapper`}>
           <TextControls
             text={watermark}
             saveText={updateWatermarkOptions}
@@ -326,10 +323,10 @@ const Watermark = () => {
           >
             {renderWatermarkPadding()}
           </TextControls>
-        </StyledControlsWrapper>
+        </div>
       )}
       {watermark?.name === TOOLS_IDS.IMAGE && (
-        <StyledControlsWrapper className="FIE_watermark-options-wrapper">
+        <div className={`${styles.controls} FIE_watermark-options-wrapper`}>
           <ImageControls
             image={watermark}
             saveImage={updateWatermarkOptions}
@@ -337,9 +334,9 @@ const Watermark = () => {
           >
             {renderWatermarkPadding()}
           </ImageControls>
-        </StyledControlsWrapper>
+        </div>
       )}
-      <StyledWatermarkWrapper className="FIE_watermark-add-wrapper" noWrap>
+      <div className={`${styles.wrapper} FIE_watermark-add-wrapper`}>
         <ButtonWithMenu
           className="FIE_watermark-add"
           color="secondary"
@@ -364,7 +361,7 @@ const Watermark = () => {
           disabled={isLoading}
           ref={uploadImgInput}
         />
-      </StyledWatermarkWrapper>
+      </div>
     </div>
   );
 };

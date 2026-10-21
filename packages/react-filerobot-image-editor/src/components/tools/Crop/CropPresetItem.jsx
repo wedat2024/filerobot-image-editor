@@ -1,14 +1,13 @@
+import Label from '@scaleflex/ui/core/label';
+
+import { MenuItem as FieMenuItem } from '@scaleflex/ui/core';
 /** External Dependeices */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependeices */
-import {
-  StyledMenuItemIcon,
-  StyledMenuItem,
-  StyledRatioDescription,
-  StyledMenuItemLabel,
-} from './Crop.styled';
+import CropStyles from './Crop.module.css';
 
 const CropPresetItem = ({
   titleKey,
@@ -18,7 +17,6 @@ const CropPresetItem = ({
   Icon,
   isActive,
   isAccordion,
-  theme,
   width,
   height,
   t,
@@ -35,28 +33,31 @@ const CropPresetItem = ({
     });
 
   return (
-    <StyledMenuItem
+    <FieMenuItem
       active={isActive}
       onClick={handleOnClick}
-      isAccordion={isAccordion}
+      className={cx(
+        CropStyles.menuItem,
+        isAccordion && CropStyles.accordionItem,
+      )}
     >
       {Icon && (
-        <StyledMenuItemIcon>
+        <div className={CropStyles.menuItemIcon}>
           {typeof Icon === 'string' ? (
             // eslint-disable-next-line react/no-danger
             <span dangerouslySetInnerHTML={{ __html: Icon }} />
           ) : (
-            <Icon color={theme.palette['icon-primary']} />
+            <Icon color="var(--fie-icon-primary)" />
           )}
-        </StyledMenuItemIcon>
+        </div>
       )}
 
-      <StyledMenuItemLabel>{t(titleKey)}</StyledMenuItemLabel>
+      <Label className={CropStyles.menuItemLabel}>{t(titleKey)}</Label>
 
       {description && (
-        <StyledRatioDescription>{description}</StyledRatioDescription>
+        <Label className={CropStyles.ratioDescription}>{description}</Label>
       )}
-    </StyledMenuItem>
+    </FieMenuItem>
   );
 };
 
@@ -78,7 +79,6 @@ CropPresetItem.propTypes = {
   ratio: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   disableManualResize: PropTypes.bool,
   isAccordion: PropTypes.bool,
-  theme: PropTypes.instanceOf(Object).isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
   Icon: PropTypes.oneOfType([

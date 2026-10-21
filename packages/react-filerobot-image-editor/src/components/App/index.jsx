@@ -1,5 +1,6 @@
 /** External Dependencies */
 import React, { memo, useCallback, useEffect, useState, useRef } from 'react';
+import cx from 'classnames';
 
 /** Internal Dependencies */
 import MainCanvas from 'components/MainCanvas';
@@ -25,6 +26,7 @@ import {
   useTransformedImgData,
 } from 'hooks';
 import Spinner from 'components/common/Spinner';
+import ThemeScope from 'context/CssTheme';
 import { getBackendTranslations } from 'utils/translator';
 import cloudimageQueryToDesignState from 'utils/cloudimageQueryToDesignState';
 import finetunesStrsToClasses from 'utils/finetunesStrsToClasses';
@@ -32,12 +34,7 @@ import filterStrToClass from 'utils/filterStrToClass';
 import isSameImage from 'utils/isSameImage';
 import useUpdateEffect from 'hooks/useUpdateEffect';
 import TabsDrawer from 'components/TabsDrawer';
-import {
-  StyledAppWrapper,
-  StyledMainContent,
-  StyledTabs,
-  StyledCanvasAndTools,
-} from './App.styled';
+import AppStyles from './App.module.css';
 
 const App = () => {
   const {
@@ -48,7 +45,6 @@ const App = () => {
     originalImage,
     shownImageDimensions,
     t,
-    theme,
     feedback = {},
   } = useStore();
   const {
@@ -326,36 +322,46 @@ const App = () => {
         </>
       )}
       {originalImage && feedback.duration !== 0 && (
-        <StyledMainContent className="FIE_main-container">
+        <div className={cx(AppStyles.mainContent, 'FIE_main-container')}>
           {!showCanvasOnly && !showTabsDrawer && (
-            <StyledTabs className="FIE_tabs">
+            <div className={cx(AppStyles.tabs, 'FIE_tabs')}>
               <Tabs toggleMainMenu={toggleMainMenu} />
-            </StyledTabs>
+            </div>
           )}
-          <StyledCanvasAndTools
-            className="FIE_editor-content"
-            showTabsDrawer={showTabsDrawer}
+          <div
+            className={cx(
+              AppStyles.canvasAndTools,
+              showTabsDrawer && AppStyles.drawerShown,
+              'FIE_editor-content',
+            )}
           >
             <MainCanvas controls={controls} />
             {!showCanvasOnly && <ToolsBar isPhoneScreen={isPhoneScreen} />}
-          </StyledCanvasAndTools>
-        </StyledMainContent>
+          </div>
+        </div>
       )}
     </>
   );
 
   return (
-    <StyledAppWrapper
-      className={ROOT_CONTAINER_CLASS_NAME}
+    <ThemeScope
+      as="div"
       data-phone={isPhoneScreen}
-      showTabsDrawer={showTabsDrawer}
       ref={pluginRootRef}
-      $size={rootSize}
+      style={{
+        width: rootSize?.width ?? '100%',
+        height: rootSize?.height ?? '100%',
+      }}
+      className={cx(
+        AppStyles.appWrapper,
+        showTabsDrawer && AppStyles.drawerShown,
+        ROOT_CONTAINER_CLASS_NAME,
+      )}
     >
-      {isLoadingGlobally && <Spinner theme={theme} />}
+      {isLoadingGlobally && <Spinner />}
       {renderContent()}
       <FeedbackPopup />
-    </StyledAppWrapper>
+    </ThemeScope>
   );
 };
 

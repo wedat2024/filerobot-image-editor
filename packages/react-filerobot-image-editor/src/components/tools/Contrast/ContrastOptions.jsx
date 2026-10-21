@@ -1,5 +1,11 @@
+import {
+  Label as FieSliderLabel,
+  Input as FieSliderInput,
+} from '@scaleflex/ui/core';
+
 /** External Depdencies */
 import React from 'react';
+import cx from 'classnames';
 import Konva from 'konva';
 import PropTypes from 'prop-types';
 
@@ -7,12 +13,7 @@ import PropTypes from 'prop-types';
 import { useFinetune } from 'hooks';
 import restrictNumber from 'utils/restrictNumber';
 import Slider from 'components/common/Slider';
-import {
-  StyledSliderContainer,
-  StyledSliderInput,
-  StyledSliderLabel,
-  StyledSliderWrapper,
-} from '../tools.styled';
+import toolsStyles from '../tools.module.css';
 
 const MIN_VALUE = -100;
 const DEFAULT_VALUE = {
@@ -34,11 +35,15 @@ const ContrastOptions = ({ t }) => {
   };
 
   return (
-    <StyledSliderContainer className="FIE_contrast-option-wrapper">
-      <StyledSliderLabel className="FIE_contrast-option-label">
+    <div
+      className={cx(toolsStyles.sliderContainer, 'FIE_contrast-option-wrapper')}
+    >
+      <FieSliderLabel
+        className={cx(toolsStyles.sliderLabel, 'FIE_contrast-option-label')}
+      >
         {t('contrastTool')}
-      </StyledSliderLabel>
-      <StyledSliderWrapper>
+      </FieSliderLabel>
+      <div className={toolsStyles.sliderWrapper}>
         <Slider
           className="FIE_contrast-option"
           min={MIN_VALUE}
@@ -48,12 +53,13 @@ const ContrastOptions = ({ t }) => {
           onChange={changeValue}
           style={sliderStyle}
         />
-        <StyledSliderInput
+        <FieSliderInput
           value={finetuneProps.contrast ?? DEFAULT_VALUE.contrast}
           onChange={({ target: { value } }) => changeValue(value)}
+          className={toolsStyles.sliderInput}
         />
-      </StyledSliderWrapper>
-    </StyledSliderContainer>
+      </div>
+    </div>
   );
 };
 

@@ -1,17 +1,20 @@
+import FieMainButton from '@scaleflex/ui/core/button';
+import {
+  Menu as FieMenu,
+  MenuItem as FieMenuItem,
+  MenuItemIcon as FieMenuIcon,
+} from '@scaleflex/ui/core';
+
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useEffect, useState, useRef } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { MenuItemLabel } from '@scaleflex/ui/core/menu-item';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
-import {
-  StyledMainButton,
-  StyledButtonWrapper,
-  StyledMenu,
-  StyledMenuItem,
-  StyledMenuIcon,
-} from './ButtonWithMenu.styled';
+import ButtonWithMenuStyles from './ButtonWithMenu.module.css';
 
 const ButtonWithMenu = ({
   onClick,
@@ -80,57 +83,67 @@ const ButtonWithMenu = ({
 
   return (
     <>
-      <StyledButtonWrapper
-        className={`${className}-wrapper`}
+      <div
         style={wrapperStyle}
         ref={buttonRef}
-        noMargin={noMargin}
+        className={cx(
+          ButtonWithMenuStyles.buttonWrapper,
+          noMargin && ButtonWithMenuStyles.noMargin,
+          `${className}-wrapper`,
+        )}
       >
-        <StyledMainButton
-          className={`${className}-button`}
+        <FieMainButton
           color={color}
           size={buttonSize}
           title={title}
           onClick={disabled ? undefined : handleButtonClick}
           disabled={disabled}
+          className={cx(ButtonWithMenuStyles.mainButton, `${className}-button`)}
         >
           {label || t('saveAs')}
-        </StyledMainButton>
-      </StyledButtonWrapper>
+        </FieMainButton>
+      </div>
       {hasMultipleMenuItems && (
-        <StyledMenu
-          className={`${className}-menu`}
+        <ThemeScope
+          as={FieMenu}
           anchorEl={anchorEl}
           onClose={closeMenu}
           open
           style={menuStyle}
           position={menuPosition}
+          className={cx(ButtonWithMenuStyles.menu, `${className}-menu`)}
         >
           {menuItems.map(
             (item, index) =>
               item && (
-                <StyledMenuItem
-                  className={`${className}-menu-item`}
+                <FieMenuItem
                   key={`${item.key}-${index.toString()}`}
                   active={item.isActive}
                   onClick={() => handleMenuItemClick(item.onClick)}
                   size={buttonSize}
+                  className={cx(
+                    ButtonWithMenuStyles.menuItem,
+                    `${className}-menu-item`,
+                  )}
                 >
                   {item.icon && (
-                    <StyledMenuIcon size={buttonSize}>
+                    <FieMenuIcon
+                      size={buttonSize}
+                      className={ButtonWithMenuStyles.menuIcon}
+                    >
                       {typeof item.icon === 'string' ? (
                         // eslint-disable-next-line react/no-danger
                         <span dangerouslySetInnerHTML={{ __html: item.icon }} />
                       ) : (
                         <item.icon />
                       )}
-                    </StyledMenuIcon>
+                    </FieMenuIcon>
                   )}
                   <MenuItemLabel>{item.label}</MenuItemLabel>
-                </StyledMenuItem>
+                </FieMenuItem>
               ),
           )}
-        </StyledMenu>
+        </ThemeScope>
       )}
     </>
   );

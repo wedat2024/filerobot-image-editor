@@ -1,5 +1,7 @@
+import FieFontSizeSelector from '@scaleflex/ui/core/button';
 /** External Dependencies */
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { MenuItem, Select, TooltipV2 } from '@scaleflex/ui/core';
 
@@ -9,10 +11,7 @@ import AnnotationOptions from 'components/common/AnnotationOptions';
 import { ENABLE_TEXT_CONTENT_EDIT } from 'actions';
 import restrictNumber from 'utils/restrictNumber';
 import { useStore } from 'hooks';
-import {
-  StyledFontSizeSelector,
-  StyledToolsWrapper,
-} from './TextOptions.styled';
+import TextOptionsStyles from './TextOptions.module.css';
 import {
   activateTextChange,
   deactivateTextChange,
@@ -190,22 +189,28 @@ const TextControls = ({ text, saveText, children }) => {
               key={standardFontSize.value}
               title={`Font Size: ${standardFontSize.value}`}
             >
-              <StyledFontSizeSelector
-                className={`FIE_text-size-option-selector-${standardFontSize}`}
+              <FieFontSizeSelector
                 onClick={() => changeFontSize(standardFontSize.value)}
                 active={
                   selectedFontSize === standardFontSize.value ||
                   standardFontSize.value === Number(text.fontSize)
                 }
+                className={cx(
+                  TextOptionsStyles.fontSizeSelector,
+                  (selectedFontSize === standardFontSize.value ||
+                    standardFontSize.value === Number(text.fontSize)) &&
+                    TextOptionsStyles.active,
+                  `FIE_text-size-option-selector-${standardFontSize}`,
+                )}
               >
                 {standardFontSize.label}
-              </StyledFontSizeSelector>
+              </FieFontSizeSelector>
             </TooltipV2>
           );
         })}
       </div>
 
-      <StyledToolsWrapper>{children}</StyledToolsWrapper>
+      <div className={TextOptionsStyles.toolsWrapper}>{children}</div>
     </AnnotationOptions>
   );
 };

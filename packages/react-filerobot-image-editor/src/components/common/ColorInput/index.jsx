@@ -1,12 +1,14 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 /** External Dependencies */
 import React, { useEffect, useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
 import { SET_LATEST_COLOR } from 'actions';
 import ColorPickerModal from '../ColorPickerModal';
-import { StyledColor, StyledPickerTrigger } from './ColorInput.styled';
+import ColorInputStyles from './ColorInput.module.css';
 
 const pinnedColorsKey = 'FIE_pinnedColors';
 
@@ -92,22 +94,35 @@ const ColorInput = ({ onChange, color, colorFor }) => {
   return (
     <>
       {allColors.map((singleColor, index) => (
-        <StyledColor
+        <div
           key={`${singleColor}-${index.toString()}`}
-          currentColor={
-            singleColor === 'transparent'
-              ? 'repeating-conic-gradient(rgb(93, 109, 126) 0%, rgb(93, 109, 126) 25%, transparent 0%, transparent 50%) 50% center / 8px 8px'
-              : singleColor
-          }
-          isActive={currentBlockColor === singleColor}
           onClick={() => handleSingleColorClick(singleColor)}
+          style={{
+            background:
+              singleColor === 'transparent'
+                ? 'repeating-conic-gradient(rgb(93, 109, 126) 0%, rgb(93, 109, 126) 25%, transparent 0%, transparent 50%) 50% center / 8px 8px'
+                : singleColor,
+            boxShadow:
+              currentBlockColor === singleColor
+                ? '0px 0px 15px blue'
+                : undefined,
+          }}
+          className={ColorInputStyles.color}
         />
       ))}
-      <StyledPickerTrigger
-        className="FIE_color-picker-triggerer"
+      <div
         onClick={togglePicker}
-        $color={currentColor}
         onChange={onChange}
+        style={{
+          background:
+            currentColor === 'rgba(0,0,0,0)'
+              ? 'repeating-conic-gradient(#5d6d7e 0% 25%, transparent 0% 50%) 50% / 8px 8px'
+              : currentColor,
+        }}
+        className={cx(
+          ColorInputStyles.pickerTrigger,
+          'FIE_color-picker-triggerer',
+        )}
       />
       <ColorPickerModal
         hideModalTitle

@@ -1,15 +1,21 @@
-import React from 'react';
-import PT from 'prop-types';
 import {
+  Modal as FieColorPickerModal,
+  ModalActions as FieModalActions,
   Button,
   ColorPicker,
   ModalContent,
   ModalTitle,
 } from '@scaleflex/ui/core';
+
+import ThemeScope from 'context/CssTheme';
+import React from 'react';
+import cx from 'classnames';
+import PT from 'prop-types';
+
 import ColorPickerIcon from '@scaleflex/icons/color-picker';
 
 import { useStore } from 'hooks';
-import Styled from './ColorPickerModal.styled';
+import ColorPickerModalStyles from './ColorPickerModal.module.css';
 
 const modalStyles = { zIndex: 1301 };
 
@@ -28,11 +34,13 @@ const ColorPickerModal = ({
   }
 
   return (
-    <Styled.ColorPickerModal
+    <ThemeScope
+      as={FieColorPickerModal}
       onClose={onClose}
       open={open}
       fullWidth
       modalStyles={modalStyles}
+      className={ColorPickerModalStyles.colorPickerModal}
     >
       {!hideModalTitle && (
         <ModalTitle
@@ -45,25 +53,30 @@ const ColorPickerModal = ({
       )}
 
       <ModalContent>
-        <Styled.ColorPickerWrap hideModalTitle={hideModalTitle}>
+        <div
+          className={cx(
+            ColorPickerModalStyles.colorPickerWrap,
+            hideModalTitle && ColorPickerModalStyles.withoutTitle,
+          )}
+        >
           <ColorPicker
             onChange={onChange}
             pinnedColors={pinnedColors}
             defaultColor={defaultColor}
             showTransparentColor
           />
-        </Styled.ColorPickerWrap>
+        </div>
       </ModalContent>
 
-      <Styled.ModalActions>
+      <FieModalActions className={ColorPickerModalStyles.modalActions}>
         <Button color="basic" onClick={onClose}>
           {t('cancel')}
         </Button>
         <Button color="primary" onClick={onClose}>
           {t('apply')}
         </Button>
-      </Styled.ModalActions>
-    </Styled.ColorPickerModal>
+      </FieModalActions>
+    </ThemeScope>
   );
 };
 

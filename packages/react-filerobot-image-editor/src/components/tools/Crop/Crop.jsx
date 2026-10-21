@@ -1,5 +1,7 @@
+import FieToolsBarItemButtonLabel from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Crop as CropIcon } from '@scaleflex/icons/crop';
 
@@ -7,7 +9,7 @@ import { Crop as CropIcon } from '@scaleflex/icons/crop';
 import { useStore } from 'hooks';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
 import { TOOLS_IDS } from 'utils/constants';
-import { StyledToolsBarItemButtonLabel } from 'components/ToolsBar/ToolsBar.styled';
+import ToolsBarStyles from 'components/ToolsBar/ToolsBar.module.css';
 import CropPresetsOption from './CropPresetsOption';
 
 const Crop = ({ selectTool, isSelected }) => {
@@ -34,9 +36,14 @@ const Crop = ({ selectTool, isSelected }) => {
       {!config[TOOLS_IDS.CROP].noPresets ? (
         <CropPresetsOption anchorEl={anchorEl} onClose={closeCropPresets} />
       ) : (
-        <StyledToolsBarItemButtonLabel className="FIE_crop-tool-label">
+        <FieToolsBarItemButtonLabel
+          className={cx(
+            ToolsBarStyles.toolsBarItemButtonLabel,
+            'FIE_crop-tool-label',
+          )}
+        >
           {t('cropTool')}
-        </StyledToolsBarItemButtonLabel>
+        </FieToolsBarItemButtonLabel>
       )}
     </ToolsBarItemButton>
   );

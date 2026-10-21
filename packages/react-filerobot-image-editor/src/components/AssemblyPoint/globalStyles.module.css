@@ -1,0 +1,53 @@
+:global(.SfxModal-Wrapper) * {
+  font-family: var(--fie-font-family, Arial);
+}
+
+:global(.Menu-open) {
+  overflow: visible !important;
+}
+
+:global(.FIE_root),
+:global(#SfxPopper) {
+  box-sizing: border-box;
+}
+
+:global(.FIE_root .SfxPopper-root .SfxMenu-root),
+:global(#SfxPopper .SfxPopper-root .SfxMenu-root) {
+  overflow: visible;
+  width: max-content;
+}
+
+:global(.FIE_root .SfxPopper-root .SfxMenu-root .SfxMenuItem-prefix),
+:global(#SfxPopper .SfxPopper-root .SfxMenu-root .SfxMenuItem-prefix) {
+  margin-right: 6px;
+}
+
+:global(.FIE_root) *,
+:global(#SfxPopper) * {
+  box-sizing: border-box;
+  scrollbar-color: rgba(203, 211, 218, 1) rgba(203, 211, 218, 0.35);
+}
+
+:global(.FIE_root) *:disabled,
+:global(.FIE_root) * [aria-disabled='true'],
+:global(#SfxPopper) *:disabled,
+:global(#SfxPopper) * [aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+:global(.FIE_root) *::-webkit-scrollbar,
+:global(#SfxPopper) *::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+:global(.FIE_root) *::-webkit-scrollbar-track,
+:global(#SfxPopper) *::-webkit-scrollbar-track {
+  background: rgba(203, 211, 218, 0.35);
+}
+
+:global(.FIE_root) *::-webkit-scrollbar-thumb,
+:global(#SfxPopper) *::-webkit-scrollbar-thumb {
+  background: rgba(203, 211, 218, 1);
+  border-radius: 10px;
+}

@@ -1,5 +1,8 @@
+import FieSmallButton from '@scaleflex/ui/core/icon-button';
+import FieZoomPercentageLabel from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { MinusOutline, PlusOutline } from '@scaleflex/icons';
 import Menu from '@scaleflex/ui/core/menu';
@@ -11,11 +14,7 @@ import { DEFAULT_ZOOM_FACTOR, TOOLS_IDS } from 'utils/constants';
 import { useStore } from 'hooks';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
-import {
-  StyledSmallButton,
-  StyledZoomPercentageLabel,
-  StyledZoomingWrapper,
-} from './Topbar.styled';
+import TopbarStyles from './Topbar.module.css';
 import { ZOOM_FACTORS_PRESETS } from './Topbar.constants';
 
 const MULTIPLY_ZOOM_FACTOR = 1.1;
@@ -97,18 +96,21 @@ const CanvasZooming = ({ showBackButton }) => {
       : zoom.factor;
 
   return (
-    <StyledZoomingWrapper>
-      <StyledSmallButton
+    <div className={TopbarStyles.zoomingWrapper}>
+      <FieSmallButton
         onClick={zoomOut}
         color="basic"
         title={t('zoomOutTitle')}
         disabled={isZoomDisabled}
-        showBackButton={showBackButton}
-        className="FIE_topbar-zoom-out-btn"
+        className={cx(
+          TopbarStyles.smallButton,
+          showBackButton && TopbarStyles.backButton,
+          'FIE_topbar-zoom-out-btn',
+        )}
       >
         <MinusOutline />
-      </StyledSmallButton>
-      <StyledZoomPercentageLabel
+      </FieSmallButton>
+      <FieZoomPercentageLabel
         title={t('toggleZoomMenuTitle')}
         onClick={
           isZoomDisabled
@@ -116,20 +118,26 @@ const CanvasZooming = ({ showBackButton }) => {
             : (useZoomPresetsMenu && toggleZoomingMenu) || fitCanvas
         }
         aria-disabled={isZoomDisabled}
-        className="FIE_topbar-zoom-label"
+        className={cx(
+          TopbarStyles.zoomPercentageLabel,
+          'FIE_topbar-zoom-label',
+        )}
       >
         {`${toPrecisedFloat(previewToRealImgFactor * 100, 0)}%`}
-      </StyledZoomPercentageLabel>
-      <StyledSmallButton
+      </FieZoomPercentageLabel>
+      <FieSmallButton
         onClick={zoomIn}
         color="basic"
         title={t('zoomInTitle')}
         disabled={isZoomDisabled}
-        showBackButton={showBackButton}
-        className="FIE_topbar-zoom-in-btn"
+        className={cx(
+          TopbarStyles.smallButton,
+          showBackButton && TopbarStyles.backButton,
+          'FIE_topbar-zoom-in-btn',
+        )}
       >
         <PlusOutline />
-      </StyledSmallButton>
+      </FieSmallButton>
       <Menu
         anchorEl={zoomingMenuAnchorEl}
         onClose={toggleZoomingMenu}
@@ -146,7 +154,7 @@ const CanvasZooming = ({ showBackButton }) => {
           </MenuItem>
         ))}
       </Menu>
-    </StyledZoomingWrapper>
+    </div>
   );
 };
 

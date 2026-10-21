@@ -1,12 +1,11 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
-import {
-  StyledSpacedOptionFields,
-  StyledIconWrapper,
-} from 'components/common/AnnotationOptions/AnnotationOptions.styled';
+import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
 import { TextAlignCenter, TextAlignLeft } from '@scaleflex/icons';
 
 const rightAlignmentCssTransform = { transform: 'scaleX(-1)' };
@@ -22,26 +21,35 @@ const TextAlignmentFields = ({
   };
 
   return (
-    <StyledSpacedOptionFields>
-      <StyledIconWrapper
+    <div className={AnnotationOptionsStyles.spacedOptionFields}>
+      <div
         onClick={() => changeHorizontalAlignment('left')}
-        active={align === 'left'}
+        className={cx(
+          AnnotationOptionsStyles.iconWrapper,
+          align === 'left' && AnnotationOptionsStyles.active,
+        )}
       >
         <TextAlignLeft />
-      </StyledIconWrapper>
-      <StyledIconWrapper
+      </div>
+      <div
         onClick={() => changeHorizontalAlignment('center')}
-        active={align === 'center'}
+        className={cx(
+          AnnotationOptionsStyles.iconWrapper,
+          align === 'center' && AnnotationOptionsStyles.active,
+        )}
       >
         <TextAlignCenter />
-      </StyledIconWrapper>
-      <StyledIconWrapper
+      </div>
+      <div
         onClick={() => changeHorizontalAlignment('right')}
-        active={align === 'right'}
+        className={cx(
+          AnnotationOptionsStyles.iconWrapper,
+          align === 'right' && AnnotationOptionsStyles.active,
+        )}
       >
         <TextAlignLeft style={rightAlignmentCssTransform} />
-      </StyledIconWrapper>
-    </StyledSpacedOptionFields>
+      </div>
+    </div>
   );
 };
 

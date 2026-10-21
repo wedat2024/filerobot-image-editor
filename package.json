@@ -70,7 +70,8 @@
     "rollup-plugin-uglify": "^6.0.4",
     "source-map-explorer": "^2.5.2",
     "styled-components": "5.3.10",
-    "vite": "^2.8.6"
+    "vite": "^2.8.6",
+    "vite-plugin-css-injected-by-js": "3.5.2"
   },
   "scripts": {
     "fix": "prettier-eslint \"packages/**/src/**/*.(js|jsx)\"",

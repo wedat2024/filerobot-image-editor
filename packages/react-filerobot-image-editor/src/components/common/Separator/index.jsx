@@ -3,11 +3,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
-import { StyledSeparator } from './Separator.styled';
+import styles from './Separator.module.css';
 
-const Separator = ({ height, width }) => (
-  <StyledSeparator height={height} width={width} />
-);
+const Separator = ({ height, width }) => {
+  return (
+    <div
+      className={styles.separator}
+      style={{
+        '--fie-separator-height': height,
+        '--fie-separator-width': width,
+      }}
+    />
+  );
+};
 
 Separator.defaultProps = {
   height: '24px',

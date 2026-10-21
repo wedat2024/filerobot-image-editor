@@ -1,14 +1,19 @@
+import {
+  Modal as FieModal,
+  ModalActions as FieModalActions,
+  Button,
+  ModalContent,
+} from '@scaleflex/ui/core';
+import FieModalTitle from '@scaleflex/ui/core/modal-title';
+
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, ModalContent } from '@scaleflex/ui/core';
 
 /** Internal Dependencies */
-import {
-  StyledModal,
-  StyledModalTitle,
-  StyledModalActions,
-} from './Modal.styled';
+import ModalStyles from './Modal.module.css';
 
 const Modal = ({
   title,
@@ -36,25 +41,25 @@ const Modal = ({
   };
 
   return (
-    <StyledModal
-      className={className}
+    <ThemeScope
+      as={FieModal}
       open={isOpened}
       onClose={onCancel}
-      style={{ zIndex }}
       onKeyUp={onKeyUp}
-      width={width}
+      style={{ '--fie-modal-width': width || '300px', zIndex }}
+      className={cx(ModalStyles.modal, className)}
     >
-      <StyledModalTitle
+      <FieModalTitle
         icon={<Icon size={25} />}
         iconShadow
-        isWarning={isWarning}
         onClose={onCancel}
         primary={title}
         secondary={hint}
         variant="with-icon"
+        className={cx(ModalStyles.modalTitle, isWarning && ModalStyles.warning)}
       />
       {children && <ModalContent>{children}</ModalContent>}
-      <StyledModalActions align="center">
+      <FieModalActions align="center" className={ModalStyles.modalActions}>
         <Button
           color={cancelButtonColor}
           onClick={onCancel}
@@ -73,8 +78,8 @@ const Modal = ({
         >
           {doneLabel}
         </Button>
-      </StyledModalActions>
-    </StyledModal>
+      </FieModalActions>
+    </ThemeScope>
   );
 };
 

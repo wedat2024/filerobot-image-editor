@@ -1,0 +1,18 @@
+.color {
+  background: var(--fie-icons-primary);
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid var(--fie-border-primary-stateless);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.pickerTrigger {
+  background: var(--fie-icons-primary);
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid var(--fie-border-primary-stateless);
+  cursor: pointer;
+  box-sizing: border-box;
+}

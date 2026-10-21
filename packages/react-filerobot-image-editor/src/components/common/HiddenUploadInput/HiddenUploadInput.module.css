@@ -1,0 +1,7 @@
+.hiddenInput {
+  display: none;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  z-index: -1;
+}

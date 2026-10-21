@@ -5,7 +5,7 @@ import ArrowLeftOutline from '@scaleflex/icons/arrow-left-outline';
 
 /** Internal Dependencies */
 import { usePhoneScreen, useStore } from 'hooks';
-import { StyledBackButtonLabel } from './Topbar.styled';
+import TopbarStyles from './Topbar.module.css';
 import ConfirmationModal from './ConfirmationModal';
 
 const BackButton = () => {
@@ -20,7 +20,9 @@ const BackButton = () => {
         size="sm"
         startIcon={<ArrowLeftOutline />}
       >
-        {!isPhone && <StyledBackButtonLabel>{t('back')}</StyledBackButtonLabel>}
+        {!isPhone && (
+          <span className={TopbarStyles.backButtonLabel}>{t('back')}</span>
+        )}
       </Button>
     </ConfirmationModal>
   );

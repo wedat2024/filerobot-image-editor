@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Label from '@scaleflex/ui/core/label';
 
 /** InternalDependencies */
-import { StyledSpacedOptionFields } from 'components/common/AnnotationOptions/AnnotationOptions.styled';
+import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
 import restrictNumber from 'utils/restrictNumber';
 import Slider from 'components/common/Slider';
 
@@ -25,7 +25,7 @@ const RectCornerField = ({
   };
 
   return (
-    <StyledSpacedOptionFields>
+    <div className={AnnotationOptionsStyles.spacedOptionFields}>
       <Label>{t('cornerRadius')}</Label>
       <Slider
         annotation="px"
@@ -34,7 +34,7 @@ const RectCornerField = ({
         min={MIN_VALUE}
         max={MAX_VALUE}
       />
-    </StyledSpacedOptionFields>
+    </div>
   );
 };
 

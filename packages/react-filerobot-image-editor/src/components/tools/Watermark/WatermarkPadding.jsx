@@ -1,17 +1,16 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
+import FieIconLabel from '@scaleflex/ui/core/label';
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Menu from '@scaleflex/ui/core/menu';
 import Padding from '@scaleflex/icons/padding';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
-import {
-  StyledSpacedOptionFields,
-  StyledIconWrapper,
-  StyledOptionPopupContent,
-  StyledIconLabel,
-} from 'components/common/AnnotationOptions/AnnotationOptions.styled';
+import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
 import Slider from 'components/common/Slider';
 import { Label } from '@scaleflex/ui/core';
 
@@ -33,14 +32,17 @@ const WatermarkPadding = ({ watermark, saveWatermark, t }) => {
 
   return (
     <>
-      <StyledIconWrapper
-        className="FIE_watermark-padding-triggerer"
+      <div
         title={t('padding')}
         onClick={openOptionPopup}
-        active={anchorEl}
+        className={cx(
+          AnnotationOptionsStyles.iconWrapper,
+          anchorEl && AnnotationOptionsStyles.active,
+          'FIE_watermark-padding-triggerer',
+        )}
       >
         <Padding size={20} />
-      </StyledIconWrapper>
+      </div>
       <Menu
         className="FIE_watermark-padding-popup"
         anchorEl={anchorEl}
@@ -48,18 +50,23 @@ const WatermarkPadding = ({ watermark, saveWatermark, t }) => {
         onClose={closeOptionPopup}
         position="top"
       >
-        <StyledOptionPopupContent>
+        <ThemeScope
+          as="div"
+          className={AnnotationOptionsStyles.optionPopupContent}
+        >
           <Label>{t('padding')}</Label>
-          <StyledSpacedOptionFields>
+          <div className={AnnotationOptionsStyles.spacedOptionFields}>
             <Slider
               annotation="px"
               onChange={updatePadding}
               value={currentPadding}
               noMargin
             />
-            <StyledIconLabel>{`${currentPadding}px`}</StyledIconLabel>
-          </StyledSpacedOptionFields>
-        </StyledOptionPopupContent>
+            <FieIconLabel
+              className={AnnotationOptionsStyles.iconLabel}
+            >{`${currentPadding}px`}</FieIconLabel>
+          </div>
+        </ThemeScope>
       </Menu>
     </>
   );

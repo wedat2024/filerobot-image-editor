@@ -1,5 +1,6 @@
 /** External Depepdencneis */
 import React, { useCallback, useEffect, useMemo } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Depepdencneis */
@@ -8,7 +9,7 @@ import { TABS_TOOLS, TOOLS_ITEMS } from 'components/tools/tools.constants';
 import { TABS_IDS } from 'utils/constants';
 import { useStore } from 'hooks';
 import Carousel from 'components/common/Carousel';
-import { StyledToolsBar, StyledToolsBarItems } from './ToolsBar.styled';
+import ToolsBarStyles from './ToolsBar.module.css';
 import ToolsBarItemOptionsWrapper from './ToolsBarItemOptionsWrapper';
 
 const style = { maxWidth: '100%', width: '100%' };
@@ -97,14 +98,17 @@ const ToolsBar = ({ isPhoneScreen }) => {
   }, []);
 
   return (
-    <StyledToolsBar className="FIE_tools-bar-wrapper">
+    <div className={cx(ToolsBarStyles.toolsBar, 'FIE_tools-bar-wrapper')}>
       <ToolsBarItemOptionsWrapper isPhoneScreen={isPhoneScreen}>
         {ToolOptionsComponent && <ToolOptionsComponent t={t} />}
       </ToolsBarItemOptionsWrapper>
       {items && (
-        <StyledToolsBarItems
-          className="FIE_tools-bar"
-          isPhoneScreen={isPhoneScreen}
+        <div
+          className={cx(
+            ToolsBarStyles.toolsBarItems,
+            isPhoneScreen && ToolsBarStyles.phone,
+            'FIE_tools-bar',
+          )}
         >
           {currentTabId !== TABS_IDS.WATERMARK ? (
             <Carousel className="FIE_tools" style={style}>
@@ -113,9 +117,9 @@ const ToolsBar = ({ isPhoneScreen }) => {
           ) : (
             items
           )}
-        </StyledToolsBarItems>
+        </div>
       )}
-    </StyledToolsBar>
+    </div>
   );
 };
 

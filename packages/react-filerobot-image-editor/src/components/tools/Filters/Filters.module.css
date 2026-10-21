@@ -1,0 +1,29 @@
+.filterItemLabel.filterItemLabel {
+  color: var(--fie-txt-primary);
+  font-family: var(--fie-font-label-extra-small-up-font-family);
+  font-style: var(--fie-font-label-extra-small-up-font-style);
+  font-weight: var(--fie-font-label-extra-small-up-font-weight);
+  font-size: var(--fie-font-label-extra-small-up-font-size);
+  line-height: var(--fie-font-label-extra-small-up-line-height);
+}
+[aria-selected='true'] .filterItemLabel.filterItemLabel {
+  color: var(--fie-accent-primary-active);
+}
+[aria-selected='true'] .filterItemPreview.filterItemPreview {
+  padding: 1px;
+  border: 1px solid var(--fie-accent-primary-active);
+  border-radius: 2px;
+}
+.filterItem {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 2px;
+  gap: 6px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.filterItem canvas {
+  border-radius: 2px;
+}

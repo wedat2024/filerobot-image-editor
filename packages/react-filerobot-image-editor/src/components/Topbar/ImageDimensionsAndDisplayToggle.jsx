@@ -1,5 +1,8 @@
+import FieDimensionsLabel from '@scaleflex/ui/core/label';
+import FieSmallButton from '@scaleflex/ui/core/icon-button';
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Compare from '@scaleflex/icons/compare';
 
@@ -8,12 +11,7 @@ import { TOGGLE_ORIGINAL_IMAGE_DISPLAY } from 'actions';
 import { useStore } from 'hooks';
 import getProperDimensions from 'utils/getProperDimensions';
 import Separator from 'components/common/Separator';
-import {
-  StyledSmallButton,
-  StyledDimensionsLabel,
-  StyledImageOptionsButtons,
-  StyledDimensionsButtons,
-} from './Topbar.styled';
+import TopbarStyles from './Topbar.module.css';
 import CanvasZooming from './CanvasZooming';
 
 const ImageDimensionsAndDisplayToggle = ({ showBackButton, isPhoneScreen }) => {
@@ -69,30 +67,41 @@ const ImageDimensionsAndDisplayToggle = ({ showBackButton, isPhoneScreen }) => {
   );
 
   return (
-    <StyledImageOptionsButtons isPhoneScreen={isPhoneScreen}>
-      <StyledDimensionsLabel title={t('imageDimensionsHoverTitle')}>
+    <div
+      className={cx(
+        TopbarStyles.imageOptionsButtons,
+        isPhoneScreen && TopbarStyles.phone,
+      )}
+    >
+      <FieDimensionsLabel
+        title={t('imageDimensionsHoverTitle')}
+        className={TopbarStyles.dimensionsLabel}
+      >
         {`${dimensions.width} x ${dimensions.height} px`}
-      </StyledDimensionsLabel>
+      </FieDimensionsLabel>
 
-      <StyledDimensionsButtons>
-        <StyledSmallButton
+      <div className={TopbarStyles.dimensionsButtons}>
+        <FieSmallButton
           color="basic"
           onMouseDown={isResetted ? undefined : showOriginalImage}
           onTouchStart={isResetted ? undefined : showOriginalImage}
           disabled={isResetted}
-          showBackButton={showBackButton}
           title={t('showImageTitle')}
+          className={cx(
+            TopbarStyles.smallButton,
+            showBackButton && TopbarStyles.backButton,
+          )}
         >
           <Compare />
-        </StyledSmallButton>
+        </FieSmallButton>
         {!disableZooming && (
           <>
             <Separator />
             <CanvasZooming showBackButton={showBackButton} />
           </>
         )}
-      </StyledDimensionsButtons>
-    </StyledImageOptionsButtons>
+      </div>
+    </div>
   );
 };
 

@@ -10,7 +10,7 @@ import { useStore } from 'hooks';
 import { DUPLICATE_ANNOTATIONS, REMOVE_ANNOTATIONS } from 'actions';
 import { NODES_TRANSFORMER_ID, WATERMARK_ANNOTATION_ID } from 'utils/constants';
 import debounce from 'utils/debounce';
-import { StyledNodeControls } from './NodeControls.styled';
+import styles from './NodeControls.module.css';
 
 const NodeControls = () => {
   const { selectionsIds = [], designLayer, annotations, dispatch } = useStore();
@@ -63,10 +63,12 @@ const NodeControls = () => {
   };
 
   return (
-    <StyledNodeControls
-      className="FIE_annotation-controls-overlay"
-      left={position.left}
-      top={position.top}
+    <div
+      className={`${styles.controls} FIE_annotation-controls-overlay`}
+      style={{
+        '--fie-node-controls-left': `${(position.left || 0) + 4}px`,
+        '--fie-node-controls-top': `${(position.top || 0) + 8}px`,
+      }}
     >
       {/* {selectionsLength === 1 && (
         <IconButton color="basic" size="sm" onClick={changeAnnotationOrder}>
@@ -81,7 +83,7 @@ const NodeControls = () => {
       <IconButton color="basic" size="sm" onClick={removeSelectedNodes}>
         <DeleteOutline />
       </IconButton>
-    </StyledNodeControls>
+    </div>
   );
 };
 

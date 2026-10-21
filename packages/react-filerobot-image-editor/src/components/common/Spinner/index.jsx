@@ -1,26 +1,18 @@
 /** External Dependencies */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Loading } from '@scaleflex/icons';
 
 /** Internal Dependencies */
-import { Color as PC } from '@scaleflex/ui/utils/types/palette';
+import styles from './Spinner.module.css';
 
-import { StyledSpinnerWrapper, StyledSpinner } from './Spinner.styled';
-
-const Spinner = ({ theme }) => {
-  return (
-    <StyledSpinnerWrapper className="FIE_spinner-wrapper">
-      <StyledSpinner size={50} color={theme.palette[PC.AccentStateless]} />
-    </StyledSpinnerWrapper>
-  );
-};
-
-Spinner.defaultProps = {
-  theme: {},
-};
-
-Spinner.propTypes = {
-  theme: PropTypes.instanceOf(Object),
-};
+const Spinner = () => (
+  <div className={['FIE_spinner-wrapper', styles.wrapper].join(' ')}>
+    <Loading
+      className={styles.spinner}
+      size={50}
+      color="var(--fie-accent-stateless)"
+    />
+  </div>
+);
 
 export default Spinner;

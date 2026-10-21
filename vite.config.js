@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { uglify } from 'rollup-plugin-uglify';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 const pkg = require('./package.json');
 const pkgVersion = require('./lerna.json').version;
@@ -47,6 +48,8 @@ export default defineConfig(({ mode }) => {
           : {},
       ),
       isProduction && uglify(),
+      isProduction && !isGithubPagesBuild &&
+        cssInjectedByJsPlugin({ styleId: 'filerobot-image-editor-styles' }),
     ],
     server: {
       port: 1111,

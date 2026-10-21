@@ -1,5 +1,7 @@
+import { Drawer as FieDrawer, Button } from '@scaleflex/ui/core';
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import {
   DrawerBody,
@@ -7,22 +9,21 @@ import {
   DrawerList,
 } from '@scaleflex/ui/core/drawer';
 import { Menu } from '@scaleflex/icons';
-import { Button } from '@scaleflex/ui/core';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
-import { StyledDrawer } from 'components/App/App.styled';
+import AppStyles from 'components/App/App.module.css';
 import Tabs from 'components/Tabs';
 
 const TabsDrawer = ({ toggleMainMenu }) => {
   const { t, showTabsMenu } = useStore();
 
   return (
-    <StyledDrawer
-      className="FIE_tabs-drawer"
+    <FieDrawer
       open={showTabsMenu}
       onClose={() => toggleMainMenu(false)}
       disablePortal
+      className={cx(AppStyles.drawer, 'FIE_tabs-drawer')}
     >
       <DrawerHeader>
         <Button
@@ -38,7 +39,7 @@ const TabsDrawer = ({ toggleMainMenu }) => {
           <Tabs toggleMainMenu={toggleMainMenu} isDrawer />
         </DrawerList>
       </DrawerBody>
-    </StyledDrawer>
+    </FieDrawer>
   );
 };
 

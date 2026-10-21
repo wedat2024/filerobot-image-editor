@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 /** External Dependencies */
 import React, { Fragment, useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { ArrowRight, Point } from '@scaleflex/icons';
 
@@ -7,7 +9,7 @@ import { ArrowRight, Point } from '@scaleflex/icons';
 import { POSITIONS } from 'utils/constants';
 import mapPositionStringToPoint from 'utils/mapPositionStringToPoint';
 import { useStore } from 'hooks';
-import { StyledIconWrapper } from './AnnotationOptions.styled';
+import AnnotationOptionsStyles from './AnnotationOptions.module.css';
 import {
   AVAILABLE_POSITIONS,
   posCssRotateDegFromRightSide,
@@ -29,11 +31,14 @@ const PositionFields = ({ annotation, updateAnnotation }) => {
 
   return AVAILABLE_POSITIONS.map((pos, i) => (
     <Fragment key={pos}>
-      <StyledIconWrapper
+      <div
         onClick={() => changePosition(pos)}
-        active={position === pos}
-        secondaryIconColor
-        addThinBorder
+        className={cx(
+          AnnotationOptionsStyles.iconWrapper,
+          AnnotationOptionsStyles.thinBorder,
+          AnnotationOptionsStyles.secondaryIcon,
+          position === pos && AnnotationOptionsStyles.active,
+        )}
       >
         {pos === POSITIONS.MIDDLE_CENTER ? (
           <Point />
@@ -44,7 +49,7 @@ const PositionFields = ({ annotation, updateAnnotation }) => {
             }}
           />
         )}
-      </StyledIconWrapper>
+      </div>
       {(i + 1) % 3 === 0 && i + 1 !== positionsLength && <div />}
     </Fragment>
   ));

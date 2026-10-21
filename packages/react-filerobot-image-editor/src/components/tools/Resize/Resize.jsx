@@ -1,5 +1,9 @@
+import FieResizeInput from '@scaleflex/ui/core/input-group';
+import IconButton from '@scaleflex/ui/core/icon-button';
+
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import LockOutline from '@scaleflex/icons/lock-outline';
 import UnlockOutline from '@scaleflex/icons/unlock-outline';
@@ -13,12 +17,7 @@ import getSizeAfterRotation from 'utils/getSizeAfterRotation';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
 import restrictNumber from 'utils/restrictNumber';
 import { DEFAULT_ZOOM_FACTOR } from 'utils/constants';
-import {
-  StyledResizeWrapper,
-  StyledResizeInput,
-  StyledRatioLockIcon,
-  StyledResetButton,
-} from './Resize.styled';
+import ResizeStyles from './Resize.module.css';
 
 const Resize = ({
   onChange,
@@ -33,7 +32,6 @@ const Resize = ({
     resize,
     shownImageDimensions,
     adjustments: { crop, rotation = 0 },
-    theme,
     t,
   } = useStore();
 
@@ -155,13 +153,15 @@ const Resize = ({
   const isEmptyEditedHeight =
     typeof resize.height !== 'undefined' && !resize.height;
   return (
-    <StyledResizeWrapper
-      className="FIE_resize-tool-options"
-      alignment={alignment}
-      disableWrap={disableWrap}
+    <div
+      style={{ '--fie-resize-alignment': alignment || 'center' }}
+      className={cx(
+        ResizeStyles.resizeWrapper,
+        disableWrap && ResizeStyles.noWrap,
+        'FIE_resize-tool-options',
+      )}
     >
-      <StyledResizeInput
-        className="FIE_resize-width-option"
+      <FieResizeInput
         value={isEmptyEditedWidth ? '' : dimensions.width}
         name="width"
         onChange={isManualChangeDisabled ? undefined : changeResize}
@@ -172,25 +172,28 @@ const Resize = ({
         size="sm"
         iconEnd="px"
         placeholder="Width"
-        disableWrap={disableWrap}
         disabled={isManualChangeDisabled}
+        className={cx(
+          ResizeStyles.resizeInput,
+          disableWrap && ResizeStyles.fullWidth,
+          'FIE_resize-width-option',
+        )}
       />
-      <StyledRatioLockIcon
-        className="FIE_resize-ratio-locker"
+      <IconButton
         title={t('toggleRatioLockTitle')}
         onClick={isManualChangeDisabled ? undefined : toggleRatioLock}
         color="basic"
         size="sm"
         disabled={isManualChangeDisabled}
+        className={cx(ResizeStyles.ratioLockIcon, 'FIE_resize-ratio-locker')}
       >
         {currentSize.ratioUnlocked || resize.ratioUnlocked ? (
-          <UnlockOutline size={16} color={theme.palette.success} />
+          <UnlockOutline size={16} color="var(--fie-success)" />
         ) : (
-          <LockOutline size={16} color={theme.palette.error} />
+          <LockOutline size={16} color="var(--fie-error)" />
         )}
-      </StyledRatioLockIcon>
-      <StyledResizeInput
-        className="FIE_resize-height-option"
+      </IconButton>
+      <FieResizeInput
         value={isEmptyEditedHeight ? '' : dimensions.height}
         name="height"
         onChange={isManualChangeDisabled ? undefined : changeResize}
@@ -201,23 +204,27 @@ const Resize = ({
         size="sm"
         iconEnd="px"
         placeholder="Height"
-        disableWrap={disableWrap}
         disabled={isManualChangeDisabled}
+        className={cx(
+          ResizeStyles.resizeInput,
+          disableWrap && ResizeStyles.fullWidth,
+          'FIE_resize-height-option',
+        )}
       />
       {!hideResetButton && (
-        <StyledResetButton
-          className="FIE_resize-reset-button"
+        <IconButton
           size="sm"
           color="basic"
           onClick={
             isOriginalSize || isManualChangeDisabled ? undefined : resetResize
           }
           disabled={isOriginalSize || isManualChangeDisabled}
+          className={cx(ResizeStyles.resetButton, 'FIE_resize-reset-button')}
         >
           <Reset />
-        </StyledResetButton>
+        </IconButton>
       )}
-    </StyledResizeWrapper>
+    </div>
   );
 };
 

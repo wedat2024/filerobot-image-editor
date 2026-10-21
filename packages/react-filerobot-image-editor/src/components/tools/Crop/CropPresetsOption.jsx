@@ -1,11 +1,15 @@
+import FieToolsBarItemButtonLabel from '@scaleflex/ui/core/label';
+import FieOpenMenuButton from '@scaleflex/ui/core/button';
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useMemo } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import { SET_CROP, SET_RESIZE, ZOOM_CANVAS } from 'actions';
 import { usePhoneScreen, useStore } from 'hooks';
-import { StyledToolsBarItemButtonLabel } from 'components/ToolsBar/ToolsBar.styled';
+import ToolsBarStyles from 'components/ToolsBar/ToolsBar.module.css';
 import { DEFAULT_ZOOM_FACTOR, ORIGINAL_CROP, TOOLS_IDS } from 'utils/constants';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
@@ -14,11 +18,7 @@ import { Menu } from '@scaleflex/ui/core';
 import { DEFAULT_CROP_PRESETS } from './Crop.constants';
 import CropPresetGroupsList from './CropPresetGroupsFolder';
 import CropPresetItem from './CropPresetItem';
-import {
-  StyledOpenMenuButton,
-  StyledMenu,
-  StyledToolsBarItemButtonWrapper,
-} from './Crop.styled';
+import CropStyles from './Crop.module.css';
 
 const CropPresetsOption = ({ anchorEl, onClose }) => {
   const {
@@ -29,7 +29,6 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
     } = {},
     shownImageDimensions,
     config,
-    theme,
   } = useStore();
   const currentRatio = appliedRatio || ORIGINAL_CROP; // we consider original as default one if no ratio has been set.
   const cropConfig = config[TOOLS_IDS.CROP];
@@ -103,7 +102,6 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
         titleKey={titleKey}
         groups={groups}
         Icon={Icon}
-        theme={theme}
         onItemSelect={changeCropRatio}
         t={t}
         disableManualResize={disableManualResize}
@@ -120,7 +118,6 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
           currentRatio === (ratio ?? toPrecisedFloat(width / height)) &&
           !ratioFolderKey
         }
-        theme={theme}
         width={width}
         height={height}
         onClick={changeCropRatio}
@@ -133,25 +130,31 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
 
   return (
     <>
-      <StyledToolsBarItemButtonWrapper>
-        <StyledToolsBarItemButtonLabel
-          className="FIE_crop-tool-label FIE_selected-crop-preset-label"
-          isPhoneScreen={isPhoneScreen}
+      <div className={CropStyles.toolsBarItemButtonWrapper}>
+        <FieToolsBarItemButtonLabel
+          className={cx(
+            ToolsBarStyles.toolsBarItemButtonLabel,
+            isPhoneScreen && ToolsBarStyles.phone,
+            'FIE_crop-tool-label FIE_selected-crop-preset-label',
+          )}
         >
           {t(toolTitleKey)}
-        </StyledToolsBarItemButtonLabel>
-        <StyledOpenMenuButton
-          className="FIE_crop-presets-opener-button"
+        </FieToolsBarItemButtonLabel>
+        <FieOpenMenuButton
           color="link-secondary"
           size="lg"
+          className={cx(
+            CropStyles.openMenuButton,
+            'FIE_crop-presets-opener-button',
+          )}
         >
           {anchorEl ? (
             <MoveUpOutline size={10} />
           ) : (
             <MoveDownOutline size={10} />
           )}
-        </StyledOpenMenuButton>
-      </StyledToolsBarItemButtonWrapper>
+        </FieOpenMenuButton>
+      </div>
 
       <Menu
         className="FIE_crop-presets-menu"
@@ -172,7 +175,9 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
         }}
         maxHeight="100%"
       >
-        <StyledMenu>{allPresets.map(renderPreset)}</StyledMenu>
+        <ThemeScope as="div" className={CropStyles.menu}>
+          {allPresets.map(renderPreset)}
+        </ThemeScope>
       </Menu>
     </>
   );
