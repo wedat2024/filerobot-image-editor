@@ -1,8 +1,10 @@
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import FieMenuIconButton from 'components/common/IconButton';
 import { usePhoneScreen, useStore } from 'hooks';
 import { Menu } from '@scaleflex/icons';
 import CloseButton from './CloseButton';
@@ -11,67 +13,89 @@ import ResetButton from './ResetButton';
 import UndoButton from './UndoButton';
 import RedoButton from './RedoButton';
 import ImageDimensionsAndDisplayToggle from './ImageDimensionsAndDisplayToggle';
-import {
-  StyledTopbar,
-  StyledFlexCenterAlignedContainer,
-  StyledMainButtonsWrapper,
-  StyledControlButtonsWrapper,
-  StyledHistoryButtons,
-  StyledMenuIconButton,
-} from './Topbar.styled';
+
+import TopbarStyles from './Topbar.module.css';
+
 import BackButton from './BackButton';
 import RestoreButton from './RestoreButton';
 
-const Topbar = ({ toggleMainMenu }) => {
+const Topbar = ({ toggleMainMenu, menuButtonRef }) => {
   const {
     config: { showBackButton, restoreConfig },
+    t,
+    showTabsMenu,
   } = useStore();
 
   const isPhoneScreen = usePhoneScreen(320);
 
   return (
-    <StyledTopbar className="FIE_topbar" isPhoneScreen={isPhoneScreen}>
-      <StyledMainButtonsWrapper className="FIE_topbar-buttons-wrapper">
-        <StyledMenuIconButton
-          className="FIE_tabs_toggle_btn"
+    <div
+      className={cx(
+        TopbarStyles.topbar,
+        isPhoneScreen && TopbarStyles.phone,
+        'FIE_topbar',
+      )}
+    >
+      <div
+        className={cx(
+          TopbarStyles.mainButtonsWrapper,
+          'FIE_topbar-buttons-wrapper',
+        )}
+      >
+        <FieMenuIconButton
+          ref={menuButtonRef}
           size={isPhoneScreen ? 'sm' : 'lg'}
           color="basic"
+          aria-label={t('tabsMenu')}
+          aria-expanded={showTabsMenu}
+          active={showTabsMenu}
+          aria-haspopup="dialog"
           onClick={() => toggleMainMenu(true)}
+          className={cx(TopbarStyles.menuIconButton, 'FIE_tabs_toggle_btn')}
         >
-          {(props) => <Menu {...props} />}
-        </StyledMenuIconButton>
+          <Menu size={isPhoneScreen ? 14 : 18} />
+        </FieMenuIconButton>
         {showBackButton ? <BackButton /> : <SaveButton />}
         <RestoreButton restoreConfig={restoreConfig} />
-      </StyledMainButtonsWrapper>
+      </div>
 
-      <StyledFlexCenterAlignedContainer
-        className="FIE_topbar-center-options"
-        showBackButton={showBackButton}
+      <div
+        className={cx(
+          TopbarStyles.flexCenterAlignedContainer,
+          'FIE_topbar-center-options',
+        )}
       >
         <ImageDimensionsAndDisplayToggle
           showBackButton={showBackButton}
           isPhoneScreen={isPhoneScreen}
         />
-      </StyledFlexCenterAlignedContainer>
+      </div>
 
-      <StyledControlButtonsWrapper>
-        <StyledHistoryButtons className="FIE_topbar-history-buttons">
+      <div className={TopbarStyles.controlButtonsWrapper}>
+        <div
+          className={cx(
+            TopbarStyles.historyButtons,
+            'FIE_topbar-history-buttons',
+          )}
+        >
           <ResetButton margin="0" showBackButton={showBackButton} />
           <UndoButton margin="0" showBackButton={showBackButton} />
           <RedoButton margin="0" showBackButton={showBackButton} />
-        </StyledHistoryButtons>
+        </div>
 
         {showBackButton ? <SaveButton /> : <CloseButton />}
-      </StyledControlButtonsWrapper>
-    </StyledTopbar>
+      </div>
+    </div>
   );
 };
 
 Topbar.defaultProps = {
+  menuButtonRef: undefined,
   toggleMainMenu: () => {},
 };
 
 Topbar.propTypes = {
+  menuButtonRef: PropTypes.shape({ current: PropTypes.instanceOf(Object) }),
   toggleMainMenu: PropTypes.func,
 };
 

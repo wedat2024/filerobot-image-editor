@@ -1,0 +1,23 @@
+.fontFamilySelect.fontFamilySelect {
+  min-width: 160px;
+  width: max-content;
+}
+
+.fontSizeInput.fontSizeInput {
+  width: 72px;
+  height: auto;
+}
+
+.fontSizeSelector.fontSizeSelector {
+  width: 24px;
+  --fie-button-height: 32px;
+  margin-left: 5px;
+}
+
+.fontSizeSelector.active {
+  background-color: rgb(104, 121, 235);
+}
+
+.toolsWrapper {
+  display: flex;
+}

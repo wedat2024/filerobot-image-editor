@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { uglify } from 'rollup-plugin-uglify';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 const pkg = require('./package.json');
 const pkgVersion = require('./lerna.json').version;
@@ -18,6 +19,7 @@ const banner = `/**
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
   const isGithubPagesBuild = process.env.VITE_BUILD_TYPE === 'gh-pages';
+
   console.log(`🕺🏽Running in ${isProduction ? 'Production' : 'Development'}.`);
 
   if (isGithubPagesBuild) {
@@ -34,7 +36,7 @@ export default defineConfig(({ mode }) => {
         moduleDirectories: [
           './packages/react-filerobot-image-editor/src',
           'node_modules',
-        ]
+        ],
       }),
       react(
         isProduction
@@ -47,6 +49,9 @@ export default defineConfig(({ mode }) => {
           : {},
       ),
       isProduction && uglify(),
+      isProduction &&
+        !isGithubPagesBuild &&
+        cssInjectedByJsPlugin({ styleId: 'filerobot-image-editor-styles' }),
     ],
     server: {
       port: 1111,

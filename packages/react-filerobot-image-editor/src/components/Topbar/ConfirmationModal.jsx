@@ -12,7 +12,6 @@ import { CLOSING_REASONS } from 'utils/constants';
 const ConfirmationModal = ({ children, isReset }) => {
   const {
     t,
-    theme,
     config,
     dispatch,
     isResetted = true,
@@ -22,7 +21,8 @@ const ConfirmationModal = ({ children, isReset }) => {
 
   const [isModalOpened, setIsModalOpened] = useState(false);
 
-  const WarningIcon = () => <Warning color={theme.palette.warning} size={25} />;
+  // eslint-disable-next-line react/no-unstable-nested-components -- Preserve the existing modal icon lifecycle during CSS migration.
+  const WarningIcon = () => <Warning color="var(--fie-warning)" size={25} />;
 
   //   Hacky solution for avoiding (zoom & image info) components go to right if we have no close button.
   if (typeof onClose !== 'function' && !isReset) {

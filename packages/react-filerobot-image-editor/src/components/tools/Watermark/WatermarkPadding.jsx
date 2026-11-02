@@ -1,22 +1,25 @@
+import PopupTrigger from 'ui/PopupTrigger';
+import useFieldId from 'hooks/useFieldId';
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import Menu from '@scaleflex/ui/core/menu';
+import Popover from 'components/common/Popover';
 import Padding from '@scaleflex/icons/padding';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
-import {
-  StyledSpacedOptionFields,
-  StyledIconWrapper,
-  StyledOptionPopupContent,
-  StyledIconLabel,
-} from 'components/common/AnnotationOptions/AnnotationOptions.styled';
+
+import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
+
 import Slider from 'components/common/Slider';
-import { Label } from '@scaleflex/ui/core';
+import Label from 'components/common/Label';
 
 const WatermarkPadding = ({ watermark, saveWatermark, t }) => {
+  const popupId = useFieldId();
   const [anchorEl, setAnchorEl] = useState(null);
+
   const openOptionPopup = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -33,34 +36,53 @@ const WatermarkPadding = ({ watermark, saveWatermark, t }) => {
 
   return (
     <>
-      <StyledIconWrapper
-        className="FIE_watermark-padding-triggerer"
+      <PopupTrigger
+        id={`${popupId}-trigger`}
+        aria-label={t('padding')}
+        aria-haspopup="dialog"
+        aria-expanded={Boolean(anchorEl)}
+        aria-controls={anchorEl ? popupId : undefined}
         title={t('padding')}
         onClick={openOptionPopup}
-        active={anchorEl}
+        className={cx(
+          AnnotationOptionsStyles.iconWrapper,
+          anchorEl && AnnotationOptionsStyles.active,
+          'FIE_watermark-padding-triggerer',
+        )}
       >
         <Padding size={20} />
-      </StyledIconWrapper>
-      <Menu
-        className="FIE_watermark-padding-popup"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={closeOptionPopup}
-        position="top"
-      >
-        <StyledOptionPopupContent>
-          <Label>{t('padding')}</Label>
-          <StyledSpacedOptionFields>
-            <Slider
-              annotation="px"
-              onChange={updatePadding}
-              value={currentPadding}
-              noMargin
-            />
-            <StyledIconLabel>{`${currentPadding}px`}</StyledIconLabel>
-          </StyledSpacedOptionFields>
-        </StyledOptionPopupContent>
-      </Menu>
+      </PopupTrigger>
+      {anchorEl ? (
+        <Popover
+          id={popupId}
+          aria-labelledby={`${popupId}-trigger`}
+          className="FIE_watermark-padding-popup"
+          anchor={anchorEl}
+          onClose={closeOptionPopup}
+          position="top"
+        >
+          <ThemeScope
+            as="div"
+            className={AnnotationOptionsStyles.optionPopupContent}
+          >
+            <Label>{t('padding')}</Label>
+            <div className={AnnotationOptionsStyles.spacedOptionFields}>
+              <Slider
+                aria-label={t('padding')}
+                annotation="px"
+                onChange={updatePadding}
+                value={currentPadding}
+                noMargin
+              />
+              <Label
+                className={AnnotationOptionsStyles.iconLabel}
+              >{`${currentPadding}px`}</Label>
+            </div>
+          </ThemeScope>
+        </Popover>
+      ) : (
+        <div aria-hidden="true" />
+      )}
     </>
   );
 };

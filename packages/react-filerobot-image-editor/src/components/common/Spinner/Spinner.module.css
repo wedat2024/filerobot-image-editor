@@ -1,0 +1,24 @@
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wrapper {
+  background: var(--fie-bg-stateless);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 11111;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  flex-direction: column;
+  user-select: none;
+}
+
+.spinner {
+  animation: spin 1.2s infinite;
+}

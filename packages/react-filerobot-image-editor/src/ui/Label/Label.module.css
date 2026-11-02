@@ -1,0 +1,28 @@
+.label {
+  display: flex;
+  cursor: default;
+  align-items: center;
+  color: var(--fie-label-color);
+  font-size: var(--fie-label-font-size, inherit);
+  font-style: var(--fie-label-font-style, normal);
+  font-weight: var(--fie-label-font-weight, normal);
+  line-height: var(--fie-label-line-height, normal);
+}
+
+.label.label {
+  font-family: var(--fie-label-font-family, inherit);
+}
+
+.label[data-error] {
+  color: var(--fie-label-error-color) !important;
+}
+
+.label[for]:not([data-disabled]) {
+  cursor: pointer;
+}
+
+.text {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

@@ -4,6 +4,10 @@ export default {
   saveAs: 'Save as',
   restore: 'Restore',
   back: 'Back',
+  previousImage: 'Previous image',
+  nextImage: 'Next image',
+  duplicateAnnotation: 'Duplicate annotation',
+  deleteAnnotation: 'Delete annotation',
   loading: 'Loading...',
   resetOperations: 'Reset/delete all operations',
   changesLoseWarningHint:
@@ -11,6 +15,8 @@ export default {
   discardChangesWarningHint:
     'If you close modal, your last change will not be saved.',
   cancel: 'Cancel',
+  close: 'Close',
+  colorPickerModalTitleLabel: 'Pick color',
   apply: 'Apply',
   warning: 'Warning',
   confirm: 'Confirm',
@@ -120,4 +126,9 @@ export default {
   cropItemNoEffect: 'No preview available for this crop item',
   fillColor: 'Fill Color',
   lineColor: 'Line Color',
+  colorFormat: 'Color format',
+  pinColor: 'Pin color',
+  unpinColor: 'Unpin color',
+  transparentColor: 'Transparent color',
+  colorSaturationBrightness: 'Color saturation and brightness',
 };

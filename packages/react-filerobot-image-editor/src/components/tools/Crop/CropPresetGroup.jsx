@@ -1,3 +1,5 @@
+import FieAccordion from 'ui/Accordion';
+import useFieldId from 'hooks/useFieldId';
 /** External Dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -6,7 +8,8 @@ import PropTypes from 'prop-types';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
 import { useStore } from 'hooks';
 import CropPresetItem from './CropPresetItem';
-import { StyledAccordion } from './Crop.styled';
+
+import CropStyles from './Crop.module.css';
 
 const CropPresetGroup = ({
   groupTitleKey,
@@ -17,11 +20,13 @@ const CropPresetGroup = ({
   setExpandedGroup,
 }) => {
   const {
+    theme: { palette },
     adjustments: {
       crop: { ratio: currentRatio, ratioGroupKey, ratioTitleKey },
     },
-    theme,
   } = useStore();
+
+  const id = useFieldId();
 
   const toggleExpand = () => {
     setExpandedGroup(isExpanded ? null : groupTitleKey);
@@ -35,10 +40,13 @@ const CropPresetGroup = ({
   };
 
   return (
-    <StyledAccordion
+    <FieAccordion
+      id={id}
+      style={{ '--fie-accordion-color': palette['link-primary'] }}
       label={t(groupTitleKey)}
       onChange={toggleExpand}
       expanded={isExpanded}
+      className={CropStyles.accordion}
     >
       {items.map(
         ({
@@ -65,7 +73,6 @@ const CropPresetGroup = ({
               height={height}
               ratio={newRatio}
               Icon={icon}
-              theme={theme}
               isAccordion
               disableManualResize={disableManualResize}
               isActive={
@@ -78,7 +85,7 @@ const CropPresetGroup = ({
           );
         },
       )}
-    </StyledAccordion>
+    </FieAccordion>
   );
 };
 

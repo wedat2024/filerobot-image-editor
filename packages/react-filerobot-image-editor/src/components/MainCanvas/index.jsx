@@ -1,4 +1,6 @@
+import FieArrowButton from 'components/common/Button';
 import React, { useCallback, useEffect, useRef } from 'react';
+import cx from 'classnames';
 import { DesignLayer, TransformersLayer } from 'components/Layers';
 import { AppProviderOverridenValue } from 'context';
 import { SET_CANVAS_SIZE } from 'actions';
@@ -7,11 +9,8 @@ import NodeControls from 'components/NodeControls';
 import PropTypes from 'prop-types';
 import { ArrowLeftOutline, ArrowRightOutline } from '@scaleflex/icons';
 import CanvasNode from './CanvasNode';
-import {
-  CanvasContainer,
-  StyledArrowButton,
-  StyledOrignalImage,
-} from './MainCanvas.styled';
+
+import MainCanvasStyles from './MainCanvas.module.css';
 
 const MainCanvas = ({ controls = {} }) => {
   const {
@@ -22,6 +21,7 @@ const MainCanvas = ({ controls = {} }) => {
 
   const [observeResize] = useResizeObserver();
   const providedAppContext = useStore();
+
   const canvasContainerRef = useRef(null);
 
   const setNewCanvasSize = useCallback(
@@ -42,36 +42,51 @@ const MainCanvas = ({ controls = {} }) => {
   }, []);
 
   return (
-    <CanvasContainer className="FIE_canvas-container" ref={canvasContainerRef}>
+    <div
+      ref={canvasContainerRef}
+      className={cx(MainCanvasStyles.canvasContainer, 'FIE_canvas-container')}
+    >
       {withControls && (
         <>
           {/* Previous Button */}
-          <StyledArrowButton
+          <FieArrowButton
+            color="secondary"
+            size="md"
             style={{
               left: 40,
             }}
             onClick={onPrev}
+            aria-label={providedAppContext.t('previousImage')}
+            className={MainCanvasStyles.arrowButton}
           >
             <ArrowLeftOutline />
-          </StyledArrowButton>
+          </FieArrowButton>
 
           {/* Next Button */}
-          <StyledArrowButton
+          <FieArrowButton
+            color="secondary"
+            size="md"
             style={{
               right: 40,
             }}
             onClick={onNext}
+            aria-label={providedAppContext.t('nextImage')}
+            className={MainCanvasStyles.arrowButton}
           >
             <ArrowRightOutline />
-          </StyledArrowButton>
+          </FieArrowButton>
         </>
       )}
 
       {!providedAppContext.textIdOfEditableContent && <NodeControls />}
       {providedAppContext.isShowOriginalImage && (
-        <StyledOrignalImage
-          className="FIE_original-image-compare"
+        // eslint-disable-next-line jsx-a11y/alt-text -- Preserve the existing original-image preview during CSS migration.
+        <img
           src={providedAppContext.originalImage.src}
+          className={cx(
+            MainCanvasStyles.orignalImage,
+            'FIE_original-image-compare',
+          )}
         />
       )}
       <CanvasNode>
@@ -80,7 +95,7 @@ const MainCanvas = ({ controls = {} }) => {
           <TransformersLayer />
         </AppProviderOverridenValue>
       </CanvasNode>
-    </CanvasContainer>
+    </div>
   );
 };
 

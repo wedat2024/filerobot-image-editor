@@ -1,13 +1,14 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 /** External Dependencies */
 import React, { memo } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import FieToolsBarItemButtonLabel from 'components/common/Label';
 import { usePhoneScreen } from 'hooks';
-import {
-  StyledToolsBarItemButton,
-  StyledToolsBarItemButtonLabel,
-} from './ToolsBar.styled';
+
+import ToolsBarStyles from './ToolsBar.module.css';
 
 const ToolsBarItemButton = ({
   id,
@@ -25,20 +26,28 @@ const ToolsBarItemButton = ({
   };
 
   return (
-    <StyledToolsBarItemButton
-      className={className}
+    <div
       onClick={handleClick}
       aria-selected={isSelected}
-      isPhoneScreen={isPhoneScreen}
+      className={cx(
+        ToolsBarStyles.toolsBarItemButton,
+        isPhoneScreen && ToolsBarStyles.phone,
+        className,
+      )}
     >
       <Icon size={isPhoneScreen ? 20 : 16} />
       {label && (
-        <StyledToolsBarItemButtonLabel isPhoneScreen={isPhoneScreen}>
+        <FieToolsBarItemButtonLabel
+          className={cx(
+            ToolsBarStyles.toolsBarItemButtonLabel,
+            isPhoneScreen && ToolsBarStyles.phone,
+          )}
+        >
           {label}
-        </StyledToolsBarItemButtonLabel>
+        </FieToolsBarItemButtonLabel>
       )}
       {children}
-    </StyledToolsBarItemButton>
+    </div>
   );
 };
 

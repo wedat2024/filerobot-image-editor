@@ -1,9 +1,13 @@
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useCallback, useMemo, useState } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { usePhoneScreen, useStore } from 'hooks';
-import { Label } from '@scaleflex/ui/core';
-import Menu from '@scaleflex/ui/core/menu';
+import Label from 'components/common/Label';
+import PopupTrigger from 'ui/PopupTrigger';
+import useFieldId from 'hooks/useFieldId';
+import Popover from 'components/common/Popover';
 import Transparency from '@scaleflex/icons/transparency';
 // import Shadow from '@scaleflex/icons/shadow';
 // import Position from '@scaleflex/icons/position';
@@ -14,13 +18,9 @@ import OpacityField from './OpacityField';
 import StrokeFields from './StrokeFields';
 import ShadowFields from './ShadowFields';
 import PositionFields from './PositionFields';
-import {
-  StyledOptionPopupContent,
-  StyledOptions,
-  StyledOptionsWrapper,
-  StyledIconWrapper,
-  ColorInputWrapper,
-} from './AnnotationOptions.styled';
+
+import AnnotationOptionsStyles from './AnnotationOptions.module.css';
+
 import { POPPABLE_OPTIONS } from './AnnotationOptions.constants';
 import ColorInput from '../ColorInput';
 
@@ -37,8 +37,10 @@ const AnnotationOptions = ({
   withoutOptions,
   ...rest
 }) => {
+  const popupId = useFieldId();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentOption, setCurrentOption] = useState(null);
+
   const {
     config: { useCloudimage },
     t,
@@ -98,6 +100,7 @@ const AnnotationOptions = ({
 
   const toggleOptionPopup = useCallback((e, targetOptionName) => {
     const targetAnchorEl = e?.currentTarget;
+
     setAnchorEl(targetAnchorEl);
     setCurrentOption(targetOptionName);
   }, []);
@@ -132,20 +135,29 @@ const AnnotationOptions = ({
   const renderPositionFields = () => (
     <>
       <Label>{t('position')}</Label>
-      <StyledOptionPopupContent position>
+      <ThemeScope
+        as="div"
+        className={cx(
+          AnnotationOptionsStyles.optionPopupContent,
+          AnnotationOptionsStyles.position,
+        )}
+      >
         <OptionPopupComponent
           annotation={annotation}
           updateAnnotation={updateAnnotation}
           {...rest}
         />
-      </StyledOptionPopupContent>
+      </ThemeScope>
     </>
   );
 
   return (
-    <StyledOptions
-      className={`FIE_annotations-options${className ? ` ${className}` : ''}`}
-      isPhoneScreen={isPhoneScreen}
+    <div
+      className={cx(
+        AnnotationOptionsStyles.options,
+        isPhoneScreen && AnnotationOptionsStyles.phone,
+        `FIE_annotations-options${className ? ` ${className}` : ''}`,
+      )}
     >
       {!hideFillOption && (!isShape || isBigPhoneScreen) && (
         <ColorInput
@@ -163,55 +175,77 @@ const AnnotationOptions = ({
           }}
         >
           {!hideFillOption && (
-            <ColorInputWrapper>
+            <div className={AnnotationOptionsStyles.colorInputWrapper}>
               <span>{t('fillColor')}</span>
               <ColorInput
                 color={isStrokeTool ? annotation.stroke : annotation.fill}
                 onChange={changeAnnotationStrokeOrFill}
                 colorFor={isStrokeTool ? 'stroke' : 'fill'}
               />
-            </ColorInputWrapper>
+            </div>
           )}
 
-          <ColorInputWrapper withMarginTop>
+          <div
+            className={cx(
+              AnnotationOptionsStyles.colorInputWrapper,
+              AnnotationOptionsStyles.withMarginTop,
+            )}
+          >
             <span>{t('lineColor')}</span>
             <ColorInput
               color={annotation.stroke}
               onChange={changeStrokeColor}
               colorFor="stroke"
             />
-          </ColorInputWrapper>
+          </div>
         </div>
       )}
 
       {children}
 
-      <StyledOptionsWrapper>
+      <div className={AnnotationOptionsStyles.optionsWrapper}>
         {options.map(
           (option) =>
             option && (
-              <StyledIconWrapper
-                className="FIE_annotation-option-triggerer"
+              <PopupTrigger
                 key={option.name}
+                id={`${popupId}-${option.name}`}
+                aria-label={t(option.titleKey)}
+                aria-haspopup="dialog"
+                aria-expanded={
+                  Boolean(anchorEl) && currentOption === option.name
+                }
+                aria-controls={
+                  currentOption === option.name ? popupId : undefined
+                }
                 title={t(option.titleKey)}
                 onClick={(e) => toggleOptionPopup(e, option.name)}
-                active={currentOption === option.name}
+                className={cx(
+                  AnnotationOptionsStyles.iconWrapper,
+                  currentOption === option.name &&
+                    AnnotationOptionsStyles.active,
+                  'FIE_annotation-option-triggerer',
+                )}
               >
                 <option.Icon size={20} />
-              </StyledIconWrapper>
+              </PopupTrigger>
             ),
         )}
-      </StyledOptionsWrapper>
+      </div>
 
       {OptionPopupComponent && (
-        <Menu
+        <Popover
+          id={popupId}
+          aria-labelledby={`${popupId}-${currentOption}`}
           className="FIE_annotation-option-popup"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={toggleOptionPopup}
+          anchor={anchorEl}
+          onClose={() => toggleOptionPopup()}
           position="top"
         >
-          <StyledOptionPopupContent>
+          <ThemeScope
+            as="div"
+            className={AnnotationOptionsStyles.optionPopupContent}
+          >
             {currentOption === POPPABLE_OPTIONS.POSITION ? (
               renderPositionFields()
             ) : (
@@ -223,10 +257,10 @@ const AnnotationOptions = ({
                 {...rest}
               />
             )}
-          </StyledOptionPopupContent>
-        </Menu>
+          </ThemeScope>
+        </Popover>
       )}
-    </StyledOptions>
+    </div>
   );
 };
 
