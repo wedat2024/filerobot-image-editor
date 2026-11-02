@@ -1,18 +1,20 @@
-import FieSmallButton from '@scaleflex/ui/core/icon-button';
-import FieZoomPercentageLabel from '@scaleflex/ui/core/label';
+import FieSmallButton from 'components/common/IconButton';
+import FieZoomPercentageLabel from 'ui/TextButton';
 /** External Dependencies */
 import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { MinusOutline, PlusOutline } from '@scaleflex/icons';
-import Menu from '@scaleflex/ui/core/menu';
-import MenuItem, { MenuItemLabel } from '@scaleflex/ui/core/menu-item';
 
 /** Internal Dependencies */
 import { ZOOM_CANVAS } from 'actions';
 import { DEFAULT_ZOOM_FACTOR, TOOLS_IDS } from 'utils/constants';
 import { useStore } from 'hooks';
+import useFieldId from 'hooks/useFieldId';
+import ActionMenu from 'components/common/ActionMenu';
+import triggerKeyboard from 'components/common/ActionMenu/triggerKeyboard';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
+import getLabelStyles from 'components/common/Label/getLabelStyles';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
 
 import TopbarStyles from './Topbar.module.css';
@@ -28,6 +30,7 @@ const CanvasZooming = ({ showBackButton }) => {
     toolId,
     feedback,
     t,
+    theme: { typography, palette },
     shownImageDimensions,
     resize,
     originalImage,
@@ -38,6 +41,9 @@ const CanvasZooming = ({ showBackButton }) => {
   const isBlockerError = feedback.duration === 0;
 
   const [zoomingMenuAnchorEl, setZoomingMenuAnchorEl] = useState(null);
+
+  const menuId = useFieldId();
+  const [initialFocus, setInitialFocus] = useState('first');
 
   const saveZoom = (zoomFactor, isAbsoluteZoom) => {
     dispatch({
@@ -70,14 +76,17 @@ const CanvasZooming = ({ showBackButton }) => {
     saveZoom(zoom.factor / MULTIPLY_ZOOM_FACTOR);
   };
 
-  const toggleZoomingMenu = (event) => {
-    setZoomingMenuAnchorEl(zoomingMenuAnchorEl ? null : event.target);
+  const closeZoomingMenu = () => setZoomingMenuAnchorEl(null);
+
+  const toggleZoomingMenu = (event, focus = 'first') => {
+    setInitialFocus(focus);
+    setZoomingMenuAnchorEl(zoomingMenuAnchorEl ? null : event.currentTarget);
   };
 
   const applyZoomFactorPreset = (factor) => {
     if (factor === 'fit') {
       fitCanvas();
-      toggleZoomingMenu();
+      closeZoomingMenu();
 
       return;
     }
@@ -91,7 +100,7 @@ const CanvasZooming = ({ showBackButton }) => {
           );
 
     saveZoom(factorToAchieveSelected, true);
-    toggleZoomingMenu();
+    closeZoomingMenu();
   };
 
   const isZoomDisabled = toolId === TOOLS_IDS.CROP || isBlockerError;
@@ -119,7 +128,21 @@ const CanvasZooming = ({ showBackButton }) => {
         <MinusOutline />
       </FieSmallButton>
       <FieZoomPercentageLabel
+        style={getLabelStyles({
+          font: typography.font['label-medium'],
+          palette,
+        })}
+        id={`${menuId}-trigger`}
         title={t('toggleZoomMenuTitle')}
+        disabled={isZoomDisabled}
+        aria-haspopup={useZoomPresetsMenu ? 'menu' : undefined}
+        aria-expanded={
+          useZoomPresetsMenu ? Boolean(zoomingMenuAnchorEl) : undefined
+        }
+        aria-controls={zoomingMenuAnchorEl ? menuId : undefined}
+        {...(useZoomPresetsMenu && !isZoomDisabled
+          ? triggerKeyboard(toggleZoomingMenu)
+          : {})}
         onClick={
           isZoomDisabled
             ? undefined
@@ -146,22 +169,25 @@ const CanvasZooming = ({ showBackButton }) => {
       >
         <PlusOutline />
       </FieSmallButton>
-      <Menu
-        anchorEl={zoomingMenuAnchorEl}
-        onClose={toggleZoomingMenu}
-        open={Boolean(zoomingMenuAnchorEl)}
-        position="bottom"
-        className="FIE_topbar-zoom-menu"
-      >
-        {ZOOM_FACTORS_PRESETS.map(({ factor, labelKey, label }) => (
-          <MenuItem
-            key={label || labelKey}
-            onClick={() => applyZoomFactorPreset(factor)}
-          >
-            <MenuItemLabel>{label ?? t(labelKey)}</MenuItemLabel>
-          </MenuItem>
-        ))}
-      </Menu>
+      {zoomingMenuAnchorEl ? (
+        <ActionMenu
+          id={menuId}
+          aria-labelledby={`${menuId}-trigger`}
+          anchor={zoomingMenuAnchorEl}
+          initialFocus={initialFocus}
+          onClose={closeZoomingMenu}
+          position="bottom"
+          className="FIE_topbar-zoom-menu"
+          items={ZOOM_FACTORS_PRESETS.map(({ factor, labelKey, label }) => ({
+            key: label || labelKey,
+            label: label ?? t(labelKey),
+            onClick: () => applyZoomFactorPreset(factor),
+          }))}
+        />
+      ) : (
+        // Preserve the closed menu placeholder and the existing flex gap.
+        <div aria-hidden="true" />
+      )}
     </div>
   );
 };

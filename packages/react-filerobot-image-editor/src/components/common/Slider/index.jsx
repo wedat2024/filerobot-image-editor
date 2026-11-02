@@ -1,19 +1,77 @@
-import FieSlider from '@scaleflex/ui/core/slider';
-/** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
-/** Internal Dependencies */
+import { useStore } from 'hooks';
+import SliderView from 'ui/Slider';
+import useSliderControl from './useSliderControl';
 import SliderStyles from './Slider.module.css';
 
-const Slider = ({ onChange, width, noMargin, className, style, ...props }) => {
+const Slider = ({
+  onChange,
+  width,
+  noMargin,
+  className,
+  style,
+  min,
+  max,
+  step,
+  value,
+  annotation,
+  hideTrack,
+  disabled,
+  'aria-label': ariaLabel,
+}) => {
+  const {
+    theme: { palette },
+  } = useStore();
+  const {
+    rootRef,
+    inputRef,
+    value: currentValue,
+    percent,
+    onChange: changeInput,
+    ...pointerHandlers
+  } = useSliderControl({
+    value,
+    min,
+    max,
+    step,
+    disabled,
+    onChange: (_event, next) => onChange(next),
+  });
+
   return (
-    <FieSlider
-      annotation=""
-      onChange={(_e, val) => (onChange ? onChange(val) : undefined)}
-      {...props}
-      style={{ '--fie-slider-width': width || '104px', ...style }}
+    <SliderView
+      {...pointerHandlers}
+      ref={rootRef}
+      inputRef={inputRef}
+      inputProps={{
+        min,
+        max,
+        step,
+        value: currentValue,
+        disabled,
+        onChange: changeInput,
+        'aria-label': ariaLabel,
+        'aria-valuetext': annotation
+          ? `${currentValue} ${annotation}`
+          : undefined,
+      }}
+      percent={percent}
+      annotation={annotation}
+      hideTrack={hideTrack}
+      style={{
+        '--fie-range-color':
+          palette[
+            disabled ? 'accent-primary-disabled' : 'border-active-bottom'
+          ],
+        '--fie-range-focus': palette['accent-primary'],
+        '--fie-range-label-background': palette['link-stateless'],
+        '--fie-range-annotation-color': palette['txt-secondary'],
+        '--fie-slider-width': width || '104px',
+        ...style,
+      }}
       className={cx(
         SliderStyles.slider,
         !noMargin && SliderStyles.withMargin,
@@ -28,14 +86,29 @@ Slider.defaultProps = {
   noMargin: false,
   className: undefined,
   style: undefined,
+  min: 0,
+  max: 100,
+  step: 1,
+  value: undefined,
+  annotation: '',
+  hideTrack: false,
+  disabled: false,
+  'aria-label': undefined,
 };
-
 Slider.propTypes = {
   onChange: PropTypes.func.isRequired,
   width: PropTypes.string,
   noMargin: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.instanceOf(Object),
+  min: PropTypes.number,
+  max: PropTypes.number,
+  step: PropTypes.number,
+  value: PropTypes.number,
+  annotation: PropTypes.string,
+  hideTrack: PropTypes.bool,
+  disabled: PropTypes.bool,
+  'aria-label': PropTypes.string,
 };
 
 export default Slider;

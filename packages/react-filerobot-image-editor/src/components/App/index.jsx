@@ -80,6 +80,7 @@ const App = () => {
   const isPhoneScreen = usePhoneScreen();
 
   const pluginRootRef = useRef(null);
+  const tabsMenuButtonRef = useRef(null);
   const cloudimageQueryLoaded = useRef(false);
   const imageBeingLoadedSrc = useRef(null);
   // Hacky solution, For being used in beforeunload event
@@ -329,8 +330,16 @@ const App = () => {
     <>
       {!showCanvasOnly && (
         <>
-          {showTabsDrawer && <TabsDrawer toggleMainMenu={toggleMainMenu} />}
-          <Topbar toggleMainMenu={toggleMainMenu} />
+          {showTabsDrawer && (
+            <TabsDrawer
+              toggleMainMenu={toggleMainMenu}
+              menuButtonRef={tabsMenuButtonRef}
+            />
+          )}
+          <Topbar
+            toggleMainMenu={toggleMainMenu}
+            menuButtonRef={tabsMenuButtonRef}
+          />
         </>
       )}
       {originalImage && feedback.duration !== 0 && (

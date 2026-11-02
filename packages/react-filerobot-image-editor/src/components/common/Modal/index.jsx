@@ -1,18 +1,14 @@
-import {
-  Modal as FieModal,
-  ModalActions as FieModalActions,
-  Button,
-  ModalContent,
-} from '@scaleflex/ui/core';
-import FieModalTitle from '@scaleflex/ui/core/modal-title';
-
-import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import { useStore } from 'hooks';
+import useFieldId from 'hooks/useFieldId';
+import Button from 'components/common/Button';
+import Dialog from 'components/common/Dialog';
+import { DialogTitle, DialogContent, DialogActions } from 'ui/Dialog';
 import ModalStyles from './Modal.module.css';
 
 const Modal = ({
@@ -34,33 +30,45 @@ const Modal = ({
   width,
   isWarning,
 }) => {
+  const { t } = useStore();
+  const titleId = useFieldId();
+  const descriptionId = useFieldId();
+
   const onKeyUp = (e) => {
-    if (e.key === 'Enter') {
+    if (
+      e.key === 'Enter' &&
+      !e.defaultPrevented &&
+      !areButtonsDisabled &&
+      !e.target.closest('button')
+    ) {
       onDone(e);
     }
   };
 
   return (
-    <ThemeScope
-      as={FieModal}
+    <Dialog
+      aria-labelledby={titleId}
+      aria-describedby={hint ? descriptionId : undefined}
       open={isOpened}
       onClose={onCancel}
       onKeyUp={onKeyUp}
       style={{ '--fie-modal-width': width || '300px', zIndex }}
       className={cx(ModalStyles.modal, className)}
     >
-      <FieModalTitle
+      <DialogTitle
+        id={titleId}
+        descriptionId={descriptionId}
+        closeLabel={t('close')}
         icon={<Icon size={25} />}
-        iconShadow
         onClose={onCancel}
         primary={title}
         secondary={hint}
-        variant="with-icon"
         className={cx(ModalStyles.modalTitle, isWarning && ModalStyles.warning)}
       />
-      {children && <ModalContent>{children}</ModalContent>}
-      <FieModalActions align="center" className={ModalStyles.modalActions}>
+      {children && <DialogContent>{children}</DialogContent>}
+      <DialogActions className={ModalStyles.modalActions}>
         <Button
+          data-dialog-initial-focus
           color={cancelButtonColor}
           onClick={onCancel}
           size="md"
@@ -72,14 +80,13 @@ const Modal = ({
           color={doneButtonColor}
           onClick={onDone}
           size="md"
-          warning={isWarning}
           style={doneButtonStyle}
           disabled={areButtonsDisabled}
         >
           {doneLabel}
         </Button>
-      </FieModalActions>
-    </ThemeScope>
+      </DialogActions>
+    </Dialog>
   );
 };
 

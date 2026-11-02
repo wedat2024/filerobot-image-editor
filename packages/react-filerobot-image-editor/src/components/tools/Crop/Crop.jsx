@@ -1,4 +1,3 @@
-import FieToolsBarItemButtonLabel from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { useState } from 'react';
 import cx from 'classnames';
@@ -6,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Crop as CropIcon } from '@scaleflex/icons/crop';
 
 /** Internal Dependencies */
+import FieToolsBarItemButtonLabel from 'components/common/Label';
 import { useStore } from 'hooks';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
 import { TOOLS_IDS } from 'utils/constants';

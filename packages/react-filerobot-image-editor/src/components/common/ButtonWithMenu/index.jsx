@@ -1,23 +1,21 @@
-import FieMainButton from '@scaleflex/ui/core/button';
-import {
-  Menu as FieMenu,
-  MenuItem as FieMenuItem,
-  MenuItemIcon as FieMenuIcon,
-} from '@scaleflex/ui/core';
+import FieMainButton from 'components/common/Button';
 
 import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useEffect, useState, useRef } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { MenuItemLabel } from '@scaleflex/ui/core/menu-item';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
+import useFieldId from 'hooks/useFieldId';
+import ActionMenu from 'components/common/ActionMenu';
+import triggerKeyboard from 'components/common/ActionMenu/triggerKeyboard';
 
 import ButtonWithMenuStyles from './ButtonWithMenu.module.css';
 
 const ButtonWithMenu = ({
+  ButtonComponent = FieMainButton,
   onClick,
   title,
   label,
@@ -38,13 +36,17 @@ const ButtonWithMenu = ({
 
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const menuId = useFieldId();
+  const [initialFocus, setInitialFocus] = useState('first');
+
   const buttonSize = 'sm';
 
   const filteredMenuItems = menuItems.filter(Boolean);
   const hasMultipleMenuItems = filteredMenuItems.length > 1;
 
-  const openMenu = (e) => {
+  const openMenu = (e, focus = 'first') => {
     if (isMounted.current) {
+      setInitialFocus(focus);
       setAnchorEl(e.currentTarget);
     }
   };
@@ -53,14 +55,6 @@ const ButtonWithMenu = ({
     if (isMounted.current) {
       setAnchorEl(null);
     }
-  };
-
-  const handleMenuItemClick = (onItemClick) => {
-    if (typeof onItemClick === 'function') {
-      onItemClick();
-    }
-
-    closeMenu();
   };
 
   const handleButtonClick = (e) => {
@@ -96,7 +90,18 @@ const ButtonWithMenu = ({
           `${className}-wrapper`,
         )}
       >
-        <FieMainButton
+        <ButtonComponent
+          id={`${menuId}-trigger`}
+          aria-haspopup={
+            menuFromBtn && hasMultipleMenuItems ? 'menu' : undefined
+          }
+          aria-expanded={
+            menuFromBtn && hasMultipleMenuItems ? Boolean(anchorEl) : undefined
+          }
+          aria-controls={anchorEl ? menuId : undefined}
+          {...(menuFromBtn && hasMultipleMenuItems && !disabled
+            ? triggerKeyboard(openMenu)
+            : {})}
           color={color}
           size={buttonSize}
           title={title}
@@ -105,55 +110,35 @@ const ButtonWithMenu = ({
           className={cx(ButtonWithMenuStyles.mainButton, `${className}-button`)}
         >
           {label || t('saveAs')}
-        </FieMainButton>
+        </ButtonComponent>
       </div>
-      {hasMultipleMenuItems && (
+      {/* Preserve the former closed Menu slot in flex layouts. */}
+      {hasMultipleMenuItems && !anchorEl && <div aria-hidden="true" />}
+      {hasMultipleMenuItems && anchorEl && (
         <ThemeScope
-          as={FieMenu}
-          anchorEl={anchorEl}
+          as={ActionMenu}
+          id={menuId}
+          aria-labelledby={`${menuId}-trigger`}
+          anchor={anchorEl}
+          initialFocus={initialFocus}
           onClose={closeMenu}
-          open
+          items={filteredMenuItems}
           style={menuStyle}
           position={menuPosition}
           className={cx(ButtonWithMenuStyles.menu, `${className}-menu`)}
-        >
-          {menuItems.map(
-            (item, index) =>
-              item && (
-                <FieMenuItem
-                  key={`${item.key}-${index.toString()}`}
-                  active={item.isActive}
-                  onClick={() => handleMenuItemClick(item.onClick)}
-                  size={buttonSize}
-                  className={cx(
-                    ButtonWithMenuStyles.menuItem,
-                    `${className}-menu-item`,
-                  )}
-                >
-                  {item.icon && (
-                    <FieMenuIcon
-                      size={buttonSize}
-                      className={ButtonWithMenuStyles.menuIcon}
-                    >
-                      {typeof item.icon === 'string' ? (
-                        // eslint-disable-next-line react/no-danger
-                        <span dangerouslySetInnerHTML={{ __html: item.icon }} />
-                      ) : (
-                        <item.icon />
-                      )}
-                    </FieMenuIcon>
-                  )}
-                  <MenuItemLabel>{item.label}</MenuItemLabel>
-                </FieMenuItem>
-              ),
+          itemClassName={cx(
+            ButtonWithMenuStyles.menuItem,
+            `${className}-menu-item`,
           )}
-        </ThemeScope>
+          iconClassName={ButtonWithMenuStyles.menuIcon}
+        />
       )}
     </>
   );
 };
 
 ButtonWithMenu.defaultProps = {
+  ButtonComponent: FieMainButton,
   title: '',
   label: '',
   color: 'primary',
@@ -168,6 +153,7 @@ ButtonWithMenu.defaultProps = {
 };
 
 ButtonWithMenu.propTypes = {
+  ButtonComponent: PropTypes.elementType,
   menuItems: PropTypes.instanceOf(Array).isRequired,
   className: PropTypes.string.isRequired,
   onClick: PropTypes.func,

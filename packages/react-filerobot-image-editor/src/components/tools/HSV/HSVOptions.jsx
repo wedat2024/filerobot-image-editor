@@ -1,8 +1,3 @@
-import {
-  Label as FieSliderLabel,
-  Input as FieSliderInput,
-} from '@scaleflex/ui/core';
-
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
@@ -10,8 +5,12 @@ import PropTypes from 'prop-types';
 import Konva from 'konva';
 
 /** Internal Dependencies */
-import { useFinetune, usePhoneScreen } from 'hooks';
+import { useFinetune } from 'hooks';
+import usePhoneScreen from 'hooks/usePhoneScreen';
 import Slider from 'components/common/Slider';
+import FieSliderInput from 'components/common/Input';
+import FieSliderLabel from 'components/common/Label';
+import useFieldId from 'hooks/useFieldId';
 
 import toolsStyles from '../tools.module.css';
 
@@ -32,6 +31,10 @@ const sliderStyle = { padding: 0, margin: 0 };
 const isPhoneScreen = usePhoneScreen();
 
 const HSVOptions = ({ t }) => {
+  const hueId = useFieldId();
+  const saturationId = useFieldId();
+  const valueId = useFieldId();
+
   const [finetuneProps, setFinetuneProps] = useFinetune(
     Konva.Filters.HSV,
     DEFAULT_VALUE,
@@ -51,12 +54,14 @@ const HSVOptions = ({ t }) => {
         className={cx(toolsStyles.sliderContainer, 'FIE_hue-option-wrapper')}
       >
         <FieSliderLabel
+          htmlFor={hueId}
           className={cx(toolsStyles.sliderLabel, 'FIE_hue-option-label')}
         >
           {t('hue')}
         </FieSliderLabel>
         <div className={toolsStyles.sliderWrapper}>
           <Slider
+            aria-label={t('hue')}
             className="FIE_hue-option"
             min={0}
             step={1}
@@ -66,6 +71,7 @@ const HSVOptions = ({ t }) => {
             style={sliderStyle}
           />
           <FieSliderInput
+            id={hueId}
             value={finetuneProps.hue ?? DEFAULT_VALUE.hue}
             onChange={({ target: { value } }) => changeValue('hue', value)}
             className={toolsStyles.sliderInput}
@@ -79,12 +85,14 @@ const HSVOptions = ({ t }) => {
         )}
       >
         <FieSliderLabel
+          htmlFor={saturationId}
           className={cx(toolsStyles.sliderLabel, 'FIE_saturation-option-label')}
         >
           {t('saturation')}
         </FieSliderLabel>
         <div className={toolsStyles.sliderWrapper}>
           <Slider
+            aria-label={t('saturation')}
             className="FIE_saturation-option"
             min={-2}
             step={0.5}
@@ -94,6 +102,7 @@ const HSVOptions = ({ t }) => {
             style={sliderStyle}
           />
           <FieSliderInput
+            id={saturationId}
             value={finetuneProps.saturation ?? DEFAULT_VALUE.saturation}
             onChange={({ target: { value } }) =>
               changeValue('saturation', value)
@@ -106,12 +115,14 @@ const HSVOptions = ({ t }) => {
         className={cx(toolsStyles.sliderContainer, 'FIE_value-option-wrapper')}
       >
         <FieSliderLabel
+          htmlFor={valueId}
           className={cx(toolsStyles.sliderLabel, 'FIE_value-option-label')}
         >
           {t('value')}
         </FieSliderLabel>
         <div className={toolsStyles.sliderWrapper}>
           <Slider
+            aria-label={t('value')}
             className="FIE_value-option"
             min={-2}
             step={0.1}
@@ -121,6 +132,7 @@ const HSVOptions = ({ t }) => {
             style={sliderStyle}
           />
           <FieSliderInput
+            id={valueId}
             value={finetuneProps.value ?? DEFAULT_VALUE.value}
             onChange={({ target: { value } }) => changeValue('value', value)}
             className={toolsStyles.sliderInput}

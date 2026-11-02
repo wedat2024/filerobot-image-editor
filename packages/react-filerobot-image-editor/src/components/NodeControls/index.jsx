@@ -1,11 +1,11 @@
 /** External Dependencies */
 import React, { useEffect, useMemo, useState } from 'react';
-import IconButton from '@scaleflex/ui/core/icon-button';
 // import { DeleteOutline, Duplicate, LayerOrder } from '@scaleflex/icons';
 import DeleteOutline from '@scaleflex/icons/delete-outline';
 import Duplicate from '@scaleflex/icons/duplicate';
 
 /** Internal Dependencies */
+import IconButton from 'components/common/IconButton';
 import { useStore } from 'hooks';
 import { DUPLICATE_ANNOTATIONS, REMOVE_ANNOTATIONS } from 'actions';
 import { NODES_TRANSFORMER_ID, WATERMARK_ANNOTATION_ID } from 'utils/constants';
@@ -14,7 +14,13 @@ import debounce from 'utils/debounce';
 import styles from './NodeControls.module.css';
 
 const NodeControls = () => {
-  const { selectionsIds = [], designLayer, annotations, dispatch } = useStore();
+  const {
+    selectionsIds = [],
+    designLayer,
+    annotations,
+    dispatch,
+    t,
+  } = useStore();
 
   const [position, setPosition] = useState({ left: 0, top: 0 });
 
@@ -81,11 +87,21 @@ const NodeControls = () => {
         </IconButton>
       )} */}
       {selectionsIds[0] !== WATERMARK_ANNOTATION_ID && (
-        <IconButton color="basic" size="sm" onClick={duplicateSelectedNodes}>
+        <IconButton
+          color="basic"
+          size="sm"
+          onClick={duplicateSelectedNodes}
+          aria-label={t('duplicateAnnotation')}
+        >
           <Duplicate />
         </IconButton>
       )}
-      <IconButton color="basic" size="sm" onClick={removeSelectedNodes}>
+      <IconButton
+        color="basic"
+        size="sm"
+        onClick={removeSelectedNodes}
+        aria-label={t('deleteAnnotation')}
+      >
         <DeleteOutline />
       </IconButton>
     </div>

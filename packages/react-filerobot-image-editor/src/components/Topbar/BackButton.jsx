@@ -1,9 +1,9 @@
 /** External Dependencies */
 import React from 'react';
-import { Button } from '@scaleflex/ui/core';
 import ArrowLeftOutline from '@scaleflex/icons/arrow-left-outline';
 
 /** Internal Dependencies */
+import Button from 'components/common/Button';
 import { usePhoneScreen, useStore } from 'hooks';
 
 import TopbarStyles from './Topbar.module.css';
@@ -19,6 +19,7 @@ const BackButton = () => {
       <Button
         className="FIE_topbar-back-button"
         color="link-secondary"
+        aria-label={t('back')}
         size="sm"
         startIcon={<ArrowLeftOutline />}
       >

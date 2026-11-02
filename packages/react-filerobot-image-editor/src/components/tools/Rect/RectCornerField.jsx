@@ -1,7 +1,7 @@
 /** External Dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Label from '@scaleflex/ui/core/label';
+import Label from 'components/common/Label';
 
 /** InternalDependencies */
 import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
@@ -29,6 +29,7 @@ const RectCornerField = ({
     <div className={AnnotationOptionsStyles.spacedOptionFields}>
       <Label>{t('cornerRadius')}</Label>
       <Slider
+        aria-label={t('cornerRadius')}
         annotation="px"
         onChange={updateCornerRadius}
         value={cornerRadius}

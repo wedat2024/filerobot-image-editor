@@ -1,9 +1,9 @@
 /** External Dependencies */
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { DrawerItem } from '@scaleflex/ui/core/drawer';
 
 /** Internal Dependencies */
+import { DrawerItem } from 'ui/Drawer';
 import { useStore } from 'hooks';
 import { SELECT_TAB } from 'actions';
 import TabItem from './TabItem';

@@ -2,9 +2,9 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import Label from '@scaleflex/ui/core/label';
 
 /** Internal Dependencies */
+import Label from 'components/common/Label';
 import restrictNumber from 'utils/restrictNumber';
 import ColorInput from 'components/common/ColorInput';
 
@@ -43,6 +43,7 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
         <div className={AnnotationOptionsStyles.column}>
           <Label>{t('horizontal')}</Label>
           <Slider
+            aria-label={t('horizontal')}
             annotation="px"
             min={-100}
             max={100}
@@ -56,6 +57,7 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
         <div className={AnnotationOptionsStyles.column}>
           <Label>{t('vertical')}</Label>
           <Slider
+            aria-label={t('vertical')}
             annotation="px"
             min={-100}
             max={100}
@@ -71,6 +73,7 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
         <div className={AnnotationOptionsStyles.column}>
           <Label>{t('blur')}</Label>
           <Slider
+            aria-label={t('blur')}
             annotation="%"
             onChange={(val) => changeSliderValue('shadowBlur', val)}
             value={shadowBlur}
@@ -79,6 +82,7 @@ const ShadowFields = ({ annotation, updateAnnotation, t }) => {
         <div className={AnnotationOptionsStyles.column}>
           <Label>{t('opacity')}</Label>
           <Slider
+            aria-label={t('opacity')}
             annotation="%"
             onChange={(val) =>
               changeSliderValue('shadowOpacity', val / 100, 0, 1)

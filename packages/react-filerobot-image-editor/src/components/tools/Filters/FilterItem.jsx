@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 
-import FieFilterItemLabel from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { memo, useCallback, useEffect, useRef } from 'react';
 import cx from 'classnames';
@@ -8,6 +7,7 @@ import PropTypes from 'prop-types';
 import { Layer, Image, Stage as FieFilterItemPreview } from 'react-konva';
 
 /** Internal Dependencies */
+import FieFilterItemLabel from 'components/common/Label';
 import FiltersStyles from './Filters.module.css';
 
 const MAX_FILTER_PREVIEW_WIDTH = 60;

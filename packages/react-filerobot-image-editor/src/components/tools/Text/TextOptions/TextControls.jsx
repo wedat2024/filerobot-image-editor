@@ -1,11 +1,12 @@
-import FieFontSizeSelector from '@scaleflex/ui/core/button';
 /** External Dependencies */
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { MenuItem, Select, TooltipV2 } from '@scaleflex/ui/core';
 
 /** Internal Dependencies */
+import FieFontSizeSelector from 'components/common/Button';
+import TooltipV2 from 'components/common/Tooltip';
+import Select from 'components/common/Select';
 import { TOOLS_IDS, TRANSFORMERS_LAYER_ID } from 'utils/constants';
 import AnnotationOptions from 'components/common/AnnotationOptions';
 import { ENABLE_TEXT_CONTENT_EDIT } from 'actions';
@@ -172,25 +173,16 @@ const TextControls = ({ text, saveText, children }) => {
           onChange={changeDefaultText}
           value={selectedTextIndex}
           placeholder={t('textSelection')}
-          size="sm"
+          aria-label={t('textSelection')}
+          options={texts.map((preset, index) => ({
+            value: index,
+            label: preset.name || `Sample ${index + 1}`,
+            className: 'FIE_text-selection-item',
+          }))}
           style={{
             width: '160px',
           }}
-        >
-          {texts.map((filteredText, index) => (
-            <MenuItem
-              className="FIE_text-selection-item"
-              key={
-                filteredText.name
-                  ? `${filteredText.name}-${index.toString()}`
-                  : index.toString()
-              }
-              value={index}
-            >
-              {filteredText.name || `Sample ${index + 1}`}
-            </MenuItem>
-          ))}
-        </Select>
+        />
       )}
 
       <div>
@@ -201,6 +193,15 @@ const TextControls = ({ text, saveText, children }) => {
               title={`Font Size: ${standardFontSize.value}`}
             >
               <FieFontSizeSelector
+                color="secondary"
+                size="md"
+                aria-label={`${standardFontSize.label}: ${t('fontSizes')} ${
+                  standardFontSize.value
+                }`}
+                aria-pressed={
+                  selectedFontSize === standardFontSize.value ||
+                  standardFontSize.value === Number(text.fontSize)
+                }
                 onClick={() => changeFontSize(standardFontSize.value)}
                 active={
                   selectedFontSize === standardFontSize.value ||

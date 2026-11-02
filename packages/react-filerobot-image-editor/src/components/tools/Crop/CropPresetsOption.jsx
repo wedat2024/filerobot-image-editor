@@ -1,5 +1,6 @@
-import FieToolsBarItemButtonLabel from '@scaleflex/ui/core/label';
-import FieOpenMenuButton from '@scaleflex/ui/core/button';
+import FieToolsBarItemButtonLabel from 'components/common/Label';
+import FieOpenMenuButton from 'ui/PopupTrigger';
+import useFieldId from 'hooks/useFieldId';
 import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useMemo } from 'react';
@@ -16,7 +17,7 @@ import { DEFAULT_ZOOM_FACTOR, ORIGINAL_CROP, TOOLS_IDS } from 'utils/constants';
 import toPrecisedFloat from 'utils/toPrecisedFloat';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
 import { MoveDownOutline, MoveUpOutline } from '@scaleflex/icons';
-import { Menu } from '@scaleflex/ui/core';
+import Popover from 'components/common/Popover';
 import { DEFAULT_CROP_PRESETS } from './Crop.constants';
 import CropPresetGroupsList from './CropPresetGroupsFolder';
 import CropPresetItem from './CropPresetItem';
@@ -27,12 +28,15 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
   const {
     dispatch,
     t,
+    theme: { palette, shape },
     adjustments: {
       crop: { ratio: appliedRatio, ratioTitleKey, ratioFolderKey } = {},
     } = {},
     shownImageDimensions,
     config,
   } = useStore();
+
+  const popupId = useFieldId();
 
   const currentRatio = appliedRatio || ORIGINAL_CROP; // we consider original as default one if no ratio has been set.
   const cropConfig = config[TOOLS_IDS.CROP];
@@ -89,6 +93,7 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
       });
     }
 
+    anchorEl?.querySelector('button')?.focus({ preventScroll: true });
     onClose();
   };
 
@@ -148,8 +153,17 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
           {t(toolTitleKey)}
         </FieToolsBarItemButtonLabel>
         <FieOpenMenuButton
-          color="link-secondary"
-          size="lg"
+          style={{
+            '--fie-crop-opener-color': palette['link-stateless'],
+            '--fie-crop-opener-hover': palette['accent-primary-hover'],
+            '--fie-crop-opener-active': palette['accent-primary-active'],
+            '--fie-crop-opener-radius': shape.borderRadius.md,
+          }}
+          id={`${popupId}-trigger`}
+          aria-label={t('cropTool')}
+          aria-haspopup="dialog"
+          aria-expanded={Boolean(anchorEl)}
+          aria-controls={anchorEl ? popupId : undefined}
           className={cx(
             CropStyles.openMenuButton,
             'FIE_crop-presets-opener-button',
@@ -163,29 +177,24 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
         </FieOpenMenuButton>
       </div>
 
-      <Menu
-        className="FIE_crop-presets-menu"
-        anchorEl={anchorEl}
-        enableOverlay
-        onClose={onClose}
-        open={Boolean(anchorEl)}
-        position="top"
-        popperOptions={{
-          modifiers: [
-            {
-              name: 'offset',
-              options: {
-                offset: [0, 4],
-              },
-            },
-          ],
-        }}
-        maxHeight="100%"
-      >
-        <ThemeScope as="div" className={CropStyles.menu}>
-          {allPresets.map(renderPreset)}
-        </ThemeScope>
-      </Menu>
+      {anchorEl ? (
+        <Popover
+          id={popupId}
+          aria-labelledby={`${popupId}-trigger`}
+          className="FIE_crop-presets-menu"
+          anchor={anchorEl}
+          onClose={onClose}
+          position="top"
+          offset={4}
+          style={{ maxHeight: '100%' }}
+        >
+          <ThemeScope as="div" className={CropStyles.menu}>
+            {allPresets.map(renderPreset)}
+          </ThemeScope>
+        </Popover>
+      ) : (
+        <div aria-hidden="true" />
+      )}
     </>
   );
 };

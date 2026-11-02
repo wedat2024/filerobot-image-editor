@@ -1,4 +1,4 @@
-import FieHistoryButton from '@scaleflex/ui/core/icon-button';
+import FieHistoryButton from 'components/common/IconButton';
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';

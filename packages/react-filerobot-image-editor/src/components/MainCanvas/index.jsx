@@ -1,4 +1,4 @@
-import FieArrowButton from '@scaleflex/ui/core/button';
+import FieArrowButton from 'components/common/Button';
 import React, { useCallback, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { DesignLayer, TransformersLayer } from 'components/Layers';
@@ -50,10 +50,13 @@ const MainCanvas = ({ controls = {} }) => {
         <>
           {/* Previous Button */}
           <FieArrowButton
+            color="secondary"
+            size="md"
             style={{
               left: 40,
             }}
             onClick={onPrev}
+            aria-label={providedAppContext.t('previousImage')}
             className={MainCanvasStyles.arrowButton}
           >
             <ArrowLeftOutline />
@@ -61,10 +64,13 @@ const MainCanvas = ({ controls = {} }) => {
 
           {/* Next Button */}
           <FieArrowButton
+            color="secondary"
+            size="md"
             style={{
               right: 40,
             }}
             onClick={onNext}
+            aria-label={providedAppContext.t('nextImage')}
             className={MainCanvasStyles.arrowButton}
           >
             <ArrowRightOutline />

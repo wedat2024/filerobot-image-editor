@@ -1,8 +1,3 @@
-import {
-  Label as FieSliderLabel,
-  Input as FieSliderInput,
-} from '@scaleflex/ui/core';
-
 /** External Depdencies */
 import React from 'react';
 import cx from 'classnames';
@@ -13,6 +8,9 @@ import PropTypes from 'prop-types';
 import { useFinetune } from 'hooks';
 import restrictNumber from 'utils/restrictNumber';
 import Slider from 'components/common/Slider';
+import FieSliderInput from 'components/common/Input';
+import FieSliderLabel from 'components/common/Label';
+import useFieldId from 'hooks/useFieldId';
 
 import toolsStyles from '../tools.module.css';
 
@@ -24,6 +22,8 @@ const MAX_VALUE = 100;
 const sliderStyle = { width: 150, padding: 0, margin: 0 };
 
 const ContrastOptions = ({ t }) => {
+  const contrastId = useFieldId();
+
   const [finetuneProps, setFinetuneProps] = useFinetune(
     Konva.Filters.Contrast,
     DEFAULT_VALUE,
@@ -40,12 +40,14 @@ const ContrastOptions = ({ t }) => {
       className={cx(toolsStyles.sliderContainer, 'FIE_contrast-option-wrapper')}
     >
       <FieSliderLabel
+        htmlFor={contrastId}
         className={cx(toolsStyles.sliderLabel, 'FIE_contrast-option-label')}
       >
         {t('contrastTool')}
       </FieSliderLabel>
       <div className={toolsStyles.sliderWrapper}>
         <Slider
+          aria-label={t('contrastTool')}
           className="FIE_contrast-option"
           min={MIN_VALUE}
           max={MAX_VALUE}
@@ -55,6 +57,7 @@ const ContrastOptions = ({ t }) => {
           style={sliderStyle}
         />
         <FieSliderInput
+          id={contrastId}
           value={finetuneProps.contrast ?? DEFAULT_VALUE.contrast}
           onChange={({ target: { value } }) => changeValue(value)}
           className={toolsStyles.sliderInput}

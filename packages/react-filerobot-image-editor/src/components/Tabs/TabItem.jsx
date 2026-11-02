@@ -1,11 +1,10 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
-import FieTabItemLabel from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { useCallback, memo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import FieTabItemLabel from 'components/common/Label';
 import TabsStyles from './Tabs.module.css';
 
 const TabItem = ({ id, label, Icon, isSelected, onClick }) => {
@@ -16,8 +15,9 @@ const TabItem = ({ id, label, Icon, isSelected, onClick }) => {
   }, [id]);
 
   return (
-    <div
-      aria-selected={isSelected}
+    <button
+      type="button"
+      aria-pressed={isSelected}
       onClick={handleClick}
       className={cx(TabsStyles.tabItem, 'FIE_tab')}
     >
@@ -29,7 +29,7 @@ const TabItem = ({ id, label, Icon, isSelected, onClick }) => {
           {label}
         </FieTabItemLabel>
       )}
-    </div>
+    </button>
   );
 };
 

@@ -2,9 +2,9 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import Label from '@scaleflex/ui/core/label';
 
 /** Internal Dependencies */
+import Label from 'components/common/Label';
 import restrictNumber from 'utils/restrictNumber';
 
 import AnnotationOptionsStyles from 'components/common/AnnotationOptions/AnnotationOptions.module.css';
@@ -35,6 +35,7 @@ const TextSpacingsFields = ({
     >
       <Label>{t('letterSpacing')}</Label>
       <Slider
+        aria-label={t('letterSpacing')}
         annotation="px"
         isActive={Boolean(letterSpacing)}
         onChange={(val) => updateValue('letterSpacing', val)}
@@ -43,6 +44,7 @@ const TextSpacingsFields = ({
       />
       <Label>{t('lineHeight')}</Label>
       <Slider
+        aria-label={t('lineHeight')}
         annotation="px"
         isActive={Boolean(lineHeight)}
         onChange={(val) => updateValue('lineHeight', val)}

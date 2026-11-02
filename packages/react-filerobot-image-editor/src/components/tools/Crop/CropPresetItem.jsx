@@ -1,12 +1,14 @@
-import Label from '@scaleflex/ui/core/label';
+import Label from 'components/common/Label';
 
-import { MenuItem as FieMenuItem } from '@scaleflex/ui/core';
+import FieMenuItem from 'ui/MenuItem';
 /** External Dependeices */
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependeices */
+import { useStore } from 'hooks';
+
 import CropStyles from './Crop.module.css';
 
 const CropPresetItem = ({
@@ -23,6 +25,10 @@ const CropPresetItem = ({
   disableManualResize,
   noEffect,
 }) => {
+  const {
+    theme: { palette, typography },
+  } = useStore();
+
   const handleOnClick = (e) =>
     onClick(e, ratio, {
       ratioTitleKey: titleKey,
@@ -34,6 +40,18 @@ const CropPresetItem = ({
 
   return (
     <FieMenuItem
+      style={{
+        ...typography.font['label-medium'],
+        '--fie-menu-background': palette['bg-secondary'],
+        '--fie-menu-color': palette['txt-primary'],
+        '--fie-menu-active': palette['bg-active'],
+        '--fie-menu-hover': palette['bg-hover'],
+        '--fie-menu-focus': palette['accent-stateless'],
+      }}
+      wrapLabel={false}
+      role="button"
+      tabIndex={0}
+      aria-pressed={isActive}
       active={isActive}
       onClick={handleOnClick}
       className={cx(

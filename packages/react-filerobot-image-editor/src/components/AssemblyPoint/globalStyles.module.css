@@ -2,6 +2,10 @@
   font-family: var(--fie-font-family, Arial);
 }
 
+:global(.Modal-open) {
+  overflow: hidden;
+}
+
 :global(.Menu-open) {
   overflow: visible !important;
 }

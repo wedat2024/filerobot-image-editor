@@ -10,7 +10,7 @@
 
 .fontSizeSelector.fontSizeSelector {
   width: 24px;
-  height: 32px;
+  --fie-button-height: 32px;
   margin-left: 5px;
 }
 

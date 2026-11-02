@@ -1,12 +1,13 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React, { useCallback, useMemo, useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { usePhoneScreen, useStore } from 'hooks';
-import { Label } from '@scaleflex/ui/core';
-import Menu from '@scaleflex/ui/core/menu';
+import Label from 'components/common/Label';
+import PopupTrigger from 'ui/PopupTrigger';
+import useFieldId from 'hooks/useFieldId';
+import Popover from 'components/common/Popover';
 import Transparency from '@scaleflex/icons/transparency';
 // import Shadow from '@scaleflex/icons/shadow';
 // import Position from '@scaleflex/icons/position';
@@ -36,6 +37,7 @@ const AnnotationOptions = ({
   withoutOptions,
   ...rest
 }) => {
+  const popupId = useFieldId();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentOption, setCurrentOption] = useState(null);
 
@@ -205,8 +207,17 @@ const AnnotationOptions = ({
         {options.map(
           (option) =>
             option && (
-              <div
+              <PopupTrigger
                 key={option.name}
+                id={`${popupId}-${option.name}`}
+                aria-label={t(option.titleKey)}
+                aria-haspopup="dialog"
+                aria-expanded={
+                  Boolean(anchorEl) && currentOption === option.name
+                }
+                aria-controls={
+                  currentOption === option.name ? popupId : undefined
+                }
                 title={t(option.titleKey)}
                 onClick={(e) => toggleOptionPopup(e, option.name)}
                 className={cx(
@@ -217,17 +228,18 @@ const AnnotationOptions = ({
                 )}
               >
                 <option.Icon size={20} />
-              </div>
+              </PopupTrigger>
             ),
         )}
       </div>
 
       {OptionPopupComponent && (
-        <Menu
+        <Popover
+          id={popupId}
+          aria-labelledby={`${popupId}-${currentOption}`}
           className="FIE_annotation-option-popup"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={toggleOptionPopup}
+          anchor={anchorEl}
+          onClose={() => toggleOptionPopup()}
           position="top"
         >
           <ThemeScope
@@ -246,7 +258,7 @@ const AnnotationOptions = ({
               />
             )}
           </ThemeScope>
-        </Menu>
+        </Popover>
       )}
     </div>
   );

@@ -1,13 +1,6 @@
-import {
-  InputGroup as FieFileNameInput,
-  SelectGroup as FieFileExtensionSelect,
-} from '@scaleflex/ui/core';
-
-import Label from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
-import MenuItem from '@scaleflex/ui/core/menu-item';
 import { Image2 } from '@scaleflex/icons';
 
 /** Internal Dependencies */
@@ -26,6 +19,10 @@ import Slider from 'components/common/Slider';
 import restrictNumber from 'utils/restrictNumber';
 import { Resize } from 'components/tools/Resize';
 import ButtonWithMenu from 'components/common/ButtonWithMenu';
+import PrimaryButton from 'components/common/Button';
+import FieFileNameInput from 'components/common/InputGroup';
+import FieFileExtensionSelect from 'components/common/SelectGroup';
+import Label from 'components/common/Label';
 
 import TopbarStyles from './Topbar.module.css';
 
@@ -277,6 +274,7 @@ const SaveButton = () => {
   return (
     <>
       <ButtonWithMenu
+        ButtonComponent={PrimaryButton}
         className="FIE_topbar-save"
         color="primary"
         onClick={triggerSaveHandler}
@@ -317,6 +315,8 @@ const SaveButton = () => {
             label={t('name')}
             placeholder={t('imageName')}
             error={!imageFileInfo.name}
+            errorMessage={t('nameIsRequired')}
+            aria-required
             fullWidth
             focusOnMount
             className={cx(
@@ -331,19 +331,16 @@ const SaveButton = () => {
             value={imageFileInfo.extension}
             label={t('format')}
             placeholder={t('extension')}
-            size="sm"
             fullWidth
+            options={SUPPORTED_IMAGE_TYPES.map((ext) => ({
+              value: ext,
+              label: ext,
+            }))}
             className={cx(
               TopbarStyles.fileExtensionSelect,
               'FIE_save-extension-selector',
             )}
-          >
-            {SUPPORTED_IMAGE_TYPES.map((ext) => (
-              <MenuItem key={ext} value={ext}>
-                {ext}
-              </MenuItem>
-            ))}
-          </FieFileExtensionSelect>
+          />
           {isQualityAcceptable && (
             <div
               className={cx(
@@ -353,6 +350,7 @@ const SaveButton = () => {
             >
               <Label>{t('quality')}</Label>
               <Slider
+                aria-label={t('quality')}
                 annotation="%"
                 min={1}
                 max={100}

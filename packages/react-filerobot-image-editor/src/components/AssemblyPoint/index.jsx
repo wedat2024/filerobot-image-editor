@@ -1,7 +1,6 @@
 /** External Dependencies */
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import ThemeProvider from '@scaleflex/ui/theme';
 
 /** Internal Dependencies */
 import App from 'components/App';
@@ -42,11 +41,9 @@ const AssemblyPoint = (props) => {
 
   return (
     <React.StrictMode>
-      <ThemeProvider theme={defaultAndProvidedConfigMerged.theme}>
-        <AppProvider config={defaultAndProvidedConfigMerged}>
-          <App />
-        </AppProvider>
-      </ThemeProvider>
+      <AppProvider config={defaultAndProvidedConfigMerged}>
+        <App />
+      </AppProvider>
     </React.StrictMode>
   );
 };

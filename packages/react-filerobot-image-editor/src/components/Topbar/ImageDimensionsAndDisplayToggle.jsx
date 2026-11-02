@@ -1,5 +1,3 @@
-import FieDimensionsLabel from '@scaleflex/ui/core/label';
-import FieSmallButton from '@scaleflex/ui/core/icon-button';
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
@@ -7,6 +5,8 @@ import PropTypes from 'prop-types';
 import Compare from '@scaleflex/icons/compare';
 
 /** Internal Dependencies */
+import FieDimensionsLabel from 'components/common/Label';
+import FieSmallButton from 'components/common/IconButton';
 import { TOGGLE_ORIGINAL_IMAGE_DISPLAY } from 'actions';
 import { useStore } from 'hooks';
 import getProperDimensions from 'utils/getProperDimensions';

@@ -1,49 +1,42 @@
-/** External Dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Popper from '@scaleflex/ui/core/popper';
 
-/** Internal Dependencies */
+import { useStore } from 'hooks';
 import ThemeScope from 'context/CssTheme';
+import Popover from 'components/common/Popover';
+import ThumbnailButton from 'ui/ThumbnailButton';
 
 import styles from './Image.module.css';
 
 const ImagesGallery = ({ gallery, anchorEl, onClose, onSelect }) => {
+  const { t } = useStore();
+
+  if (!anchorEl) return <div aria-hidden="true" />;
+
   return (
-    <Popper
+    <Popover
       className="FIE_image-tool-gallery"
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
+      anchor={anchorEl}
       position="top"
-      onClick={onClose}
-      overlay
+      onClose={onClose}
+      surface="div"
+      aria-label={t('fromGallery')}
     >
       <ThemeScope className={styles.gallery}>
-        {gallery.map(({ originalUrl, previewUrl }) => (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve the existing div/click behavior during the CSS migration.
-          <div
-            className={styles.imageWrapper}
+        {gallery.map(({ originalUrl, previewUrl }, index) => (
+          <ThumbnailButton
             key={originalUrl}
+            src={previewUrl}
+            label={`${t('imageTool')} ${index + 1}`}
             onClick={() => onSelect(originalUrl)}
-          >
-            <img
-              src={previewUrl}
-              alt={previewUrl}
-              crossOrigin="Anonymous"
-              draggable={false}
-            />
-          </div>
+          />
         ))}
       </ThemeScope>
-    </Popper>
+    </Popover>
   );
 };
 
-ImagesGallery.defaultProps = {
-  gallery: [],
-  anchorEl: null,
-};
-
+ImagesGallery.defaultProps = { gallery: [], anchorEl: null };
 ImagesGallery.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,

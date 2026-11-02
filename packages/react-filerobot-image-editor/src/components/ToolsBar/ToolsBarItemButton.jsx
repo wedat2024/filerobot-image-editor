@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
-import FieToolsBarItemButtonLabel from '@scaleflex/ui/core/label';
 /** External Dependencies */
 import React, { memo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import FieToolsBarItemButtonLabel from 'components/common/Label';
 import { usePhoneScreen } from 'hooks';
 
 import ToolsBarStyles from './ToolsBar.module.css';

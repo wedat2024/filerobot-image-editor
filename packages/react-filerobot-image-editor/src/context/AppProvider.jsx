@@ -1,7 +1,6 @@
 /** External Dependencies */
 import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@scaleflex/ui/theme/hooks';
 
 /** Internal Dependencies */
 import { useAppReducer } from 'hooks';
@@ -9,6 +8,7 @@ import { translate, updateTranslations } from 'utils/translator';
 import appReducer from './appReducer';
 import AppContext from './AppContext';
 import getInitialAppState from './getInitialAppState';
+import resolveTheme from './theme/resolveTheme';
 
 let isFieMounted = true;
 
@@ -40,7 +40,9 @@ const AppProvider = ({ children, config = {} }) => {
     updateTranslations(config.translations, config.language);
   }, [config.useBackendTranslations, config.language, config.translations]);
 
-  const theme = useTheme();
+  // Preserve the previous provider's value-based memoization of theme overrides.
+  const themeKey = JSON.stringify(config.theme);
+  const theme = useMemo(() => resolveTheme(config.theme), [themeKey]);
 
   // Adapt the public theme prop once; CSS Modules do not read the UI palette.
   const themeVariables = useMemo(() => {
@@ -85,7 +87,7 @@ const AppProvider = ({ children, config = {} }) => {
       dispatch,
       t: translate,
     }),
-    [config, state, themeVariables],
+    [config, state, theme, themeVariables],
   );
 
   return (

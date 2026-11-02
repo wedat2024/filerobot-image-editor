@@ -1,4 +1,3 @@
-import FieIconLabel from '@scaleflex/ui/core/label';
 import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
 import React from 'react';
@@ -7,7 +6,7 @@ import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
-import { Label } from '@scaleflex/ui/core';
+import Label from 'components/common/Label';
 
 import AnnotationOptionsStyles from './AnnotationOptions.module.css';
 
@@ -41,14 +40,15 @@ const OpacityField = ({ annotation, updateAnnotation, t }) => {
       <Label>{t('transparency')}</Label>
       <div className={AnnotationOptionsStyles.spacedOptionFields}>
         <Slider
+          aria-label={t('transparency')}
           annotation="%"
           onChange={changeOpacity}
           value={opacityValue}
           noMargin
         />
-        <FieIconLabel
+        <Label
           className={AnnotationOptionsStyles.iconLabel}
-        >{`${opacityValue}%`}</FieIconLabel>
+        >{`${opacityValue}%`}</Label>
       </div>
     </ThemeScope>
   );

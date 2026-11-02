@@ -1,6 +1,3 @@
-import FieResizeInput from '@scaleflex/ui/core/input-group';
-import IconButton from '@scaleflex/ui/core/icon-button';
-
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
@@ -17,6 +14,8 @@ import getSizeAfterRotation from 'utils/getSizeAfterRotation';
 import getZoomFitFactor from 'utils/getZoomFitFactor';
 import restrictNumber from 'utils/restrictNumber';
 import { DEFAULT_ZOOM_FACTOR } from 'utils/constants';
+import FieResizeInput from 'components/common/InputGroup';
+import IconButton from 'components/common/IconButton';
 
 import ResizeStyles from './Resize.module.css';
 
@@ -192,6 +191,7 @@ const Resize = ({
       />
       <IconButton
         title={t('toggleRatioLockTitle')}
+        aria-pressed={!(currentSize.ratioUnlocked || resize.ratioUnlocked)}
         onClick={isManualChangeDisabled ? undefined : toggleRatioLock}
         color="basic"
         size="sm"
@@ -230,6 +230,7 @@ const Resize = ({
             isOriginalSize || isManualChangeDisabled ? undefined : resetResize
           }
           disabled={isOriginalSize || isManualChangeDisabled}
+          aria-label={t('resetSize')}
           className={cx(ResizeStyles.resetButton, 'FIE_resize-reset-button')}
         >
           <Reset />

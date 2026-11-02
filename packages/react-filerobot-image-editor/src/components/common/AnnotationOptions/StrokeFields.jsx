@@ -1,5 +1,6 @@
 /** External Dependencies */
 import React from 'react';
+import { useStore } from 'hooks';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -19,6 +20,8 @@ const StrokeFields = ({
   showStroke,
   isPhone,
 }) => {
+  const { t } = useStore();
+
   const { stroke, strokeWidth } = annotation;
 
   const changeStrokeWidth = (newStrokeWidth) => {
@@ -38,6 +41,7 @@ const StrokeFields = ({
   return (
     <div className={AnnotationOptionsStyles.spacedOptionFields}>
       <Slider
+        aria-label={t('stroke')}
         annotation="px"
         onChange={changeStrokeWidth}
         value={strokeWidth}

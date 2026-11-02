@@ -1,10 +1,10 @@
-import FieRestoreButton from '@scaleflex/ui/core/button';
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import FieRestoreButton from 'components/common/Button';
 import { useStore } from 'hooks';
 
 import TopbarStyles from './Topbar.module.css';
@@ -22,6 +22,8 @@ const RestoreButton = ({ restoreConfig }) => {
       )}
     >
       <FieRestoreButton
+        color="secondary"
+        size="md"
         onClick={restoreConfig?.onClick}
         className={cx(TopbarStyles.restoreButton, 'FIE_topbar-restore-wrapper')}
       >

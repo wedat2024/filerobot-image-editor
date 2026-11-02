@@ -1,7 +1,5 @@
-import {
-  RotationSlider as FieRotationSlider,
-  IconButton as FieRotateButton,
-} from '@scaleflex/ui/core';
+import FieRotationSlider from 'components/common/RotationSlider';
+import FieRotateButton from 'components/common/IconButton';
 
 /** External Dependencies */
 import React from 'react';
@@ -23,6 +21,7 @@ import RotateStyles from './Rotate.module.css';
 const RotateOptions = () => {
   const {
     dispatch,
+    t,
     adjustments: { rotation = 0 },
     resize = {},
     config,
@@ -95,7 +94,6 @@ const RotateOptions = () => {
   return (
     <div className={RotateStyles.rotationOptions}>
       <FieRotationSlider
-        showCurrentMarkText
         min={-180}
         max={180}
         step={isPhoneScreen ? rotateConfig.angle / 3 : 1}
@@ -105,6 +103,7 @@ const RotateOptions = () => {
         className={cx(RotateStyles.rotationSlider, 'FIE_rotate-slider')}
       />
       <FieRotateButton
+        aria-label={`${t('rotateTool')} +90°`}
         size="sm"
         color="basic"
         onClick={(e) => changeRotation(e, rotation + 90)}

@@ -1,8 +1,3 @@
-import {
-  Label as FieSliderLabel,
-  Input as FieSliderInput,
-} from '@scaleflex/ui/core';
-
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
@@ -13,6 +8,9 @@ import PropTypes from 'prop-types';
 import { useFinetune } from 'hooks';
 import restrictNumber from 'utils/restrictNumber';
 import Slider from 'components/common/Slider';
+import FieSliderInput from 'components/common/Input';
+import FieSliderLabel from 'components/common/Label';
+import useFieldId from 'hooks/useFieldId';
 
 import toolsStyles from '../tools.module.css';
 
@@ -24,6 +22,8 @@ const MAX_VALUE = 1;
 const sliderStyle = { width: 150, padding: 0, margin: 0 };
 
 const BrightnessOptions = ({ t }) => {
+  const brightnessId = useFieldId();
+
   const [finetuneProps, setFinetuneProps] = useFinetune(
     Konva.Filters.Brighten,
     DEFAULT_VALUE,
@@ -43,12 +43,14 @@ const BrightnessOptions = ({ t }) => {
       )}
     >
       <FieSliderLabel
+        htmlFor={brightnessId}
         className={cx(toolsStyles.sliderLabel, 'FIE_brightness-option-label')}
       >
         {t('brightness')}
       </FieSliderLabel>
       <div className={toolsStyles.sliderWrapper}>
         <Slider
+          aria-label={t('brightness')}
           className="FIE_brightness-option"
           min={MIN_VALUE}
           step={0.05}
@@ -59,6 +61,7 @@ const BrightnessOptions = ({ t }) => {
           style={sliderStyle}
         />
         <FieSliderInput
+          id={brightnessId}
           value={finetuneProps.brightness ?? DEFAULT_VALUE.brightness}
           onChange={({ target: { value } }) => changeValue(value)}
           className={toolsStyles.sliderInput}

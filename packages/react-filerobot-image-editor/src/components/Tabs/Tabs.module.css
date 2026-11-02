@@ -1,4 +1,9 @@
 .tabItem {
+  border: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  box-sizing: border-box;
   width: 72px;
   min-height: 66px;
   padding: 4px 2px;
@@ -30,11 +35,11 @@
   background: var(--fie-bg-primary-active);
 }
 
-.tabItem[aria-selected='true'] {
+.tabItem[aria-pressed='true'] {
   background: var(--fie-bg-primary-active);
 }
 
-.tabItem[aria-selected='true'] * {
+.tabItem[aria-pressed='true'] * {
   color: var(--fie-accent-primary-active);
 }
 
@@ -52,4 +57,9 @@
 
 [data-phone='true'] .tabItemLabel.tabItemLabel {
   font-size: 10px;
+}
+
+.tabItem:focus-visible {
+  outline: 2px solid var(--fie-accent-stateless);
+  outline-offset: -2px;
 }

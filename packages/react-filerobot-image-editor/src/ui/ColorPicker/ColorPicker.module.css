@@ -1,0 +1,129 @@
+.root {
+  background: var(--fie-color-background);
+  box-shadow: 0 1px 2px rgb(78 77 77 / 15%);
+  border-radius: 2px;
+  padding: 12px;
+  max-width: 300px;
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.square {
+  position: relative;
+  border-radius: 2px;
+  width: 100%;
+  height: 180px;
+  user-select: none;
+  cursor: crosshair;
+  touch-action: none;
+}
+.white,
+.black {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  user-select: none;
+  pointer-events: none;
+}
+.white {
+  background: linear-gradient(to right, white 0%, rgb(255 255 255 / 0%) 100%);
+  z-index: 0;
+  top: -1px;
+}
+.black {
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0%) 0%, black 100%);
+  z-index: 1;
+}
+.pointer {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgb(78 77 77 / 15%);
+  border: 2px solid var(--fie-color-background);
+  position: absolute;
+  cursor: pointer;
+  z-index: 11;
+  user-select: none;
+  outline: none;
+}
+.hue {
+  margin-top: 8px;
+  position: relative;
+  width: 100%;
+  height: 12px;
+  touch-action: none;
+}
+.bar {
+  border-radius: 4px;
+  width: 100%;
+  height: 8px;
+  border-collapse: collapse;
+}
+.stop {
+  padding: 0;
+  user-select: none;
+  pointer-events: none;
+}
+.stop:first-child {
+  width: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.stop:last-child {
+  width: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.colors {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  margin-top: 14px;
+  margin-left: 12px;
+}
+.colors > :global(.item) {
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+}
+.swatch {
+  position: relative;
+  border-radius: 2px;
+  border: 1px solid;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 300ms;
+  margin-bottom: 8px;
+}
+.swatch[data-transparent] {
+  background: repeating-conic-gradient(
+      var(--fie-color-grid) 0% 25%,
+      transparent 0% 50%
+    )
+    50% / 8px 8px;
+}
+.swatch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.square:focus-visible,
+.hue:focus-visible,
+.swatch:focus-within {
+  outline: 2px solid var(--fie-color-focus);
+  outline-offset: 2px;
+}

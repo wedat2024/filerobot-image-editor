@@ -1,4 +1,5 @@
-import { Accordion as FieAccordion } from '@scaleflex/ui/core';
+import FieAccordion from 'ui/Accordion';
+import useFieldId from 'hooks/useFieldId';
 /** External Dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -19,10 +20,13 @@ const CropPresetGroup = ({
   setExpandedGroup,
 }) => {
   const {
+    theme: { palette },
     adjustments: {
       crop: { ratio: currentRatio, ratioGroupKey, ratioTitleKey },
     },
   } = useStore();
+
+  const id = useFieldId();
 
   const toggleExpand = () => {
     setExpandedGroup(isExpanded ? null : groupTitleKey);
@@ -37,6 +41,8 @@ const CropPresetGroup = ({
 
   return (
     <FieAccordion
+      id={id}
+      style={{ '--fie-accordion-color': palette['link-primary'] }}
       label={t(groupTitleKey)}
       onChange={toggleExpand}
       expanded={isExpanded}

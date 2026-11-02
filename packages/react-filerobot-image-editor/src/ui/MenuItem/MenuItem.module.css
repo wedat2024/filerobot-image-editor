@@ -1,0 +1,44 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  min-height: 32px;
+  margin: 0;
+  padding: 8px 16px;
+  border: 0;
+  box-sizing: border-box;
+  background: var(--fie-menu-background);
+  color: var(--fie-menu-color);
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+  transition: all 100ms ease-out;
+}
+
+.item[data-active] {
+  background: var(--fie-menu-active);
+}
+
+.item:hover,
+.item:focus-visible {
+  background: var(--fie-menu-hover);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--fie-menu-focus);
+  outline-offset: -2px;
+}
+
+.icon {
+  flex-shrink: 0;
+  margin-right: 10px;
+  color: var(--fie-menu-icon);
+}
+
+.label {
+  align-items: center;
+  column-gap: 4px;
+  flex-grow: 1;
+}

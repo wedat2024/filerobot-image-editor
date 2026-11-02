@@ -1,10 +1,10 @@
-import FieMenuIconButton from '@scaleflex/ui/core/icon-button';
 /** External Dependencies */
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import FieMenuIconButton from 'components/common/IconButton';
 import { usePhoneScreen, useStore } from 'hooks';
 import { Menu } from '@scaleflex/icons';
 import CloseButton from './CloseButton';
@@ -19,9 +19,11 @@ import TopbarStyles from './Topbar.module.css';
 import BackButton from './BackButton';
 import RestoreButton from './RestoreButton';
 
-const Topbar = ({ toggleMainMenu }) => {
+const Topbar = ({ toggleMainMenu, menuButtonRef }) => {
   const {
     config: { showBackButton, restoreConfig },
+    t,
+    showTabsMenu,
   } = useStore();
 
   const isPhoneScreen = usePhoneScreen(320);
@@ -41,12 +43,17 @@ const Topbar = ({ toggleMainMenu }) => {
         )}
       >
         <FieMenuIconButton
+          ref={menuButtonRef}
           size={isPhoneScreen ? 'sm' : 'lg'}
           color="basic"
+          aria-label={t('tabsMenu')}
+          aria-expanded={showTabsMenu}
+          active={showTabsMenu}
+          aria-haspopup="dialog"
           onClick={() => toggleMainMenu(true)}
           className={cx(TopbarStyles.menuIconButton, 'FIE_tabs_toggle_btn')}
         >
-          {(props) => <Menu {...props} />}
+          <Menu size={isPhoneScreen ? 14 : 18} />
         </FieMenuIconButton>
         {showBackButton ? <BackButton /> : <SaveButton />}
         <RestoreButton restoreConfig={restoreConfig} />
@@ -83,10 +90,12 @@ const Topbar = ({ toggleMainMenu }) => {
 };
 
 Topbar.defaultProps = {
+  menuButtonRef: undefined,
   toggleMainMenu: () => {},
 };
 
 Topbar.propTypes = {
+  menuButtonRef: PropTypes.shape({ current: PropTypes.instanceOf(Object) }),
   toggleMainMenu: PropTypes.func,
 };
 
