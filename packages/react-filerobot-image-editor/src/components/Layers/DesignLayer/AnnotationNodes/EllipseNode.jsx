@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Ellipse } from 'react-konva';
 
@@ -9,14 +8,14 @@ import nodesCommonPropTypes from '../nodesCommonPropTypes';
 const EllipseNode = ({
   id,
   name,
-  fill,
+  fill = '#000',
   x,
   y,
-  radiusX,
-  radiusY,
-  scaleX,
-  scaleY,
-  rotation,
+  radiusX = 0,
+  radiusY = 0,
+  scaleX = nodesCommonPropTypes.defaults.scaleX,
+  scaleY = nodesCommonPropTypes.defaults.scaleY,
+  rotation = nodesCommonPropTypes.defaults.rotation,
   annotationEvents,
   stroke,
   strokeWidth,
@@ -25,7 +24,7 @@ const EllipseNode = ({
   shadowBlur,
   shadowColor,
   shadowOpacity,
-  opacity,
+  opacity = nodesCommonPropTypes.defaults.opacity,
   ...otherProps
 }) => (
   <Ellipse
@@ -53,13 +52,6 @@ const EllipseNode = ({
     {...otherProps}
   />
 );
-
-EllipseNode.defaultProps = {
-  ...nodesCommonPropTypes.defaults,
-  fill: '#000',
-  radiusX: 0,
-  radiusY: 0,
-};
 
 EllipseNode.propTypes = {
   ...nodesCommonPropTypes.definitions,

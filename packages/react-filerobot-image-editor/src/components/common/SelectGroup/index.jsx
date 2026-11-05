@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Select from 'components/common/Select';
@@ -30,10 +30,6 @@ const SelectGroup = forwardRef(({ label, className, ...props }, ref) => {
 });
 
 SelectGroup.displayName = 'SelectGroup';
-SelectGroup.defaultProps = {
-  label: undefined,
-  className: undefined,
-};
 SelectGroup.propTypes = {
   label: PropTypes.node,
   className: PropTypes.string,

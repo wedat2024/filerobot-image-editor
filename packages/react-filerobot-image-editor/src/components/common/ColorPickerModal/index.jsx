@@ -1,5 +1,4 @@
 import ColorPicker from 'components/common/ColorPicker';
-import React from 'react';
 import cx from 'classnames';
 import PT from 'prop-types';
 
@@ -15,13 +14,17 @@ import ColorPickerModalStyles from './ColorPickerModal.module.css';
 
 const modalStyles = { zIndex: 1301 };
 
+const defaultPinnedColors = [];
+const defaultOnChange = () => {};
+const defaultOnClose = () => {};
+
 const ColorPickerModal = ({
-  hideModalTitle,
+  hideModalTitle = false,
   defaultColor = '',
-  onChange,
-  open,
-  pinnedColors,
-  onClose,
+  onChange = defaultOnChange,
+  open = false,
+  pinnedColors = defaultPinnedColors,
+  onClose = defaultOnClose,
 }) => {
   const { t } = useStore();
   const titleId = useFieldId();
@@ -81,15 +84,6 @@ const ColorPickerModal = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-ColorPickerModal.defaultProps = {
-  defaultColor: '',
-  pinnedColors: [],
-  onChange: () => {},
-  open: false,
-  hideModalTitle: false,
-  onClose: () => {},
 };
 
 ColorPickerModal.propTypes = {

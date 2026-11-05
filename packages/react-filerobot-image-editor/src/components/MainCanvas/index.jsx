@@ -1,5 +1,5 @@
 import FieArrowButton from 'components/common/Button';
-import React, { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { DesignLayer, TransformersLayer } from 'components/Layers';
 import { AppProviderOverridenValue } from 'context';
@@ -12,7 +12,13 @@ import CanvasNode from './CanvasNode';
 
 import MainCanvasStyles from './MainCanvas.module.css';
 
-const MainCanvas = ({ controls = {} }) => {
+const defaultControls = {
+  withControls: false,
+  onPrev: () => {},
+  onNext: () => {},
+};
+
+const MainCanvas = ({ controls = defaultControls }) => {
   const {
     withControls = false,
     onPrev = () => {},
@@ -105,14 +111,6 @@ MainCanvas.propTypes = {
     onPrev: PropTypes.func,
     onNext: PropTypes.func,
   }),
-};
-
-MainCanvas.defaultProps = {
-  controls: {
-    withControls: false,
-    onPrev: () => {},
-    onNext: () => {},
-  },
 };
 
 export default MainCanvas;

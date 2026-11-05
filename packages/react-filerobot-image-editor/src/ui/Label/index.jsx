@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -7,7 +7,7 @@ import cx from 'classnames';
 import styles from './Label.module.css';
 
 const Label = forwardRef(
-  ({ children, className, textProps, htmlFor, ...props }, ref) => {
+  ({ children = null, className, textProps, htmlFor, ...props }, ref) => {
     const Element = htmlFor ? 'label' : 'span';
 
     return (
@@ -26,12 +26,6 @@ const Label = forwardRef(
 );
 
 Label.displayName = 'Label';
-Label.defaultProps = {
-  htmlFor: undefined,
-  children: null,
-  className: undefined,
-  textProps: undefined,
-};
 Label.propTypes = {
   htmlFor: PropTypes.string,
   children: PropTypes.node,

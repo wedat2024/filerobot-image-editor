@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 /** External Dependencies */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -141,10 +141,6 @@ const ColorInput = ({ onChange, color, colorFor }) => {
       />
     </>
   );
-};
-
-ColorInput.defaultProps = {
-  color: undefined,
 };
 
 ColorInput.propTypes = {

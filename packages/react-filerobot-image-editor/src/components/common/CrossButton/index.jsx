@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import CrossOutline from '@scaleflex/icons/cross-outline';
 
 import { useStore } from 'hooks';

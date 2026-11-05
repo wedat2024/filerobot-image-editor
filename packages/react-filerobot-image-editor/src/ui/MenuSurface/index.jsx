@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -13,7 +13,6 @@ const MenuSurface = forwardRef(({ className, ...props }, ref) => (
 ));
 
 MenuSurface.displayName = 'MenuSurface';
-MenuSurface.defaultProps = { className: undefined };
 MenuSurface.propTypes = { className: PropTypes.string };
 
 export default MenuSurface;

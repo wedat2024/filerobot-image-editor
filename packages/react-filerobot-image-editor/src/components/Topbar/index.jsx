@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -19,7 +18,9 @@ import TopbarStyles from './Topbar.module.css';
 import BackButton from './BackButton';
 import RestoreButton from './RestoreButton';
 
-const Topbar = ({ toggleMainMenu, menuButtonRef }) => {
+const defaultToggleMainMenu = () => {};
+
+const Topbar = ({ toggleMainMenu = defaultToggleMainMenu, menuButtonRef }) => {
   const {
     config: { showBackButton, restoreConfig },
     t,
@@ -87,11 +88,6 @@ const Topbar = ({ toggleMainMenu, menuButtonRef }) => {
       </div>
     </div>
   );
-};
-
-Topbar.defaultProps = {
-  menuButtonRef: undefined,
-  toggleMainMenu: () => {},
 };
 
 Topbar.propTypes = {

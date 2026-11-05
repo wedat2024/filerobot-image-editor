@@ -1,6 +1,6 @@
 import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { usePhoneScreen, useStore } from 'hooks';
@@ -24,17 +24,21 @@ import AnnotationOptionsStyles from './AnnotationOptions.module.css';
 import { POPPABLE_OPTIONS } from './AnnotationOptions.constants';
 import ColorInput from '../ColorInput';
 
+const defaultMorePoppableOptionsPrepended = [];
+const defaultMoreOptionsPopupComponentsObj = {};
+const defaultMorePoppableOptionsAppended = [];
+
 const AnnotationOptions = ({
   children,
-  morePoppableOptionsPrepended,
-  moreOptionsPopupComponentsObj,
-  morePoppableOptionsAppended,
+  morePoppableOptionsPrepended = defaultMorePoppableOptionsPrepended,
+  moreOptionsPopupComponentsObj = defaultMoreOptionsPopupComponentsObj,
+  morePoppableOptionsAppended = defaultMorePoppableOptionsAppended,
   annotation,
   updateAnnotation,
-  hideFillOption,
-  hidePositionField,
+  hideFillOption = false,
+  hidePositionField = false,
   className,
-  withoutOptions,
+  withoutOptions = false,
   ...rest
 }) => {
   const popupId = useFieldId();
@@ -262,17 +266,6 @@ const AnnotationOptions = ({
       )}
     </div>
   );
-};
-
-AnnotationOptions.defaultProps = {
-  children: undefined,
-  morePoppableOptionsPrepended: [],
-  moreOptionsPopupComponentsObj: {},
-  morePoppableOptionsAppended: [],
-  hideFillOption: false,
-  hidePositionField: false,
-  className: undefined,
-  withoutOptions: false,
 };
 
 AnnotationOptions.propTypes = {

@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useCallback, memo } from 'react';
+import { useCallback, memo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import FieTabItemLabel from 'components/common/Label';
 import TabsStyles from './Tabs.module.css';
 
-const TabItem = ({ id, label, Icon, isSelected, onClick }) => {
+const TabItem = ({ id, label, Icon, isSelected = false, onClick }) => {
   const handleClick = useCallback(() => {
     if (typeof onClick === 'function') {
       onClick(id);
@@ -31,12 +31,6 @@ const TabItem = ({ id, label, Icon, isSelected, onClick }) => {
       )}
     </button>
   );
-};
-
-TabItem.defaultProps = {
-  isSelected: false,
-  onClick: undefined,
-  label: undefined,
 };
 
 TabItem.propTypes = {

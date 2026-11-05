@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import styles from './IconButton.module.css';
 
 const IconButton = forwardRef(
-  ({ children, className, active, ...props }, ref) => (
+  ({ children, className, active = false, ...props }, ref) => (
     <button
       type="button"
       {...props}
@@ -24,7 +24,6 @@ const IconButton = forwardRef(
 );
 
 IconButton.displayName = 'IconButton';
-IconButton.defaultProps = { className: undefined, active: false };
 IconButton.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,

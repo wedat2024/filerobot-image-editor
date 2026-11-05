@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Compare from '@scaleflex/icons/compare';
@@ -16,7 +15,10 @@ import TopbarStyles from './Topbar.module.css';
 
 import CanvasZooming from './CanvasZooming';
 
-const ImageDimensionsAndDisplayToggle = ({ showBackButton, isPhoneScreen }) => {
+const ImageDimensionsAndDisplayToggle = ({
+  showBackButton = false,
+  isPhoneScreen = false,
+}) => {
   const {
     dispatch,
     isResetted = true,
@@ -105,11 +107,6 @@ const ImageDimensionsAndDisplayToggle = ({ showBackButton, isPhoneScreen }) => {
       </div>
     </div>
   );
-};
-
-ImageDimensionsAndDisplayToggle.defaultProps = {
-  showBackButton: false,
-  isPhoneScreen: false,
 };
 
 ImageDimensionsAndDisplayToggle.propTypes = {

@@ -1,4 +1,3 @@
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -10,16 +9,16 @@ import SliderStyles from './Slider.module.css';
 const Slider = ({
   onChange,
   width,
-  noMargin,
+  noMargin = false,
   className,
   style,
-  min,
-  max,
-  step,
+  min = 0,
+  max = 100,
+  step = 1,
   value,
-  annotation,
-  hideTrack,
-  disabled,
+  annotation = '',
+  hideTrack = false,
+  disabled = false,
   'aria-label': ariaLabel,
 }) => {
   const {
@@ -81,20 +80,6 @@ const Slider = ({
   );
 };
 
-Slider.defaultProps = {
-  width: undefined,
-  noMargin: false,
-  className: undefined,
-  style: undefined,
-  min: 0,
-  max: 100,
-  step: 1,
-  value: undefined,
-  annotation: '',
-  hideTrack: false,
-  disabled: false,
-  'aria-label': undefined,
-};
 Slider.propTypes = {
   onChange: PropTypes.func.isRequired,
   width: PropTypes.string,

@@ -1,12 +1,11 @@
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import ToolsBarStyles from './ToolsBar.module.css';
 
-const ToolsBarItemOptionsWrapper = ({ children, isPhoneScreen }) => (
+const ToolsBarItemOptionsWrapper = ({ children, isPhoneScreen = false }) => (
   <div
     className={cx(
       ToolsBarStyles.toolsBarItemOptionsWrapper,
@@ -18,11 +17,6 @@ const ToolsBarItemOptionsWrapper = ({ children, isPhoneScreen }) => (
     {children}
   </div>
 );
-
-ToolsBarItemOptionsWrapper.defaultProps = {
-  children: undefined,
-  isPhoneScreen: false,
-};
 
 ToolsBarItemOptionsWrapper.propTypes = {
   children: PropTypes.node,

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import CrossOutline from '@scaleflex/icons/cross-outline';
@@ -45,7 +44,6 @@ const Notification = ({
   </div>
 );
 
-Notification.defaultProps = { className: undefined, labelStyle: undefined };
 Notification.propTypes = {
   message: PropTypes.node.isRequired,
   labelStyle: PropTypes.instanceOf(Object),

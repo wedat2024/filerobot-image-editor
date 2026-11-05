@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -14,7 +14,6 @@ const PopupTrigger = forwardRef(({ className, ...props }, ref) => (
 ));
 
 PopupTrigger.displayName = 'PopupTrigger';
-PopupTrigger.defaultProps = { className: undefined };
 PopupTrigger.propTypes = { className: PropTypes.string };
 
 export default PopupTrigger;

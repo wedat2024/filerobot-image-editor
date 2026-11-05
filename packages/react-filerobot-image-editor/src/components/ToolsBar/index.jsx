@@ -1,5 +1,5 @@
 /** External Depepdencneis */
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,7 @@ import ToolsBarItemOptionsWrapper from './ToolsBarItemOptionsWrapper';
 
 const style = { maxWidth: '100%', width: '100%' };
 
-const ToolsBar = ({ isPhoneScreen }) => {
+const ToolsBar = ({ isPhoneScreen = false }) => {
   const {
     t,
     dispatch,
@@ -127,10 +127,6 @@ const ToolsBar = ({ isPhoneScreen }) => {
       )}
     </div>
   );
-};
-
-ToolsBar.defaultProps = {
-  isPhoneScreen: false,
 };
 
 ToolsBar.propTypes = {

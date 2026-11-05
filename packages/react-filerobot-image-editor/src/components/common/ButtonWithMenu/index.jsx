@@ -2,7 +2,7 @@ import FieMainButton from 'components/common/Button';
 
 import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -17,10 +17,10 @@ import ButtonWithMenuStyles from './ButtonWithMenu.module.css';
 const ButtonWithMenu = ({
   ButtonComponent = FieMainButton,
   onClick,
-  title,
-  label,
-  color,
-  menuFromBtn,
+  title = '',
+  label = '',
+  color = 'primary',
+  menuFromBtn = false,
   menuItems,
   menuPosition = 'bottom',
   disabled = false,
@@ -28,7 +28,7 @@ const ButtonWithMenu = ({
   menuStyle,
   wrapperStyle,
   buttonRef,
-  noMargin,
+  noMargin = false,
 }) => {
   const { t } = useStore();
 
@@ -135,21 +135,6 @@ const ButtonWithMenu = ({
       )}
     </>
   );
-};
-
-ButtonWithMenu.defaultProps = {
-  ButtonComponent: FieMainButton,
-  title: '',
-  label: '',
-  color: 'primary',
-  menuFromBtn: false,
-  noMargin: false,
-  menuPosition: 'bottom',
-  onClick: undefined,
-  disabled: false,
-  menuStyle: undefined,
-  wrapperStyle: undefined,
-  buttonRef: undefined,
 };
 
 ButtonWithMenu.propTypes = {

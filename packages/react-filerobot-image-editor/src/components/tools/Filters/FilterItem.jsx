@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 
 /** External Dependencies */
-import React, { memo, useCallback, useEffect, useRef } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Layer, Image, Stage as FieFilterItemPreview } from 'react-konva';
@@ -86,10 +86,6 @@ const FilterItem = ({
       </FieFilterItemLabel>
     </div>
   );
-};
-
-FilterItem.defaultProps = {
-  filterFn: undefined,
 };
 
 FilterItem.propTypes = {

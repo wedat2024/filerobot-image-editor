@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -7,14 +7,14 @@ import styles from './MenuItem.module.css';
 const MenuItem = forwardRef(
   (
     {
-      children,
-      icon,
-      active,
+      children = null,
+      icon = null,
+      active = false,
       className,
       iconClassName,
-      wrapLabel,
-      role,
-      tabIndex,
+      wrapLabel = true,
+      role = 'menuitem',
+      tabIndex = -1,
       ...props
     },
     ref,
@@ -50,16 +50,6 @@ const MenuItem = forwardRef(
 );
 
 MenuItem.displayName = 'MenuItem';
-MenuItem.defaultProps = {
-  children: null,
-  wrapLabel: true,
-  role: 'menuitem',
-  tabIndex: -1,
-  icon: null,
-  active: false,
-  className: undefined,
-  iconClassName: undefined,
-};
 MenuItem.propTypes = {
   children: PropTypes.node,
   wrapLabel: PropTypes.bool,

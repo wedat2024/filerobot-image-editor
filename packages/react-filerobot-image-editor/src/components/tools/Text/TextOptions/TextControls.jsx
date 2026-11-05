@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -20,7 +20,7 @@ import {
   deactivateTextChange,
 } from './handleTextChangeArea';
 
-const TextControls = ({ text, saveText, children }) => {
+const TextControls = ({ text, saveText, children = null }) => {
   const { dispatch, textIdOfEditableContent, designLayer, t, config } =
     useStore();
 
@@ -225,10 +225,6 @@ const TextControls = ({ text, saveText, children }) => {
       <div className={TextOptionsStyles.toolsWrapper}>{children}</div>
     </AnnotationOptions>
   );
-};
-
-TextControls.defaultProps = {
-  children: null,
 };
 
 TextControls.propTypes = {

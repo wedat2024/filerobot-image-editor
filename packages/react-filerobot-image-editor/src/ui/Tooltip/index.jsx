@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -11,7 +10,6 @@ const TooltipContent = ({ children, style }) => (
   </div>
 );
 
-TooltipContent.defaultProps = { style: undefined };
 TooltipContent.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.instanceOf(Object),

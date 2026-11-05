@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createPopper } from '@popperjs/core';
 import PropTypes from 'prop-types';
@@ -12,11 +12,11 @@ const AnchoredMenu = ({
   anchor,
   onClose,
   children,
-  position,
-  offset,
+  position = 'bottom-start',
+  offset = 0,
   surfaceRef,
-  surface: Surface,
-  overlay,
+  surface: Surface = MenuSurface,
+  overlay = true,
   style,
   ...props
 }) => {
@@ -113,14 +113,6 @@ const AnchoredMenu = ({
   );
 };
 
-AnchoredMenu.defaultProps = {
-  position: 'bottom-start',
-  offset: 0,
-  surfaceRef: undefined,
-  surface: MenuSurface,
-  overlay: true,
-  style: undefined,
-};
 AnchoredMenu.propTypes = {
   position: PropTypes.string,
   offset: PropTypes.number,

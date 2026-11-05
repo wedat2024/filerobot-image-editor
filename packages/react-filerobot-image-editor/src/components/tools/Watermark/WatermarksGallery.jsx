@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -80,10 +80,6 @@ const WatermarksGallery = ({
       })}
     </Carousel>
   );
-};
-
-WatermarksGallery.defaultProps = {
-  style: undefined,
 };
 
 WatermarksGallery.propTypes = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { PinOutline, DeleteOutline } from '@scaleflex/icons';
 
@@ -24,7 +24,13 @@ import styles from './ColorPicker.module.css';
 
 const clamp = (value, max) => Math.min(max, Math.max(0, value));
 
-const ColorPicker = ({ defaultColor, pinnedColors, onChange }) => {
+const defaultPinnedColors = [];
+
+const ColorPicker = ({
+  defaultColor = '',
+  pinnedColors = defaultPinnedColors,
+  onChange,
+}) => {
   const {
     t,
     theme: { palette },
@@ -314,7 +320,6 @@ const ColorPicker = ({ defaultColor, pinnedColors, onChange }) => {
   );
 };
 
-ColorPicker.defaultProps = { defaultColor: '', pinnedColors: [] };
 ColorPicker.propTypes = {
   defaultColor: PropTypes.string,
   pinnedColors: PropTypes.arrayOf(PropTypes.string),

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import ArrowBottom from '@scaleflex/icons/arrow-bottom';
@@ -8,7 +7,7 @@ import styles from './Accordion.module.css';
 const Accordion = ({
   id,
   label,
-  expanded,
+  expanded = false,
   onChange,
   children,
   className,
@@ -49,11 +48,6 @@ const Accordion = ({
   </div>
 );
 
-Accordion.defaultProps = {
-  expanded: false,
-  className: undefined,
-  style: undefined,
-};
 Accordion.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.node.isRequired,

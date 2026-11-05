@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import ErrorIcon from '@scaleflex/icons/error';
@@ -116,7 +116,7 @@ const FeedbackNotice = ({
   );
 };
 
-const FeedbackPopup = ({ anchorOrigin }) => {
+const FeedbackPopup = ({ anchorOrigin = defaultAnchorOrigin }) => {
   const {
     feedback = {},
     dispatch,
@@ -138,7 +138,6 @@ const FeedbackPopup = ({ anchorOrigin }) => {
   );
 };
 
-FeedbackPopup.defaultProps = { anchorOrigin: defaultAnchorOrigin };
 FeedbackPopup.propTypes = { anchorOrigin: PropTypes.instanceOf(Object) };
 FeedbackNotice.propTypes = {
   feedback: PropTypes.instanceOf(Object).isRequired,

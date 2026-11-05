@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Arrow } from 'react-konva';
 
@@ -12,20 +11,20 @@ const ArrowNode = ({
   fill,
   pointerLength,
   pointerWidth,
-  scaleX,
-  scaleY,
-  rotation,
+  scaleX = nodesCommonPropTypes.defaults.scaleX,
+  scaleY = nodesCommonPropTypes.defaults.scaleY,
+  rotation = nodesCommonPropTypes.defaults.rotation,
   annotationEvents,
   points,
-  lineCap,
-  stroke,
-  strokeWidth,
+  lineCap = 'butt',
+  stroke = '#000000',
+  strokeWidth = 6,
   shadowOffsetX,
   shadowOffsetY,
   shadowBlur,
   shadowColor,
   shadowOpacity,
-  opacity,
+  opacity = nodesCommonPropTypes.defaults.opacity,
   ...otherProps
 }) => (
   <Arrow
@@ -53,16 +52,6 @@ const ArrowNode = ({
     {...otherProps}
   />
 );
-
-ArrowNode.defaultProps = {
-  ...nodesCommonPropTypes.defaults,
-  stroke: '#000000',
-  strokeWidth: 6,
-  fill: undefined,
-  lineCap: 'butt',
-  pointerLength: undefined,
-  pointerWidth: undefined,
-};
 
 ArrowNode.propTypes = {
   ...nodesCommonPropTypes.definitions,

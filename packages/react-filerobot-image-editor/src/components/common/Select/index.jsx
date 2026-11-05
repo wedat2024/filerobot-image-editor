@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useStore } from 'hooks';
@@ -13,7 +13,7 @@ const Select = ({
   value,
   onChange,
   id,
-  fullWidth,
+  fullWidth = false,
   menuStyle,
   style,
   ...props
@@ -195,15 +195,6 @@ const Select = ({
   );
 };
 
-Select.defaultProps = {
-  value: undefined,
-  id: undefined,
-  fullWidth: false,
-  menuStyle: undefined,
-  style: undefined,
-  'aria-label': undefined,
-  'aria-labelledby': undefined,
-};
 Select.propTypes = {
   'aria-label': PropTypes.string,
   'aria-labelledby': PropTypes.string,

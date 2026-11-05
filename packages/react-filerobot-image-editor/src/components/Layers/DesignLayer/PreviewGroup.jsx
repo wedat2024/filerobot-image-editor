@@ -1,8 +1,8 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Group } from 'react-konva';
 
-const PreviewGroup = (props, ref) => {
+const PreviewGroup = forwardRef((props, ref) => {
   return <Group ref={ref} {...props} />;
-};
+});
 
-export default forwardRef(PreviewGroup);
+export default PreviewGroup;
