@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-konva';
 
@@ -13,11 +13,11 @@ const ImageNode = ({
   image,
   x,
   y,
-  width,
-  height,
-  scaleX,
-  scaleY,
-  rotation,
+  width = 0,
+  height = 0,
+  scaleX = nodesCommonPropTypes.defaults.scaleX,
+  scaleY = nodesCommonPropTypes.defaults.scaleY,
+  rotation = nodesCommonPropTypes.defaults.rotation,
   annotationEvents,
   stroke,
   strokeWidth,
@@ -26,7 +26,7 @@ const ImageNode = ({
   shadowBlur,
   shadowColor,
   shadowOpacity,
-  opacity,
+  opacity = nodesCommonPropTypes.defaults.opacity,
   ...otherProps
 }) => {
   const [imgElement, setImgElement] = useState(null);
@@ -68,12 +68,6 @@ const ImageNode = ({
       {...otherProps}
     />
   );
-};
-
-ImageNode.defaultProps = {
-  ...nodesCommonPropTypes.defaults,
-  width: 0,
-  height: 0,
 };
 
 ImageNode.propTypes = {

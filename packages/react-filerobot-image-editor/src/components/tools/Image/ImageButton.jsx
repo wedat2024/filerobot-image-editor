@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { ImageOutline as ImageIcon } from '@scaleflex/icons/image-outline';
 
@@ -7,7 +6,7 @@ import { ImageOutline as ImageIcon } from '@scaleflex/icons/image-outline';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
 import { TOOLS_IDS } from 'utils/constants';
 
-const ImageButton = ({ selectTool, isSelected, t }) => (
+const ImageButton = ({ selectTool, isSelected = false, t }) => (
   <ToolsBarItemButton
     className="FIE_image-tool-button"
     id={TOOLS_IDS.IMAGE}
@@ -17,10 +16,6 @@ const ImageButton = ({ selectTool, isSelected, t }) => (
     isSelected={isSelected}
   />
 );
-
-ImageButton.defaultProps = {
-  isSelected: false,
-};
 
 ImageButton.propTypes = {
   selectTool: PropTypes.func.isRequired,

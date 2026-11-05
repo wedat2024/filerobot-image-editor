@@ -1,35 +1,40 @@
 /** External Dependencies */
-import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
+import FieRestoreButton from 'components/common/Button';
 import { useStore } from 'hooks';
-import {
-  StyledRestoreButton,
-  StyledRestoreButtonWrapper,
-} from './Topbar.styled';
 
-const RestoreButton = ({ restoreConfig }) => {
+import TopbarStyles from './Topbar.module.css';
+
+const defaultRestoreConfig = {
+  showRestore: false,
+  onClick: undefined,
+};
+
+const RestoreButton = ({ restoreConfig = defaultRestoreConfig }) => {
   const state = useStore();
+
   const { t } = state;
 
   return restoreConfig.showRestore ? (
-    <StyledRestoreButtonWrapper className="FIE_topbar-restore-wrapper">
-      <StyledRestoreButton
-        className="FIE_topbar-restore-wrapper"
+    <div
+      className={cx(
+        TopbarStyles.restoreButtonWrapper,
+        'FIE_topbar-restore-wrapper',
+      )}
+    >
+      <FieRestoreButton
+        color="secondary"
+        size="md"
         onClick={restoreConfig?.onClick}
+        className={cx(TopbarStyles.restoreButton, 'FIE_topbar-restore-wrapper')}
       >
         {t('restore')}
-      </StyledRestoreButton>
-    </StyledRestoreButtonWrapper>
+      </FieRestoreButton>
+    </div>
   ) : null;
-};
-
-RestoreButton.defaultProps = {
-  restoreConfig: {
-    showRestore: false,
-    onClick: undefined,
-  },
 };
 
 RestoreButton.propTypes = {

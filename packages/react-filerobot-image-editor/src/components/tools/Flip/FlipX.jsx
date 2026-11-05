@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FlipX as FlipXIcon } from '@scaleflex/icons/flip-x';
 
@@ -13,7 +13,7 @@ const xFlipReverseSideStyle = {
   transform: 'scaleX(-1)',
 };
 
-const FlipX = ({ selectTool, isSelected, t }) => {
+const FlipX = ({ selectTool, isSelected = false, t }) => {
   const {
     dispatch,
     adjustments: { isFlippedX },
@@ -58,10 +58,6 @@ const FlipX = ({ selectTool, isSelected, t }) => {
       isSelected={isSelected}
     />
   );
-};
-
-FlipX.defaultProps = {
-  isSelected: false,
 };
 
 FlipX.propTypes = {

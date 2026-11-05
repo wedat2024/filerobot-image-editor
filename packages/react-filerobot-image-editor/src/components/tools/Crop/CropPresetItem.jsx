@@ -1,14 +1,14 @@
+import Label from 'components/common/Label';
+
+import FieMenuItem from 'ui/MenuItem';
 /** External Dependeices */
-import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependeices */
-import {
-  StyledMenuItemIcon,
-  StyledMenuItem,
-  StyledRatioDescription,
-  StyledMenuItemLabel,
-} from './Crop.styled';
+import { useStore } from 'hooks';
+
+import CropStyles from './Crop.module.css';
 
 const CropPresetItem = ({
   titleKey,
@@ -17,14 +17,17 @@ const CropPresetItem = ({
   onClick,
   Icon,
   isActive,
-  isAccordion,
-  theme,
+  isAccordion = false,
   width,
   height,
   t,
-  disableManualResize,
-  noEffect,
+  disableManualResize = false,
+  noEffect = false,
 }) => {
+  const {
+    theme: { palette, typography },
+  } = useStore();
+
   const handleOnClick = (e) =>
     onClick(e, ratio, {
       ratioTitleKey: titleKey,
@@ -35,38 +38,44 @@ const CropPresetItem = ({
     });
 
   return (
-    <StyledMenuItem
+    <FieMenuItem
+      style={{
+        ...typography.font['label-medium'],
+        '--fie-menu-background': palette['bg-secondary'],
+        '--fie-menu-color': palette['txt-primary'],
+        '--fie-menu-active': palette['bg-active'],
+        '--fie-menu-hover': palette['bg-hover'],
+        '--fie-menu-focus': palette['accent-stateless'],
+      }}
+      wrapLabel={false}
+      role="button"
+      tabIndex={0}
+      aria-pressed={isActive}
       active={isActive}
       onClick={handleOnClick}
-      isAccordion={isAccordion}
+      className={cx(
+        CropStyles.menuItem,
+        isAccordion && CropStyles.accordionItem,
+      )}
     >
       {Icon && (
-        <StyledMenuItemIcon>
+        <div className={CropStyles.menuItemIcon}>
           {typeof Icon === 'string' ? (
             // eslint-disable-next-line react/no-danger
             <span dangerouslySetInnerHTML={{ __html: Icon }} />
           ) : (
-            <Icon color={theme.palette['icon-primary']} />
+            <Icon color="var(--fie-icon-primary)" />
           )}
-        </StyledMenuItemIcon>
+        </div>
       )}
 
-      <StyledMenuItemLabel>{t(titleKey)}</StyledMenuItemLabel>
+      <Label className={CropStyles.menuItemLabel}>{t(titleKey)}</Label>
 
       {description && (
-        <StyledRatioDescription>{description}</StyledRatioDescription>
+        <Label className={CropStyles.ratioDescription}>{description}</Label>
       )}
-    </StyledMenuItem>
+    </FieMenuItem>
   );
-};
-
-CropPresetItem.defaultProps = {
-  Icon: undefined,
-  width: undefined,
-  height: undefined,
-  disableManualResize: false,
-  isAccordion: false,
-  noEffect: false,
 };
 
 CropPresetItem.propTypes = {
@@ -78,7 +87,6 @@ CropPresetItem.propTypes = {
   ratio: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   disableManualResize: PropTypes.bool,
   isAccordion: PropTypes.bool,
-  theme: PropTypes.instanceOf(Object).isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
   Icon: PropTypes.oneOfType([

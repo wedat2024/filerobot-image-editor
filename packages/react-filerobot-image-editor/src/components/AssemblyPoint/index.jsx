@@ -1,23 +1,31 @@
 /** External Dependencies */
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import ThemeProvider from '@scaleflex/ui/theme';
 
 /** Internal Dependencies */
 import App from 'components/App';
 import { AppProvider } from 'context';
 import defaultConfig from 'context/defaultConfig';
 import deepMerge from 'utils/deepMerge';
-import { FontsFaces, OverrideDefaultStyles } from './globalStyles';
 
-const AssemblyPoint = (props) => {
-  const { img, source, useCloudimage, cloudimage } = props;
+import './globalStyles.module.css';
+
+const defaultCloudimage = {};
+
+const AssemblyPoint = ({
+  useCloudimage = false,
+  cloudimage = defaultCloudimage,
+  ...props
+}) => {
+  const { img, source } = props;
+
   // TODO: Remove this property from here after PROD. release
   if (img) {
     throw new Error(
       '`img` is renamed to `source` please consider renaming it from your configurations.',
     );
   }
+
   if (
     !source ||
     (typeof source !== 'string' && !(source instanceof HTMLImageElement))
@@ -26,6 +34,7 @@ const AssemblyPoint = (props) => {
       '`source` property is required either a string of image url or a HTMLImageElement for the image that will be edited.',
     );
   }
+
   if (useCloudimage) {
     if (cloudimage?.imageSealing?.enable && !cloudimage?.imageSealing?.salt) {
       throw new Error(
@@ -34,26 +43,19 @@ const AssemblyPoint = (props) => {
     }
   }
 
-  const defaultAndProvidedConfigMerged = deepMerge(defaultConfig, props);
+  const defaultAndProvidedConfigMerged = deepMerge(defaultConfig, {
+    ...props,
+    useCloudimage,
+    cloudimage,
+  });
 
   return (
     <React.StrictMode>
-      <ThemeProvider theme={defaultAndProvidedConfigMerged.theme}>
-        <FontsFaces />
-        <OverrideDefaultStyles />
-        <AppProvider config={defaultAndProvidedConfigMerged}>
-          <App />
-        </AppProvider>
-      </ThemeProvider>
+      <AppProvider config={defaultAndProvidedConfigMerged}>
+        <App />
+      </AppProvider>
     </React.StrictMode>
   );
-};
-
-AssemblyPoint.defaultProps = {
-  useCloudimage: false,
-  cloudimage: {},
-  // TODO: Remove this property from here after PROD. release
-  img: undefined,
 };
 
 AssemblyPoint.propTypes = {

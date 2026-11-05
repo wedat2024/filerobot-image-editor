@@ -1,8 +1,7 @@
 /** External Dependencies */
 import React, { useEffect, useRef, useState } from 'react';
-import MenuItem from '@scaleflex/ui/core/menu-item';
+import cx from 'classnames';
 import { Image2 } from '@scaleflex/icons';
-import Label from '@scaleflex/ui/core/label';
 
 /** Internal Dependencies */
 import { useStore, useTransformedImgData } from 'hooks';
@@ -20,13 +19,12 @@ import Slider from 'components/common/Slider';
 import restrictNumber from 'utils/restrictNumber';
 import { Resize } from 'components/tools/Resize';
 import ButtonWithMenu from 'components/common/ButtonWithMenu';
-import {
-  StyledFileExtensionSelect,
-  StyledFileNameInput,
-  StyledQualityWrapper,
-  StyledResizeOnSave,
-  StyledResizeOnSaveLabel,
-} from './Topbar.styled';
+import PrimaryButton from 'components/common/Button';
+import FieFileNameInput from 'components/common/InputGroup';
+import FieFileExtensionSelect from 'components/common/SelectGroup';
+import Label from 'components/common/Label';
+
+import TopbarStyles from './Topbar.module.css';
 
 const sliderStyle = { marginBottom: 16 };
 const saveButtonWrapperStyle = { minWidth: 67, width: 'fit-content' }; // 67px same width as tabs bar
@@ -36,9 +34,10 @@ let isFieSaveMounted = true;
 
 const SaveButton = () => {
   const state = useStore();
+
   const optionSaveFnRef = useRef();
+
   const {
-    theme,
     dispatch,
     originalImage,
     resize,
@@ -63,11 +62,14 @@ const SaveButton = () => {
       removeSaveButton,
     },
   } = state;
+
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [imageFileInfo, setImageFileInfo] = useState({
     quality: getDefaultSaveQuality(defaultSavedImageQuality),
   });
+
   const transformImgFn = useTransformedImgData();
+
   const isQualityAcceptable = ['jpeg', 'jpg', 'webp'].includes(
     imageFileInfo.extension,
   );
@@ -91,6 +93,7 @@ const SaveButton = () => {
     const hideLoadingSpinner = () => {
       dispatch({ type: HIDE_LOADER });
     };
+
     if (savingResult instanceof Promise) {
       savingResult.finally(hideLoadingSpinner);
     } else {
@@ -98,6 +101,7 @@ const SaveButton = () => {
     }
 
     optionSaveFnRef.current = null;
+
     if (closeAfterSave && onClose) {
       onClose(CLOSING_REASONS.AFTER_SAVE, haveNotSavedChanges);
     }
@@ -111,9 +115,11 @@ const SaveButton = () => {
 
   const validateInfoThenSave = () => {
     const onSaveFn = optionSaveFnRef.current || onSave;
+
     if (typeof onSaveFn !== 'function') {
       throw new Error('Please provide onSave function handler.');
     }
+
     if (!imageFileInfo.name || !imageFileInfo.extension) {
       dispatch({
         type: SET_FEEDBACK,
@@ -123,6 +129,7 @@ const SaveButton = () => {
           },
         },
       });
+
       return;
     }
 
@@ -131,6 +138,7 @@ const SaveButton = () => {
 
   const changeFileName = (e) => {
     const name = e.target.value;
+
     setImageFileInfo({
       ...imageFileInfo,
       name,
@@ -152,10 +160,12 @@ const SaveButton = () => {
     if (useCloudimage) {
       const transformedCloudimageData = transformImgFn(imageFileInfo);
       const onSaveFn = optionSaveFnRef.current || onSave;
+
       onSaveFn(
         transformedCloudimageData.imageData,
         transformedCloudimageData.designState,
       );
+
       return;
     }
 
@@ -165,6 +175,7 @@ const SaveButton = () => {
       onBeforeSave(imageFileInfo) === false
     ) {
       validateInfoThenSave();
+
       return;
     }
 
@@ -263,6 +274,7 @@ const SaveButton = () => {
   return (
     <>
       <ButtonWithMenu
+        ButtonComponent={PrimaryButton}
         className="FIE_topbar-save"
         color="primary"
         onClick={triggerSaveHandler}
@@ -285,7 +297,7 @@ const SaveButton = () => {
           title={t('saveAsModalTitle')}
           // eslint-disable-next-line react/no-unstable-nested-components
           Icon={(props) => (
-            <Image2 color={theme.palette['accent-primary']} {...props} />
+            <Image2 color="var(--fie-accent-primary)" {...props} />
           )}
           isOpened={isModalOpened}
           onCancel={cancelModal}
@@ -296,38 +308,49 @@ const SaveButton = () => {
           areButtonsDisabled={isLoadingGlobally}
           zIndex={11110}
         >
-          <StyledFileNameInput
-            className="FIE_save-file-name-input"
+          <FieFileNameInput
             value={imageFileInfo.name}
             onChange={changeFileName}
             size="sm"
             label={t('name')}
             placeholder={t('imageName')}
             error={!imageFileInfo.name}
+            errorMessage={t('nameIsRequired')}
+            aria-required
             fullWidth
             focusOnMount
+            className={cx(
+              TopbarStyles.fileNameInput,
+              'FIE_save-file-name-input',
+            )}
           />
-          <StyledFileExtensionSelect
-            className="FIE_save-extension-selector"
+          <FieFileExtensionSelect
             onChange={(ext) =>
               setImageFileInfo({ ...imageFileInfo, extension: ext })
             }
             value={imageFileInfo.extension}
             label={t('format')}
             placeholder={t('extension')}
-            size="sm"
             fullWidth
-          >
-            {SUPPORTED_IMAGE_TYPES.map((ext) => (
-              <MenuItem key={ext} value={ext}>
-                {ext}
-              </MenuItem>
-            ))}
-          </StyledFileExtensionSelect>
+            options={SUPPORTED_IMAGE_TYPES.map((ext) => ({
+              value: ext,
+              label: ext,
+            }))}
+            className={cx(
+              TopbarStyles.fileExtensionSelect,
+              'FIE_save-extension-selector',
+            )}
+          />
           {isQualityAcceptable && (
-            <StyledQualityWrapper className="FIE_save-quality-wrapper">
+            <div
+              className={cx(
+                TopbarStyles.qualityWrapper,
+                'FIE_save-quality-wrapper',
+              )}
+            >
               <Label>{t('quality')}</Label>
               <Slider
+                aria-label={t('quality')}
                 annotation="%"
                 min={1}
                 max={100}
@@ -336,10 +359,14 @@ const SaveButton = () => {
                 width="100%"
                 style={sliderStyle}
               />
-            </StyledQualityWrapper>
+            </div>
           )}
-          <StyledResizeOnSave className="FIE_save-resize-wrapper">
-            <StyledResizeOnSaveLabel>{t('resize')}</StyledResizeOnSaveLabel>
+          <div
+            className={cx(TopbarStyles.resizeOnSave, 'FIE_save-resize-wrapper')}
+          >
+            <Label className={TopbarStyles.resizeOnSaveLabel}>
+              {t('resize')}
+            </Label>
             <Resize
               onChange={resizeImageFile}
               currentSize={imageFileInfo?.size || {}}
@@ -348,7 +375,7 @@ const SaveButton = () => {
               disableWrap
               alignment="space-between"
             />
-          </StyledResizeOnSave>
+          </div>
         </Modal>
       )}
     </>

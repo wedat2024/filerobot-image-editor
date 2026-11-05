@@ -1,3 +1,4 @@
+import { Stage as FieCanvasNode, useStrictMode } from 'react-konva';
 /** External Dependencies */
 import React, {
   memo,
@@ -7,9 +8,9 @@ import React, {
   useState,
   useRef,
 } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Konva from 'konva';
-import { useStrictMode } from 'react-konva';
 
 /** Internal Dependencies */
 import {
@@ -25,13 +26,16 @@ import {
 } from 'utils/constants';
 import { useStore } from 'hooks';
 import { endTouchesZooming, zoomOnTouchesMove } from './touchZoomingEvents';
-import { StyledCanvasNode } from './MainCanvas.styled';
+
+import MainCanvasStyles from './MainCanvas.module.css';
 
 const ZOOM_DELTA_TO_SCALE_CONVERT_FACTOR = 0.006;
 
 const CanvasNode = ({ children }) => {
   useStrictMode(true);
+
   const canvasRef = useRef();
+
   const {
     dispatch,
     pointerCssIcon,
@@ -44,9 +48,12 @@ const CanvasNode = ({ children }) => {
     zoom = {},
     config: { previewPixelRatio, disableZooming },
   } = useStore();
+
   Konva.pixelRatio = previewPixelRatio;
+
   const defaultZoomFactor = DEFAULT_ZOOM_FACTOR;
   const isZoomEnabled = !disableZooming && toolId !== TOOLS_IDS.CROP;
+
   const [isPanningEnabled, setIsPanningEnabled] = useState(
     tabId !== TABS_IDS.ANNOTATE &&
       tabId !== TABS_IDS.WATERMARK &&
@@ -112,6 +119,7 @@ const CanvasNode = ({ children }) => {
 
   const handleZoom = (e) => {
     e.evt.preventDefault();
+
     const newScale =
       (zoom.factor || defaultZoomFactor) +
       e.evt.deltaY * -ZOOM_DELTA_TO_SCALE_CONVERT_FACTOR;
@@ -188,6 +196,7 @@ const CanvasNode = ({ children }) => {
 
     // Remove & register the event on changing tabId, zoom.factor, defaultZoomFactor to always access latest state.
     let canvasContainer;
+
     if (canvasRef.current) {
       canvasContainer = canvasRef.current.container();
       canvasContainer.addEventListener('mouseenter', focusCanvasOnEnter);
@@ -208,9 +217,9 @@ const CanvasNode = ({ children }) => {
   // it's done by toggling panning through mouse right click (enable/disable) then drag mouse.
   const zoomedResponsiveCanvasScale =
     canvasScale * ((isZoomEnabled && zoom.factor) || defaultZoomFactor);
+
   return (
-    <StyledCanvasNode
-      className="FIE_canvas-node"
+    <FieCanvasNode
       tabIndex={-1}
       ref={canvasRef}
       width={canvasWidth}
@@ -232,9 +241,10 @@ const CanvasNode = ({ children }) => {
       draggable={isZoomEnabled && isPanningEnabled}
       onDragEnd={handleCanvasDragEnd}
       style={cursorStyle}
+      className={cx(MainCanvasStyles.canvasNode, 'FIE_canvas-node')}
     >
       {children}
-    </StyledCanvasNode>
+    </FieCanvasNode>
   );
 };
 

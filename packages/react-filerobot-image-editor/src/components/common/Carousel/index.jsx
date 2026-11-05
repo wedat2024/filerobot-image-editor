@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { Children, useRef, useState, useEffect } from 'react';
+import { Children, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ArrowLeftOutline, ArrowRightOutline } from '@scaleflex/icons';
 
@@ -7,20 +7,18 @@ import { ArrowLeftOutline, ArrowRightOutline } from '@scaleflex/icons';
 import { useResizeObserver } from 'hooks';
 import debounce from 'utils/debounce';
 import getScrollOffset from 'utils/getScrollOffset';
-import {
-  StyledCarouselWrapper,
-  StyledCarousel,
-  StyledCarouselItem,
-  StyledNextArrowWrapper,
-  StyledPrevArrowWrapper,
-} from './Carousel.styled';
 
-const Carousel = ({ children, style, className }) => {
+import styles from './Carousel.module.css';
+
+const Carousel = ({ children, style = null, className }) => {
   const scrollingByDraggingLatestX = useRef(false);
   const carouselRef = useRef();
+
   const [observeResize] = useResizeObserver();
+
   const [isPrevArrowShown, setIsPrevArrowShown] = useState(false);
   const [isNextArrowShown, setIsNextArrowShown] = useState(false);
+
   const childrenArray = Children.toArray(children);
 
   const updateArrowsVisibility = () => {
@@ -28,6 +26,7 @@ const Carousel = ({ children, style, className }) => {
       const { scrollWidth, offsetWidth, scrollLeft } = carouselRef.current;
       const scrollableWidth = Math.round(scrollWidth - offsetWidth);
       const scrollRight = Math.round(scrollableWidth - scrollLeft);
+
       setIsPrevArrowShown(scrollLeft > 0);
       setIsNextArrowShown(scrollRight > 0);
     }
@@ -37,6 +36,7 @@ const Carousel = ({ children, style, className }) => {
     const liIndex = foundElements.findIndex((element) =>
       element.classList.contains('FIE_carousel-item'),
     );
+
     if (liIndex !== -1) {
       foundElements[liIndex].scrollIntoView({
         inline: direction,
@@ -56,6 +56,7 @@ const Carousel = ({ children, style, className }) => {
       e.pageX + e.currentTarget.offsetWidth - leftOffset,
       e.pageY - topOffset,
     );
+
     scrollCarouselToElement(currentElements, 'end');
   };
 
@@ -65,12 +66,14 @@ const Carousel = ({ children, style, className }) => {
       e.pageX - e.currentTarget.offsetWidth - leftOffset,
       e.pageY - topOffset,
     );
+
     scrollCarouselToElement(currentElements, 'start');
   };
 
   const scrollByDragging = (e) => {
     if (scrollingByDraggingLatestX.current) {
       const currentX = (e.touches?.[0] || e).pageX;
+
       carouselRef.current.scrollBy(
         scrollingByDraggingLatestX.current - currentX,
         0,
@@ -107,44 +110,43 @@ const Carousel = ({ children, style, className }) => {
   }, []);
 
   return (
-    <StyledCarouselWrapper
-      className={`${className}-wrapper`}
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Preserve existing mouse/touch dragging during the CSS migration.
+    <div
+      className={`${styles.wrapper} ${className}-wrapper`}
       style={style}
       onMouseDown={startScrollByDragging}
       onTouchStart={startScrollByDragging}
     >
       {isPrevArrowShown && (
-        <StyledPrevArrowWrapper
-          className="FIE_carousel-prev-button"
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve the existing div/click behavior during the CSS migration.
+        <div
+          className={`${styles.arrow} ${styles.previous} FIE_carousel-prev-button`}
           onClick={scrollToPrev}
         >
           <ArrowLeftOutline />
-        </StyledPrevArrowWrapper>
+        </div>
       )}
-      <StyledCarousel className={`${className}-items`} ref={carouselRef}>
+      <ul className={`${styles.items} ${className}-items`} ref={carouselRef}>
         {childrenArray.map((child) => (
-          <StyledCarouselItem
-            className={`${className}-item-wrapper FIE_carousel-item`}
+          <li
+            className={`${styles.item} ${className}-item-wrapper FIE_carousel-item`}
             key={child.key}
           >
             {child}
-          </StyledCarouselItem>
+          </li>
         ))}
-      </StyledCarousel>
+      </ul>
       {isNextArrowShown && (
-        <StyledNextArrowWrapper
-          className="FIE_carousel-next-button"
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve the existing div/click behavior during the CSS migration.
+        <div
+          className={`${styles.arrow} ${styles.next} FIE_carousel-next-button`}
           onClick={scrollToNext}
         >
           <ArrowRightOutline />
-        </StyledNextArrowWrapper>
+        </div>
       )}
-    </StyledCarouselWrapper>
+    </div>
   );
-};
-
-Carousel.defaultProps = {
-  style: null,
 };
 
 Carousel.propTypes = {

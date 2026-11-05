@@ -1,40 +1,45 @@
-/** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
-import Popper from '@scaleflex/ui/core/popper';
 
-/** Internal Dependencies */
-import { StyledImagesGallery, StyledImageWrapper } from './Image.styled';
+import { useStore } from 'hooks';
+import ThemeScope from 'context/CssTheme';
+import Popover from 'components/common/Popover';
+import ThumbnailButton from 'ui/ThumbnailButton';
 
-const ImagesGallery = ({ gallery, anchorEl, onClose, onSelect }) => (
-  <Popper
-    className="FIE_image-tool-gallery"
-    anchorEl={anchorEl}
-    open={Boolean(anchorEl)}
-    position="top"
-    onClick={onClose}
-    overlay
-  >
-    <StyledImagesGallery>
-      {gallery.map(({ originalUrl, previewUrl }) => (
-        <StyledImageWrapper
-          key={originalUrl}
-          onClick={() => onSelect(originalUrl)}
-        >
-          <img
+import styles from './Image.module.css';
+
+const defaultGallery = [];
+
+const ImagesGallery = ({
+  gallery = defaultGallery,
+  anchorEl = null,
+  onClose,
+  onSelect,
+}) => {
+  const { t } = useStore();
+
+  if (!anchorEl) return <div aria-hidden="true" />;
+
+  return (
+    <Popover
+      className="FIE_image-tool-gallery"
+      anchor={anchorEl}
+      position="top"
+      onClose={onClose}
+      surface="div"
+      aria-label={t('fromGallery')}
+    >
+      <ThemeScope className={styles.gallery}>
+        {gallery.map(({ originalUrl, previewUrl }, index) => (
+          <ThumbnailButton
+            key={originalUrl}
             src={previewUrl}
-            alt={previewUrl}
-            crossOrigin="Anonymous"
-            draggable={false}
+            label={`${t('imageTool')} ${index + 1}`}
+            onClick={() => onSelect(originalUrl)}
           />
-        </StyledImageWrapper>
-      ))}
-    </StyledImagesGallery>
-  </Popper>
-);
-ImagesGallery.defaultProps = {
-  gallery: [],
-  anchorEl: null,
+        ))}
+      </ThemeScope>
+    </Popover>
+  );
 };
 
 ImagesGallery.propTypes = {

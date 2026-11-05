@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { RegularPolygon } from 'react-konva';
 
@@ -9,14 +8,14 @@ import nodesCommonPropTypes from '../nodesCommonPropTypes';
 const PolygonNode = ({
   id,
   name,
-  fill,
+  fill = '#000',
   x,
   y,
   radius,
-  scaleX,
-  scaleY,
-  rotation,
-  sides,
+  scaleX = nodesCommonPropTypes.defaults.scaleX,
+  scaleY = nodesCommonPropTypes.defaults.scaleY,
+  rotation = nodesCommonPropTypes.defaults.rotation,
+  sides = 3,
   annotationEvents,
   stroke,
   strokeWidth,
@@ -25,7 +24,7 @@ const PolygonNode = ({
   shadowBlur,
   shadowColor,
   shadowOpacity,
-  opacity,
+  opacity = nodesCommonPropTypes.defaults.opacity,
   ...otherProps
 }) => (
   <RegularPolygon
@@ -53,12 +52,6 @@ const PolygonNode = ({
     {...otherProps}
   />
 );
-
-PolygonNode.defaultProps = {
-  ...nodesCommonPropTypes.defaults,
-  fill: '#000',
-  sides: 3,
-};
 
 PolygonNode.propTypes = {
   ...nodesCommonPropTypes.definitions,

@@ -1,24 +1,26 @@
+import FieMainButton from 'components/common/Button';
+
+import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { MenuItemLabel } from '@scaleflex/ui/core/menu-item';
 
 /** Internal Dependencies */
 import { useStore } from 'hooks';
-import {
-  StyledMainButton,
-  StyledButtonWrapper,
-  StyledMenu,
-  StyledMenuItem,
-  StyledMenuIcon,
-} from './ButtonWithMenu.styled';
+import useFieldId from 'hooks/useFieldId';
+import ActionMenu from 'components/common/ActionMenu';
+import triggerKeyboard from 'components/common/ActionMenu/triggerKeyboard';
+
+import ButtonWithMenuStyles from './ButtonWithMenu.module.css';
 
 const ButtonWithMenu = ({
+  ButtonComponent = FieMainButton,
   onClick,
-  title,
-  label,
-  color,
-  menuFromBtn,
+  title = '',
+  label = '',
+  color = 'primary',
+  menuFromBtn = false,
   menuItems,
   menuPosition = 'bottom',
   disabled = false,
@@ -26,19 +28,25 @@ const ButtonWithMenu = ({
   menuStyle,
   wrapperStyle,
   buttonRef,
-  noMargin,
+  noMargin = false,
 }) => {
   const { t } = useStore();
+
   const isMounted = useRef(true);
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const menuId = useFieldId();
+  const [initialFocus, setInitialFocus] = useState('first');
+
   const buttonSize = 'sm';
 
   const filteredMenuItems = menuItems.filter(Boolean);
   const hasMultipleMenuItems = filteredMenuItems.length > 1;
 
-  const openMenu = (e) => {
+  const openMenu = (e, focus = 'first') => {
     if (isMounted.current) {
+      setInitialFocus(focus);
       setAnchorEl(e.currentTarget);
     }
   };
@@ -49,17 +57,10 @@ const ButtonWithMenu = ({
     }
   };
 
-  const handleMenuItemClick = (onItemClick) => {
-    if (typeof onItemClick === 'function') {
-      onItemClick();
-    }
-
-    closeMenu();
-  };
-
   const handleButtonClick = (e) => {
     if (menuFromBtn && hasMultipleMenuItems) {
       openMenu(e);
+
       return;
     }
 
@@ -80,77 +81,64 @@ const ButtonWithMenu = ({
 
   return (
     <>
-      <StyledButtonWrapper
-        className={`${className}-wrapper`}
+      <div
         style={wrapperStyle}
         ref={buttonRef}
-        noMargin={noMargin}
+        className={cx(
+          ButtonWithMenuStyles.buttonWrapper,
+          noMargin && ButtonWithMenuStyles.noMargin,
+          `${className}-wrapper`,
+        )}
       >
-        <StyledMainButton
-          className={`${className}-button`}
+        <ButtonComponent
+          id={`${menuId}-trigger`}
+          aria-haspopup={
+            menuFromBtn && hasMultipleMenuItems ? 'menu' : undefined
+          }
+          aria-expanded={
+            menuFromBtn && hasMultipleMenuItems ? Boolean(anchorEl) : undefined
+          }
+          aria-controls={anchorEl ? menuId : undefined}
+          {...(menuFromBtn && hasMultipleMenuItems && !disabled
+            ? triggerKeyboard(openMenu)
+            : {})}
           color={color}
           size={buttonSize}
           title={title}
           onClick={disabled ? undefined : handleButtonClick}
           disabled={disabled}
+          className={cx(ButtonWithMenuStyles.mainButton, `${className}-button`)}
         >
           {label || t('saveAs')}
-        </StyledMainButton>
-      </StyledButtonWrapper>
-      {hasMultipleMenuItems && (
-        <StyledMenu
-          className={`${className}-menu`}
-          anchorEl={anchorEl}
+        </ButtonComponent>
+      </div>
+      {/* Preserve the former closed Menu slot in flex layouts. */}
+      {hasMultipleMenuItems && !anchorEl && <div aria-hidden="true" />}
+      {hasMultipleMenuItems && anchorEl && (
+        <ThemeScope
+          as={ActionMenu}
+          id={menuId}
+          aria-labelledby={`${menuId}-trigger`}
+          anchor={anchorEl}
+          initialFocus={initialFocus}
           onClose={closeMenu}
-          open
+          items={filteredMenuItems}
           style={menuStyle}
           position={menuPosition}
-        >
-          {menuItems.map(
-            (item, index) =>
-              item && (
-                <StyledMenuItem
-                  className={`${className}-menu-item`}
-                  key={`${item.key}-${index.toString()}`}
-                  active={item.isActive}
-                  onClick={() => handleMenuItemClick(item.onClick)}
-                  size={buttonSize}
-                >
-                  {item.icon && (
-                    <StyledMenuIcon size={buttonSize}>
-                      {typeof item.icon === 'string' ? (
-                        // eslint-disable-next-line react/no-danger
-                        <span dangerouslySetInnerHTML={{ __html: item.icon }} />
-                      ) : (
-                        <item.icon />
-                      )}
-                    </StyledMenuIcon>
-                  )}
-                  <MenuItemLabel>{item.label}</MenuItemLabel>
-                </StyledMenuItem>
-              ),
+          className={cx(ButtonWithMenuStyles.menu, `${className}-menu`)}
+          itemClassName={cx(
+            ButtonWithMenuStyles.menuItem,
+            `${className}-menu-item`,
           )}
-        </StyledMenu>
+          iconClassName={ButtonWithMenuStyles.menuIcon}
+        />
       )}
     </>
   );
 };
 
-ButtonWithMenu.defaultProps = {
-  title: '',
-  label: '',
-  color: 'primary',
-  menuFromBtn: false,
-  noMargin: false,
-  menuPosition: 'bottom',
-  onClick: undefined,
-  disabled: false,
-  menuStyle: undefined,
-  wrapperStyle: undefined,
-  buttonRef: undefined,
-};
-
 ButtonWithMenu.propTypes = {
+  ButtonComponent: PropTypes.elementType,
   menuItems: PropTypes.instanceOf(Array).isRequired,
   className: PropTypes.string.isRequired,
   onClick: PropTypes.func,

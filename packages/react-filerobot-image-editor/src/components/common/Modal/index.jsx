@@ -1,61 +1,73 @@
 /** External Dependencies */
-import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Button, ModalContent } from '@scaleflex/ui/core';
 
 /** Internal Dependencies */
-import {
-  StyledModal,
-  StyledModalTitle,
-  StyledModalActions,
-} from './Modal.styled';
+import { useStore } from 'hooks';
+import useFieldId from 'hooks/useFieldId';
+import Button from 'components/common/Button';
+import Dialog from 'components/common/Dialog';
+import { DialogTitle, DialogContent, DialogActions } from 'ui/Dialog';
+import ModalStyles from './Modal.module.css';
 
 const Modal = ({
   title,
-  hint,
+  hint = '',
   Icon,
   onDone,
   onCancel,
-  doneLabel,
-  cancelLabel,
-  isOpened,
+  doneLabel = 'Yes',
+  cancelLabel = 'No',
+  isOpened = false,
   doneButtonStyle,
   doneButtonColor = 'basic',
   cancelButtonColor = 'basic',
   children,
-  areButtonsDisabled,
+  areButtonsDisabled = false,
   zIndex,
   className,
-  width,
-  isWarning,
+  width = '',
+  isWarning = false,
 }) => {
+  const { t } = useStore();
+  const titleId = useFieldId();
+  const descriptionId = useFieldId();
+
   const onKeyUp = (e) => {
-    if (e.key === 'Enter') {
+    if (
+      e.key === 'Enter' &&
+      !e.defaultPrevented &&
+      !areButtonsDisabled &&
+      !e.target.closest('button')
+    ) {
       onDone(e);
     }
   };
 
   return (
-    <StyledModal
-      className={className}
+    <Dialog
+      aria-labelledby={titleId}
+      aria-describedby={hint ? descriptionId : undefined}
       open={isOpened}
       onClose={onCancel}
-      style={{ zIndex }}
       onKeyUp={onKeyUp}
-      width={width}
+      style={{ '--fie-modal-width': width || '300px', zIndex }}
+      className={cx(ModalStyles.modal, className)}
     >
-      <StyledModalTitle
+      <DialogTitle
+        id={titleId}
+        descriptionId={descriptionId}
+        closeLabel={t('close')}
         icon={<Icon size={25} />}
-        iconShadow
-        isWarning={isWarning}
         onClose={onCancel}
         primary={title}
         secondary={hint}
-        variant="with-icon"
+        className={cx(ModalStyles.modalTitle, isWarning && ModalStyles.warning)}
       />
-      {children && <ModalContent>{children}</ModalContent>}
-      <StyledModalActions align="center">
+      {children && <DialogContent>{children}</DialogContent>}
+      <DialogActions className={ModalStyles.modalActions}>
         <Button
+          data-dialog-initial-focus
           color={cancelButtonColor}
           onClick={onCancel}
           size="md"
@@ -67,31 +79,14 @@ const Modal = ({
           color={doneButtonColor}
           onClick={onDone}
           size="md"
-          warning={isWarning}
           style={doneButtonStyle}
           disabled={areButtonsDisabled}
         >
           {doneLabel}
         </Button>
-      </StyledModalActions>
-    </StyledModal>
+      </DialogActions>
+    </Dialog>
   );
-};
-
-Modal.defaultProps = {
-  hint: '',
-  isOpened: false,
-  doneLabel: 'Yes',
-  cancelLabel: 'No',
-  doneButtonStyle: undefined,
-  doneButtonColor: 'basic',
-  cancelButtonColor: 'basic',
-  children: undefined,
-  areButtonsDisabled: false,
-  zIndex: undefined,
-  className: undefined,
-  width: '',
-  isWarning: false,
 };
 
 Modal.propTypes = {

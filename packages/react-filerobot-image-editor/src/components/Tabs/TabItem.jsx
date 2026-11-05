@@ -1,11 +1,13 @@
 /** External Dependencies */
-import React, { useCallback, memo } from 'react';
+import { useCallback, memo } from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
-import { StyledTabItem, StyledTabItemLabel } from './Tabs.styled';
+import FieTabItemLabel from 'components/common/Label';
+import TabsStyles from './Tabs.module.css';
 
-const TabItem = ({ id, label, Icon, isSelected, onClick }) => {
+const TabItem = ({ id, label, Icon, isSelected = false, onClick }) => {
   const handleClick = useCallback(() => {
     if (typeof onClick === 'function') {
       onClick(id);
@@ -13,25 +15,22 @@ const TabItem = ({ id, label, Icon, isSelected, onClick }) => {
   }, [id]);
 
   return (
-    <StyledTabItem
-      className="FIE_tab"
-      aria-selected={isSelected}
+    <button
+      type="button"
+      aria-pressed={isSelected}
       onClick={handleClick}
+      className={cx(TabsStyles.tabItem, 'FIE_tab')}
     >
       <Icon size={24} />
       {label && (
-        <StyledTabItemLabel className="FIE_tab-label">
+        <FieTabItemLabel
+          className={cx(TabsStyles.tabItemLabel, 'FIE_tab-label')}
+        >
           {label}
-        </StyledTabItemLabel>
+        </FieTabItemLabel>
       )}
-    </StyledTabItem>
+    </button>
   );
-};
-
-TabItem.defaultProps = {
-  isSelected: false,
-  onClick: undefined,
-  label: undefined,
 };
 
 TabItem.propTypes = {

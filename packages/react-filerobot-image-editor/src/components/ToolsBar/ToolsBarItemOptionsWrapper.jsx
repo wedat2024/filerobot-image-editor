@@ -1,24 +1,22 @@
 /** External Dependencies */
-import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
-import { StyledToolsBarItemOptionsWrapper } from './ToolsBar.styled';
+import ToolsBarStyles from './ToolsBar.module.css';
 
-const ToolsBarItemOptionsWrapper = ({ children, isPhoneScreen }) => (
-  <StyledToolsBarItemOptionsWrapper
-    className="FIE_tool-options-wrapper"
-    hasChildren={Boolean(children)}
-    isPhoneScreen={isPhoneScreen}
+const ToolsBarItemOptionsWrapper = ({ children, isPhoneScreen = false }) => (
+  <div
+    className={cx(
+      ToolsBarStyles.toolsBarItemOptionsWrapper,
+      Boolean(children) && ToolsBarStyles.hasChildren,
+      isPhoneScreen && ToolsBarStyles.phone,
+      'FIE_tool-options-wrapper',
+    )}
   >
     {children}
-  </StyledToolsBarItemOptionsWrapper>
+  </div>
 );
-
-ToolsBarItemOptionsWrapper.defaultProps = {
-  children: undefined,
-  isPhoneScreen: false,
-};
 
 ToolsBarItemOptionsWrapper.propTypes = {
   children: PropTypes.node,

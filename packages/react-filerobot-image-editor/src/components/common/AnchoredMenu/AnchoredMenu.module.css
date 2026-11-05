@@ -1,0 +1,10 @@
+.wrapper {
+  position: relative;
+  z-index: 1300;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+}

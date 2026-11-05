@@ -1,79 +1,89 @@
-import React from 'react';
+import ColorPicker from 'components/common/ColorPicker';
+import cx from 'classnames';
 import PT from 'prop-types';
-import {
-  Button,
-  ColorPicker,
-  ModalContent,
-  ModalTitle,
-} from '@scaleflex/ui/core';
+
 import ColorPickerIcon from '@scaleflex/icons/color-picker';
 
 import { useStore } from 'hooks';
-import Styled from './ColorPickerModal.styled';
+import Button from 'components/common/Button';
+import Dialog from 'components/common/Dialog';
+import { DialogTitle, DialogContent, DialogActions } from 'ui/Dialog';
+import useFieldId from 'hooks/useFieldId';
+
+import ColorPickerModalStyles from './ColorPickerModal.module.css';
 
 const modalStyles = { zIndex: 1301 };
 
+const defaultPinnedColors = [];
+const defaultOnChange = () => {};
+const defaultOnClose = () => {};
+
 const ColorPickerModal = ({
-  hideModalTitle,
+  hideModalTitle = false,
   defaultColor = '',
-  onChange,
-  open,
-  pinnedColors,
-  onClose,
+  onChange = defaultOnChange,
+  open = false,
+  pinnedColors = defaultPinnedColors,
+  onClose = defaultOnClose,
 }) => {
   const { t } = useStore();
+  const titleId = useFieldId();
+  const title = t('colorPickerModalTitleLabel', 'Pick color');
 
   if (!open) {
     return null;
   }
 
   return (
-    <Styled.ColorPickerModal
+    <Dialog
+      aria-labelledby={hideModalTitle ? undefined : titleId}
+      aria-label={hideModalTitle ? title : undefined}
       onClose={onClose}
       open={open}
       fullWidth
       modalStyles={modalStyles}
+      className={ColorPickerModalStyles.colorPickerModal}
     >
       {!hideModalTitle && (
-        <ModalTitle
+        <DialogTitle
+          id={titleId}
+          closeLabel={t('close')}
           onClose={onClose}
-          primary={t('colorPickerModalTitleLabel', 'Pick color')}
+          primary={title}
           icon={<ColorPickerIcon size={29} />}
-          iconShadow
-          variant="with-icon"
         />
       )}
 
-      <ModalContent>
-        <Styled.ColorPickerWrap hideModalTitle={hideModalTitle}>
+      <DialogContent>
+        <div
+          className={cx(
+            ColorPickerModalStyles.colorPickerWrap,
+            hideModalTitle && ColorPickerModalStyles.withoutTitle,
+          )}
+        >
           <ColorPicker
             onChange={onChange}
             pinnedColors={pinnedColors}
             defaultColor={defaultColor}
-            showTransparentColor
           />
-        </Styled.ColorPickerWrap>
-      </ModalContent>
+        </div>
+      </DialogContent>
 
-      <Styled.ModalActions>
-        <Button color="basic" onClick={onClose}>
+      <DialogActions className={ColorPickerModalStyles.modalActions}>
+        <Button
+          color="basic"
+          size="md"
+          data-dialog-initial-focus
+          onClick={onClose}
+        >
           {t('cancel')}
         </Button>
-        <Button color="primary" onClick={onClose}>
+        <Button size="md" onClick={onClose}>
           {t('apply')}
         </Button>
-      </Styled.ModalActions>
-    </Styled.ColorPickerModal>
+      </DialogActions>
+    </Dialog>
   );
-};
-
-ColorPickerModal.defaultProps = {
-  defaultColor: '',
-  pinnedColors: [],
-  onChange: () => {},
-  open: false,
-  hideModalTitle: false,
-  onClose: () => {},
 };
 
 ColorPickerModal.propTypes = {

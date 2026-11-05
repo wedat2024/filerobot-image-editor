@@ -1,11 +1,13 @@
 /** External Dependencies */
 import React from 'react';
-import { Button } from '@scaleflex/ui/core';
 import ArrowLeftOutline from '@scaleflex/icons/arrow-left-outline';
 
 /** Internal Dependencies */
+import Button from 'components/common/Button';
 import { usePhoneScreen, useStore } from 'hooks';
-import { StyledBackButtonLabel } from './Topbar.styled';
+
+import TopbarStyles from './Topbar.module.css';
+
 import ConfirmationModal from './ConfirmationModal';
 
 const BackButton = () => {
@@ -17,10 +19,13 @@ const BackButton = () => {
       <Button
         className="FIE_topbar-back-button"
         color="link-secondary"
+        aria-label={t('back')}
         size="sm"
         startIcon={<ArrowLeftOutline />}
       >
-        {!isPhone && <StyledBackButtonLabel>{t('back')}</StyledBackButtonLabel>}
+        {!isPhone && (
+          <span className={TopbarStyles.backButtonLabel}>{t('back')}</span>
+        )}
       </Button>
     </ConfirmationModal>
   );

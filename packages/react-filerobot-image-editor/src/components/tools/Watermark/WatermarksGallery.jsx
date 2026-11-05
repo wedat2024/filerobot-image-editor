@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -7,7 +7,8 @@ import { useStore } from 'hooks';
 import { TOOLS_IDS, WATERMARK_ANNOTATION_ID } from 'utils/constants';
 import Carousel from 'components/common/Carousel';
 import { SET_FEEDBACK } from 'actions';
-import { StyledWatermarkGalleryItem } from './Watermark.styled';
+
+import styles from './Watermark.module.css';
 
 const WatermarksGallery = ({
   addImgWatermark,
@@ -23,6 +24,7 @@ const WatermarksGallery = ({
 
   const getWatermarkImgAndSelect = (e) => {
     const watermarkImgEl = e.currentTarget.children[0];
+
     if (watermarkImgEl.complete) {
       if (!watermarkImgEl.naturalWidth) {
         dispatch({
@@ -34,6 +36,7 @@ const WatermarksGallery = ({
             },
           },
         });
+
         return;
       }
 
@@ -55,8 +58,9 @@ const WatermarksGallery = ({
         const isSameUrl = watermarkUrl === previewUrl;
 
         return (
-          <StyledWatermarkGalleryItem
-            className="FIE_watermark-selected-item"
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve the existing div/click behavior during the CSS migration.
+          <div
+            className={`${styles.galleryItem} FIE_watermark-selected-item`}
             onClick={(e) =>
               isSameUrl
                 ? getWatermarkImgAndSelect(e)
@@ -71,15 +75,11 @@ const WatermarksGallery = ({
               crossOrigin="Anonymous"
               draggable={false}
             />
-          </StyledWatermarkGalleryItem>
+          </div>
         );
       })}
     </Carousel>
   );
-};
-
-WatermarksGallery.defaultProps = {
-  style: undefined,
 };
 
 WatermarksGallery.propTypes = {

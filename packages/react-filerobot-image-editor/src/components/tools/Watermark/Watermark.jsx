@@ -15,10 +15,9 @@ import ImageControls from 'components/tools/Image/ImageControls';
 import { usePhoneScreen, useStore } from 'hooks';
 import { FEEDBACK_STATUSES, TOOLS_IDS } from 'utils/constants';
 import HiddenUploadInput from 'components/common/HiddenUploadInput';
-import {
-  StyledControlsWrapper,
-  StyledWatermarkWrapper,
-} from './Watermark.styled';
+
+import styles from './Watermark.module.css';
+
 import WatermarksGallery from './WatermarksGallery';
 import WatermarkPadding from './WatermarkPadding';
 
@@ -36,8 +35,10 @@ const Watermark = () => {
     adjustments: { crop = {} },
   } = useStore();
   const isPhoneScreen = usePhoneScreen();
+
   const [isLoading, setIsLoading] = useState(false);
   const uploadImgInput = useRef();
+
   const watermarkConfig = config[TOOLS_IDS.WATERMARK];
 
   const watermark = useMemo(
@@ -56,6 +57,7 @@ const Watermark = () => {
 
   const addTextWatermark = () => {
     const dimensions = {};
+
     dimensions.height = layerHeight * watermarkTextRatio;
     dimensions.width = layerWidth * watermarkTextRatio;
 
@@ -85,6 +87,7 @@ const Watermark = () => {
   // Added for AddressBook plugin
   const addAddressBookWatermark = (addressBookWatermark) => {
     const dimensions = {};
+
     dimensions.height = layerHeight * watermarkTextRatio;
     dimensions.width = layerWidth * watermarkTextRatio;
 
@@ -141,13 +144,16 @@ const Watermark = () => {
   const addImgWatermark = (loadedImg) => {
     const imgRatio = loadedImg.width / loadedImg.height;
     const newImgDimensions = {};
+
     if (layerHeight > layerWidth) {
       const newImgScale =
         (layerHeight * watermarkImageRatio) / loadedImg.height;
+
       newImgDimensions.height = loadedImg.height * newImgScale;
       newImgDimensions.width = newImgDimensions.height * imgRatio;
     } else {
       const newImgScale = (layerWidth * watermarkImageRatio) / loadedImg.width;
+
       newImgDimensions.width = loadedImg.width * newImgScale;
       newImgDimensions.height = newImgDimensions.width / imgRatio;
     }
@@ -199,20 +205,27 @@ const Watermark = () => {
     if (!imgUrl) {
       return;
     }
+
     setIsLoading(true);
+
     const img = new Image();
+
     img.onload = () => {
       addImgWatermark(img);
+
       if (revokeObjectUrl) {
         URL.revokeObjectURL(imgUrl);
       }
+
       setIsLoading(false);
     };
     img.onerror = () => {
       setFeedback(t('mutualizedFailedToLoadImg'));
+
       if (revokeObjectUrl) {
         URL.revokeObjectURL(imgUrl);
       }
+
       setIsLoading(false);
     };
     img.src = imgUrl;
@@ -221,10 +234,12 @@ const Watermark = () => {
   const importWatermarkImg = (e) => {
     if (e.target.files) {
       const imgFile = e.target.files[0];
+
       if (imgFile.type.startsWith('image/')) {
         loadAndSetWatermarkImg(URL.createObjectURL(imgFile), true);
       }
     }
+
     e.target.value = '';
   };
 
@@ -233,11 +248,13 @@ const Watermark = () => {
       const res = watermarkConfig.onUploadWatermarkImgClick(
         loadAndSetWatermarkImg,
       );
+
       if (res instanceof Promise) {
         res.then(({ url, revokeObjectUrl = false } = {}) =>
           loadAndSetWatermarkImg(url, revokeObjectUrl),
         );
       }
+
       return;
     }
 
@@ -318,7 +335,7 @@ const Watermark = () => {
   return (
     <div className="FIE_watermark-tool-wrapper">
       {watermark?.name === TOOLS_IDS.TEXT && (
-        <StyledControlsWrapper className="FIE_watermark-options-wrapper">
+        <div className={`${styles.controls} FIE_watermark-options-wrapper`}>
           <TextControls
             text={watermark}
             saveText={updateWatermarkOptions}
@@ -326,10 +343,10 @@ const Watermark = () => {
           >
             {renderWatermarkPadding()}
           </TextControls>
-        </StyledControlsWrapper>
+        </div>
       )}
       {watermark?.name === TOOLS_IDS.IMAGE && (
-        <StyledControlsWrapper className="FIE_watermark-options-wrapper">
+        <div className={`${styles.controls} FIE_watermark-options-wrapper`}>
           <ImageControls
             image={watermark}
             saveImage={updateWatermarkOptions}
@@ -337,9 +354,9 @@ const Watermark = () => {
           >
             {renderWatermarkPadding()}
           </ImageControls>
-        </StyledControlsWrapper>
+        </div>
       )}
-      <StyledWatermarkWrapper className="FIE_watermark-add-wrapper" noWrap>
+      <div className={`${styles.wrapper} FIE_watermark-add-wrapper`}>
         <ButtonWithMenu
           className="FIE_watermark-add"
           color="secondary"
@@ -364,7 +381,7 @@ const Watermark = () => {
           disabled={isLoading}
           ref={uploadImgInput}
         />
-      </StyledWatermarkWrapper>
+      </div>
     </div>
   );
 };
