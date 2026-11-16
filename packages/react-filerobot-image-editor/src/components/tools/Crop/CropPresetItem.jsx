@@ -2,7 +2,6 @@ import Label from 'components/common/Label';
 
 import FieMenuItem from 'ui/MenuItem';
 /** External Dependeices */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -18,12 +17,12 @@ const CropPresetItem = ({
   onClick,
   Icon,
   isActive,
-  isAccordion,
+  isAccordion = false,
   width,
   height,
   t,
-  disableManualResize,
-  noEffect,
+  disableManualResize = false,
+  noEffect = false,
 }) => {
   const {
     theme: { palette, typography },
@@ -77,15 +76,6 @@ const CropPresetItem = ({
       )}
     </FieMenuItem>
   );
-};
-
-CropPresetItem.defaultProps = {
-  Icon: undefined,
-  width: undefined,
-  height: undefined,
-  disableManualResize: false,
-  isAccordion: false,
-  noEffect: false,
 };
 
 CropPresetItem.propTypes = {

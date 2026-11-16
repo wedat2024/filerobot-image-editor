@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -12,7 +12,9 @@ import resolveTheme from './theme/resolveTheme';
 
 let isFieMounted = true;
 
-const AppProvider = ({ children, config = {} }) => {
+const defaultConfig = {};
+
+const AppProvider = ({ children, config = defaultConfig }) => {
   const [state, _dispatch] = useAppReducer(
     appReducer,
     getInitialAppState(config),
@@ -93,10 +95,6 @@ const AppProvider = ({ children, config = {} }) => {
   return (
     <AppContext.Provider value={providedValue}>{children}</AppContext.Provider>
   );
-};
-
-AppProvider.defaultProps = {
-  config: {},
 };
 
 AppProvider.propTypes = {

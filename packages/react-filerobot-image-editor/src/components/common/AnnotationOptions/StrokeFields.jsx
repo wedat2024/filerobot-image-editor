@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import { useStore } from 'hooks';
 import PropTypes from 'prop-types';
 
@@ -17,8 +16,8 @@ const MAX_PERCENTANGE = 100;
 const StrokeFields = ({
   annotation,
   updateAnnotation,
-  showStroke,
-  isPhone,
+  showStroke = true,
+  isPhone = false,
 }) => {
   const { t } = useStore();
 
@@ -56,11 +55,6 @@ const StrokeFields = ({
       )}
     </div>
   );
-};
-
-StrokeFields.defaultProps = {
-  showStroke: true,
-  isPhone: false,
 };
 
 StrokeFields.propTypes = {

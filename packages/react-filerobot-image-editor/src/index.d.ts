@@ -15,7 +15,9 @@ export interface ThemeOverride {
     readonly font?: Readonly<Partial<Record<string, CSSProperties>>>;
   };
   readonly shape?: {
-    readonly borderRadius?: Readonly<Partial<Record<'sm' | 'md' | 'lg', string>>>;
+    readonly borderRadius?: Readonly<
+      Partial<Record<'sm' | 'md' | 'lg', string>>
+    >;
   };
   readonly shadows?: Readonly<Partial<Record<string, string>>>;
   // Accepted for compatibility; editor navigation uses its own screen breakpoints.
@@ -31,41 +33,41 @@ export interface ThemeOverride {
   };
 }
 
-declare const TABS = {
-  FINETUNE: 'Finetune',
-  FILTERS: 'Filters',
-  ADJUST: 'Adjust',
-  WATERMARK: 'Watermark',
-  ANNOTATE: 'Annotate',
-  RESIZE: 'Resize',
-} as const;
+declare const TABS: {
+  readonly FINETUNE: 'Finetune';
+  readonly FILTERS: 'Filters';
+  readonly ADJUST: 'Adjust';
+  readonly WATERMARK: 'Watermark';
+  readonly ANNOTATE: 'Annotate';
+  readonly RESIZE: 'Resize';
+};
 
-declare const TOOLS = {
-  CROP: 'Crop',
-  ROTATE: 'Rotate',
-  FLIP_X: 'Flip_X',
-  FLIP_Y: 'Flip_Y',
-  BRIGHTNESS: 'Brightness',
-  CONTRAST: 'Contrast',
-  HSV: 'HueSaturationValue',
-  WARMTH: 'Warmth',
-  BLUR: 'Blur',
-  THRESHOLD: 'Threshold',
-  POSTERIZE: 'Posterize',
-  PIXELATE: 'Pixelate',
-  NOISE: 'Noise',
-  FILTERS: 'Filters',
-  RECT: 'Rect',
-  ELLIPSE: 'Ellipse',
-  POLYGON: 'Polygon',
-  TEXT: 'Text',
-  LINE: 'Line',
-  IMAGE: 'Image',
-  ARROW: 'Arrow',
-  WATERMARK: 'Watermark',
-  PEN: 'Pen',
-  RESIZE: 'Resize',
-} as const;
+declare const TOOLS: {
+  readonly CROP: 'Crop';
+  readonly ROTATE: 'Rotate';
+  readonly FLIP_X: 'Flip_X';
+  readonly FLIP_Y: 'Flip_Y';
+  readonly BRIGHTNESS: 'Brightness';
+  readonly CONTRAST: 'Contrast';
+  readonly HSV: 'HueSaturationValue';
+  readonly WARMTH: 'Warmth';
+  readonly BLUR: 'Blur';
+  readonly THRESHOLD: 'Threshold';
+  readonly POSTERIZE: 'Posterize';
+  readonly PIXELATE: 'Pixelate';
+  readonly NOISE: 'Noise';
+  readonly FILTERS: 'Filters';
+  readonly RECT: 'Rect';
+  readonly ELLIPSE: 'Ellipse';
+  readonly POLYGON: 'Polygon';
+  readonly TEXT: 'Text';
+  readonly LINE: 'Line';
+  readonly IMAGE: 'Image';
+  readonly ARROW: 'Arrow';
+  readonly WATERMARK: 'Watermark';
+  readonly PEN: 'Pen';
+  readonly RESIZE: 'Resize';
+};
 
 // TABS_IDS
 type availableTabs = (typeof TABS)[keyof typeof TABS];
@@ -205,7 +207,7 @@ type imageDesignState = {
     rotation?: number;
   };
   annotations?: {
-    [key?: string]: annotationsCommon &
+    [key: string]: annotationsCommon &
       (
         | textAnnotation
         | rectAnnotation
@@ -244,10 +246,10 @@ type imageDesignState = {
 type onSaveFunction = (
   savedImageData: savedImageData,
   imageDesignState: imageDesignState,
-) => void | Promise;
+) => void | Promise<unknown>;
 
 export type getCurrentImgDataFunction = (
-  imageFileInfo: {
+  imageFileInfo?: {
     name?: string;
     extension?: string;
     quality?: number;
@@ -261,13 +263,13 @@ export type getCurrentImgDataFunction = (
   hideLoadingSpinner: () => void;
 };
 
-type triggerSaveModalFn = (onSaveFunction) => void;
-type triggerSavingFn = (onSaveFunction) => void;
+type triggerSaveModalFn = (onSave: onSaveFunction) => void;
+type triggerSavingFn = (onSave: onSaveFunction) => void;
 
 type saveOption = {
   label: string;
   icon: string | HTMLElement | FunctionComponent;
-  onClick: (triggerSaveModalFn, triggerSavingFn) => void;
+  onClick: (showSaveModal: triggerSaveModalFn, save: triggerSavingFn) => void;
 };
 
 export interface FilerobotImageEditorConfig {
@@ -388,16 +390,10 @@ export interface FilerobotImageEditorConfig {
   };
   observePluginContainerSize?: boolean;
   showCanvasOnly?: boolean;
-  getCurrentImgDataFnRef?:
-    | RefObject
-    | {
-        current?: getCurrentImgDataFunction;
-      };
-  updateStateFnRef?:
-    | RefObject
-    | {
-        current?: (newStatePart: {} | ((currentState: {}) => void)) => void;
-      };
+  getCurrentImgDataFnRef?: RefObject<getCurrentImgDataFunction | null>;
+  updateStateFnRef?: RefObject<
+    ((newStatePart: {} | ((currentState: {}) => void)) => void) | null
+  >;
   onModify?: (currentImageDesignState: imageDesignState) => void;
   useZoomPresetsMenu?: boolean;
   disableZooming?: boolean;

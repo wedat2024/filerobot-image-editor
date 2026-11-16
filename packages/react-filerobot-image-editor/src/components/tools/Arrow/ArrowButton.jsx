@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { ArrowTool as ArrowIcon } from '@scaleflex/icons/arrow-tool';
 
@@ -7,7 +6,7 @@ import { ArrowTool as ArrowIcon } from '@scaleflex/icons/arrow-tool';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
 import { TOOLS_IDS } from 'utils/constants';
 
-const ArrowButton = ({ selectTool, isSelected, t }) => (
+const ArrowButton = ({ selectTool, isSelected = false, t }) => (
   <ToolsBarItemButton
     className="FIE_arrow-tool-button"
     id={TOOLS_IDS.ARROW}
@@ -17,10 +16,6 @@ const ArrowButton = ({ selectTool, isSelected, t }) => (
     isSelected={isSelected}
   />
 );
-
-ArrowButton.defaultProps = {
-  isSelected: false,
-};
 
 ArrowButton.propTypes = {
   selectTool: PropTypes.func.isRequired,

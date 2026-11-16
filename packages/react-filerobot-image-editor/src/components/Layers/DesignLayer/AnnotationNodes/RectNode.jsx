@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
 
@@ -9,14 +8,14 @@ import nodesCommonPropTypes from '../nodesCommonPropTypes';
 const RectNode = ({
   id,
   name,
-  fill,
+  fill = '#000',
   x,
   y,
-  width,
-  height,
-  scaleX,
-  scaleY,
-  rotation,
+  width = 0,
+  height = 0,
+  scaleX = nodesCommonPropTypes.defaults.scaleX,
+  scaleY = nodesCommonPropTypes.defaults.scaleY,
+  rotation = nodesCommonPropTypes.defaults.rotation,
   annotationEvents,
   stroke,
   strokeWidth,
@@ -25,8 +24,8 @@ const RectNode = ({
   shadowBlur,
   shadowColor,
   shadowOpacity,
-  opacity,
-  cornerRadius,
+  opacity = nodesCommonPropTypes.defaults.opacity,
+  cornerRadius = 0,
   ...otherProps
 }) => (
   <Rect
@@ -53,14 +52,6 @@ const RectNode = ({
     {...otherProps}
   />
 );
-
-RectNode.defaultProps = {
-  ...nodesCommonPropTypes.defaults,
-  fill: '#000',
-  cornerRadius: 0,
-  width: 0,
-  height: 0,
-};
 
 RectNode.propTypes = {
   ...nodesCommonPropTypes.definitions,

@@ -1,6 +1,6 @@
 import FieHistoryButton from 'components/common/IconButton';
 /** External Dependencies */
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Redo from '@scaleflex/icons/redo';
@@ -35,10 +35,6 @@ const RedoButton = ({ margin }) => {
       <Redo />
     </FieHistoryButton>
   );
-};
-
-RedoButton.defaultProps = {
-  margin: undefined,
 };
 
 RedoButton.propTypes = {

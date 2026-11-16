@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useStore } from 'hooks';
@@ -8,7 +7,14 @@ import ThumbnailButton from 'ui/ThumbnailButton';
 
 import styles from './Image.module.css';
 
-const ImagesGallery = ({ gallery, anchorEl, onClose, onSelect }) => {
+const defaultGallery = [];
+
+const ImagesGallery = ({
+  gallery = defaultGallery,
+  anchorEl = null,
+  onClose,
+  onSelect,
+}) => {
   const { t } = useStore();
 
   if (!anchorEl) return <div aria-hidden="true" />;
@@ -36,7 +42,6 @@ const ImagesGallery = ({ gallery, anchorEl, onClose, onSelect }) => {
   );
 };
 
-ImagesGallery.defaultProps = { gallery: [], anchorEl: null };
 ImagesGallery.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,

@@ -3,7 +3,7 @@ import FieOpenMenuButton from 'ui/PopupTrigger';
 import useFieldId from 'hooks/useFieldId';
 import ThemeScope from 'context/CssTheme';
 /** External Dependencies */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -24,7 +24,7 @@ import CropPresetItem from './CropPresetItem';
 
 import CropStyles from './Crop.module.css';
 
-const CropPresetsOption = ({ anchorEl, onClose }) => {
+const CropPresetsOption = ({ anchorEl = null, onClose }) => {
   const {
     dispatch,
     t,
@@ -197,10 +197,6 @@ const CropPresetsOption = ({ anchorEl, onClose }) => {
       )}
     </>
   );
-};
-
-CropPresetsOption.defaultProps = {
-  anchorEl: null,
 };
 
 CropPresetsOption.propTypes = {

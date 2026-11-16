@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { forwardRef, useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -8,7 +8,17 @@ import LabelView from 'ui/Label';
 import getLabelStyles from './getLabelStyles';
 
 const Label = forwardRef(
-  ({ children, size, error, disabled, style, ...props }, ref) => {
+  (
+    {
+      children = null,
+      size = 'md',
+      error = false,
+      disabled = false,
+      style,
+      ...props
+    },
+    ref,
+  ) => {
     const {
       theme: { palette, typography },
     } = useStore();
@@ -44,13 +54,6 @@ const Label = forwardRef(
 );
 
 Label.displayName = 'Label';
-Label.defaultProps = {
-  children: null,
-  size: 'md',
-  error: false,
-  disabled: false,
-  style: undefined,
-};
 Label.propTypes = {
   children: PropTypes.node,
   size: PropTypes.oneOf(['sm', 'md']),

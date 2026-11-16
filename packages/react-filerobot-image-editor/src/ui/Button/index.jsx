@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -54,15 +54,6 @@ const Button = forwardRef(
 );
 
 Button.displayName = 'Button';
-Button.defaultProps = {
-  children: null,
-  startIcon: null,
-  className: '',
-  style: undefined,
-  active: false,
-  variant: 'primary',
-  labelStyle: undefined,
-};
 Button.propTypes = {
   children: PropTypes.node,
   startIcon: PropTypes.node,

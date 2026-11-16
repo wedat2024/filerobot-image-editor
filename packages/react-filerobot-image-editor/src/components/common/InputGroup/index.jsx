@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -10,7 +10,15 @@ import Label from 'components/common/Label';
 
 const InputGroup = forwardRef(
   (
-    { label, size, error, errorMessage, disabled, inputProps, ...props },
+    {
+      label,
+      size = 'md',
+      error = false,
+      errorMessage,
+      disabled = false,
+      inputProps,
+      ...props
+    },
     ref,
   ) => {
     const generatedId = useFieldId();
@@ -50,16 +58,6 @@ const InputGroup = forwardRef(
 );
 
 InputGroup.displayName = 'InputGroup';
-InputGroup.defaultProps = {
-  label: undefined,
-  size: 'md',
-  error: false,
-  errorMessage: undefined,
-  disabled: false,
-  inputProps: undefined,
-  id: undefined,
-  'aria-describedby': undefined,
-};
 InputGroup.propTypes = {
   label: PropTypes.node,
   size: PropTypes.oneOf(['sm', 'md']),

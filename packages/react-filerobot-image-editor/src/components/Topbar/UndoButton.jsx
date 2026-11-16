@@ -1,6 +1,6 @@
 import FieHistoryButton from 'components/common/IconButton';
 /** External Dependencies */
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Undo from '@scaleflex/icons/undo';
@@ -37,10 +37,6 @@ const UndoButton = ({ margin }) => {
       <Undo />
     </FieHistoryButton>
   );
-};
-
-UndoButton.defaultProps = {
-  margin: undefined,
 };
 
 UndoButton.propTypes = {

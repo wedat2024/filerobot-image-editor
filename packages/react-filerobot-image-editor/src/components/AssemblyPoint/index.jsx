@@ -10,8 +10,14 @@ import deepMerge from 'utils/deepMerge';
 
 import './globalStyles.module.css';
 
-const AssemblyPoint = (props) => {
-  const { img, source, useCloudimage, cloudimage } = props;
+const defaultCloudimage = {};
+
+const AssemblyPoint = ({
+  useCloudimage = false,
+  cloudimage = defaultCloudimage,
+  ...props
+}) => {
+  const { img, source } = props;
 
   // TODO: Remove this property from here after PROD. release
   if (img) {
@@ -37,7 +43,11 @@ const AssemblyPoint = (props) => {
     }
   }
 
-  const defaultAndProvidedConfigMerged = deepMerge(defaultConfig, props);
+  const defaultAndProvidedConfigMerged = deepMerge(defaultConfig, {
+    ...props,
+    useCloudimage,
+    cloudimage,
+  });
 
   return (
     <React.StrictMode>
@@ -46,13 +56,6 @@ const AssemblyPoint = (props) => {
       </AppProvider>
     </React.StrictMode>
   );
-};
-
-AssemblyPoint.defaultProps = {
-  useCloudimage: false,
-  cloudimage: {},
-  // TODO: Remove this property from here after PROD. release
-  img: undefined,
 };
 
 AssemblyPoint.propTypes = {

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -16,7 +16,6 @@ const CrossButton = forwardRef(({ children, className, ...props }, ref) => (
 ));
 
 CrossButton.displayName = 'CrossButton';
-CrossButton.defaultProps = { className: undefined };
 CrossButton.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,

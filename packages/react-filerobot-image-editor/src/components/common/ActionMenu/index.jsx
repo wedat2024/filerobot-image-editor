@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useStore } from 'hooks';
@@ -9,7 +9,7 @@ const ActionMenu = ({
   anchor,
   items,
   onClose,
-  initialFocus,
+  initialFocus = 'first',
   itemClassName,
   iconClassName,
   ...props
@@ -89,7 +89,16 @@ const ActionMenu = ({
       onClose={dismiss}
       role="menu"
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) onClose();
+        const menu = event.currentTarget;
+
+        if (menu.contains(event.relatedTarget)) return;
+
+        // StrictMode can detach and refocus the portal during effect replay.
+        queueMicrotask(() => {
+          if (menu.isConnected && !menu.contains(document.activeElement)) {
+            onClose();
+          }
+        });
       }}
     >
       {items.map((item, index) => {
@@ -133,11 +142,6 @@ const ActionMenu = ({
   );
 };
 
-ActionMenu.defaultProps = {
-  initialFocus: 'first',
-  itemClassName: undefined,
-  iconClassName: undefined,
-};
 ActionMenu.propTypes = {
   anchor: PropTypes.instanceOf(Object).isRequired,
   items: PropTypes.arrayOf(

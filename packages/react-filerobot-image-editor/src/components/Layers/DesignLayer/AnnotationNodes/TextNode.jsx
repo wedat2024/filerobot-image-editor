@@ -6,21 +6,34 @@ import { Text, Rect, Group } from 'react-konva';
 /** Internal Dependencies */
 import nodesCommonPropTypes from '../nodesCommonPropTypes';
 
+const defaultBackgroundConfig = {
+  fill: 'transparent',
+  stroke: 'none',
+  strokeWidth: 0,
+  cornerRadius: 0,
+  shadowOffsetX: 0,
+  shadowOffsetY: 0,
+  shadowBlur: 0,
+  shadowColor: 'black',
+  shadowOpacity: 0,
+  opacity: 1,
+};
+
 const TextNode = ({
   id,
   name,
-  text,
-  fontFamily,
-  fontSize,
+  text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur imperdiet tortor quis odio facilisis, id aliquet nulla facilisis. Etiam tincidunt tempor odio nec placerat.',
+  fontFamily = 'Arial',
+  fontSize = 14,
   fontStyle,
-  fill,
+  fill = '#000',
   x,
   y,
-  width,
-  height,
-  scaleX,
-  scaleY,
-  rotation,
+  width = 0,
+  height = 0,
+  scaleX = nodesCommonPropTypes.defaults.scaleX,
+  scaleY = nodesCommonPropTypes.defaults.scaleY,
+  rotation = nodesCommonPropTypes.defaults.rotation,
   annotationEvents,
   stroke,
   strokeWidth,
@@ -29,11 +42,11 @@ const TextNode = ({
   shadowBlur,
   shadowColor,
   shadowOpacity,
-  opacity,
+  opacity = nodesCommonPropTypes.defaults.opacity,
   letterSpacing,
   lineHeight,
-  align,
-  backgroundConfig,
+  align = 'left',
+  backgroundConfig = defaultBackgroundConfig,
   ...otherProps
 }) => {
   const textRef = React.useRef(null);
@@ -97,31 +110,6 @@ const TextNode = ({
       />
     </Group>
   );
-};
-
-TextNode.defaultProps = {
-  ...nodesCommonPropTypes.defaults,
-  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur imperdiet tortor quis odio facilisis, id aliquet nulla facilisis. Etiam tincidunt tempor odio nec placerat.',
-  fontFamily: 'Arial',
-  fontSize: 14,
-  fill: '#000',
-  width: 0,
-  height: 0,
-  letterSpacing: undefined,
-  lineHeight: undefined,
-  align: 'left',
-  backgroundConfig: {
-    fill: 'transparent',
-    stroke: 'none',
-    strokeWidth: 0,
-    cornerRadius: 0,
-    shadowOffsetX: 0,
-    shadowOffsetY: 0,
-    shadowBlur: 0,
-    shadowColor: 'black',
-    shadowOpacity: 0,
-    opacity: 1,
-  },
 };
 
 TextNode.propTypes = {

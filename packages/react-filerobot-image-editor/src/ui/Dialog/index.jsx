@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import CrossOutline from '@scaleflex/icons/cross-outline';
@@ -6,7 +6,7 @@ import CrossOutline from '@scaleflex/icons/cross-outline';
 import styles from './Dialog.module.css';
 
 const Dialog = forwardRef(
-  ({ children, className, fullWidth, ...props }, ref) => (
+  ({ children, className, fullWidth = false, ...props }, ref) => (
     <div
       {...props}
       ref={ref}
@@ -26,7 +26,6 @@ const Dialog = forwardRef(
 );
 
 Dialog.displayName = 'Dialog';
-Dialog.defaultProps = { className: undefined, fullWidth: false };
 Dialog.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
@@ -73,12 +72,6 @@ export const DialogTitle = ({
   </div>
 );
 
-DialogTitle.defaultProps = {
-  secondary: undefined,
-  icon: undefined,
-  className: undefined,
-  descriptionId: undefined,
-};
 DialogTitle.propTypes = {
   primary: PropTypes.node.isRequired,
   secondary: PropTypes.node,
@@ -102,7 +95,6 @@ export const DialogActions = ({ children, className }) => (
   </div>
 );
 
-DialogActions.defaultProps = { className: undefined };
 DialogActions.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,

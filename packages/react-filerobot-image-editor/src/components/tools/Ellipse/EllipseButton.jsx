@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Ellipse as EllipseIcon } from '@scaleflex/icons/ellipse';
 
@@ -7,7 +6,7 @@ import { Ellipse as EllipseIcon } from '@scaleflex/icons/ellipse';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
 import { TOOLS_IDS } from 'utils/constants';
 
-const EllipseButton = ({ selectTool, isSelected, t }) => (
+const EllipseButton = ({ selectTool, isSelected = false, t }) => (
   <ToolsBarItemButton
     className="FIE_ellipse-tool-button"
     id={TOOLS_IDS.ELLIPSE}
@@ -17,10 +16,6 @@ const EllipseButton = ({ selectTool, isSelected, t }) => (
     isSelected={isSelected}
   />
 );
-
-EllipseButton.defaultProps = {
-  isSelected: false,
-};
 
 EllipseButton.propTypes = {
   selectTool: PropTypes.func.isRequired,

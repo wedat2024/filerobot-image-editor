@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Menu } from '@scaleflex/icons';
@@ -14,7 +13,12 @@ import AppStyles from 'components/App/App.module.css';
 
 import Tabs from 'components/Tabs';
 
-const TabsDrawer = ({ toggleMainMenu, menuButtonRef }) => {
+const defaultToggleMainMenu = () => {};
+
+const TabsDrawer = ({
+  toggleMainMenu = defaultToggleMainMenu,
+  menuButtonRef,
+}) => {
   const { t, showTabsMenu } = useStore();
 
   return (
@@ -42,11 +46,6 @@ const TabsDrawer = ({ toggleMainMenu, menuButtonRef }) => {
       </DrawerBody>
     </FieDrawer>
   );
-};
-
-TabsDrawer.defaultProps = {
-  menuButtonRef: undefined,
-  toggleMainMenu: () => {},
 };
 
 TabsDrawer.propTypes = {

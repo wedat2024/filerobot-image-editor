@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -12,9 +12,9 @@ const Slider = forwardRef(
       inputRef,
       inputProps,
       percent,
-      annotation,
-      hideTrack,
-      rotation,
+      annotation = '',
+      hideTrack = false,
+      rotation = false,
       rail,
       ...props
     },
@@ -75,13 +75,6 @@ const Slider = forwardRef(
 );
 
 Slider.displayName = 'Slider';
-Slider.defaultProps = {
-  className: undefined,
-  annotation: '',
-  hideTrack: false,
-  rotation: false,
-  rail: undefined,
-};
 Slider.propTypes = {
   className: PropTypes.string,
   inputRef: PropTypes.instanceOf(Object).isRequired,

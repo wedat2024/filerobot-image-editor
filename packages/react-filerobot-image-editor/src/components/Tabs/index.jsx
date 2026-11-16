@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -9,7 +9,9 @@ import { SELECT_TAB } from 'actions';
 import TabItem from './TabItem';
 import { AVAILABLE_TABS } from './Tabs.constants';
 
-const Tabs = ({ toggleMainMenu, isDrawer }) => {
+const defaultToggleMainMenu = () => {};
+
+const Tabs = ({ toggleMainMenu = defaultToggleMainMenu, isDrawer = false }) => {
   const {
     t,
     tabId = null,
@@ -75,11 +77,6 @@ const Tabs = ({ toggleMainMenu, isDrawer }) => {
       )}
     </>
   );
-};
-
-Tabs.defaultProps = {
-  toggleMainMenu: () => {},
-  isDrawer: false,
 };
 
 Tabs.propTypes = {

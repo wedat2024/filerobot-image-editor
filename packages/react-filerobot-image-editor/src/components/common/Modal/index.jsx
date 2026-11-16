@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -13,22 +12,22 @@ import ModalStyles from './Modal.module.css';
 
 const Modal = ({
   title,
-  hint,
+  hint = '',
   Icon,
   onDone,
   onCancel,
-  doneLabel,
-  cancelLabel,
-  isOpened,
+  doneLabel = 'Yes',
+  cancelLabel = 'No',
+  isOpened = false,
   doneButtonStyle,
   doneButtonColor = 'basic',
   cancelButtonColor = 'basic',
   children,
-  areButtonsDisabled,
+  areButtonsDisabled = false,
   zIndex,
   className,
-  width,
-  isWarning,
+  width = '',
+  isWarning = false,
 }) => {
   const { t } = useStore();
   const titleId = useFieldId();
@@ -88,22 +87,6 @@ const Modal = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-Modal.defaultProps = {
-  hint: '',
-  isOpened: false,
-  doneLabel: 'Yes',
-  cancelLabel: 'No',
-  doneButtonStyle: undefined,
-  doneButtonColor: 'basic',
-  cancelButtonColor: 'basic',
-  children: undefined,
-  areButtonsDisabled: false,
-  zIndex: undefined,
-  className: undefined,
-  width: '',
-  isWarning: false,
 };
 
 Modal.propTypes = {

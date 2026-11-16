@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import LockOutline from '@scaleflex/icons/lock-outline';
@@ -19,12 +18,14 @@ import IconButton from 'components/common/IconButton';
 
 import ResizeStyles from './Resize.module.css';
 
+const defaultCurrentSize = {};
+
 const Resize = ({
   onChange,
-  currentSize,
-  hideResetButton,
-  alignment,
-  disableWrap,
+  currentSize = defaultCurrentSize,
+  hideResetButton = false,
+  alignment = 'center',
+  disableWrap = false,
 }) => {
   const {
     dispatch,
@@ -238,14 +239,6 @@ const Resize = ({
       )}
     </div>
   );
-};
-
-Resize.defaultProps = {
-  onChange: undefined,
-  currentSize: {},
-  hideResetButton: false,
-  alignment: 'center',
-  disableWrap: false,
 };
 
 Resize.propTypes = {

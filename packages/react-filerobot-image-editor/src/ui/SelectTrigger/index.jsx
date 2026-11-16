@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import ArrowBottom from '@scaleflex/icons/arrow-bottom';
@@ -7,7 +7,15 @@ import styles from './SelectTrigger.module.css';
 
 const SelectTrigger = forwardRef(
   (
-    { children, hasValue, placeholder, className, fullWidth, ...props },
+    {
+      children = null,
+      hasValue = false,
+      placeholder = '',
+      className,
+      fullWidth = false,
+      'aria-expanded': expanded = false,
+      ...props
+    },
     ref,
   ) => (
     <div
@@ -21,7 +29,7 @@ const SelectTrigger = forwardRef(
         role="combobox"
         aria-haspopup="listbox"
         aria-controls={props['aria-controls']}
-        aria-expanded={props['aria-expanded']}
+        aria-expanded={expanded}
         className={cx(
           styles.trigger,
           'SfxInput-root',
@@ -49,15 +57,6 @@ const SelectTrigger = forwardRef(
 );
 
 SelectTrigger.displayName = 'SelectTrigger';
-SelectTrigger.defaultProps = {
-  'aria-controls': undefined,
-  'aria-expanded': false,
-  children: null,
-  hasValue: false,
-  placeholder: '',
-  className: undefined,
-  fullWidth: false,
-};
 SelectTrigger.propTypes = {
   'aria-controls': PropTypes.string,
   'aria-expanded': PropTypes.bool,

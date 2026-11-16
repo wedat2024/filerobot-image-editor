@@ -1,5 +1,4 @@
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -9,7 +8,12 @@ import { useStore } from 'hooks';
 
 import TopbarStyles from './Topbar.module.css';
 
-const RestoreButton = ({ restoreConfig }) => {
+const defaultRestoreConfig = {
+  showRestore: false,
+  onClick: undefined,
+};
+
+const RestoreButton = ({ restoreConfig = defaultRestoreConfig }) => {
   const state = useStore();
 
   const { t } = state;
@@ -31,13 +35,6 @@ const RestoreButton = ({ restoreConfig }) => {
       </FieRestoreButton>
     </div>
   ) : null;
-};
-
-RestoreButton.defaultProps = {
-  restoreConfig: {
-    showRestore: false,
-    onClick: undefined,
-  },
 };
 
 RestoreButton.propTypes = {

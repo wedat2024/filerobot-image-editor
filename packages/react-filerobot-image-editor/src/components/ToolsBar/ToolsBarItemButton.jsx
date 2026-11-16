@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Preserve existing click behavior during CSS migration. */
 /** External Dependencies */
-import React, { memo } from 'react';
+import { memo } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -12,11 +12,11 @@ import ToolsBarStyles from './ToolsBar.module.css';
 
 const ToolsBarItemButton = ({
   id,
-  label,
+  label = '',
   onClick,
   Icon,
-  isSelected,
-  children,
+  isSelected = false,
+  children = null,
   className,
 }) => {
   const isPhoneScreen = usePhoneScreen(320);
@@ -49,13 +49,6 @@ const ToolsBarItemButton = ({
       {children}
     </div>
   );
-};
-
-ToolsBarItemButton.defaultProps = {
-  isSelected: false,
-  id: undefined,
-  children: null,
-  label: '',
 };
 
 ToolsBarItemButton.propTypes = {

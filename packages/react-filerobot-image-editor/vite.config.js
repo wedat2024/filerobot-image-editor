@@ -13,7 +13,7 @@ export default defineConfig({
   publicDir: false,
   plugins: [
     react({
-      jsxRuntime: 'classic',
+      jsxRuntime: 'automatic',
       babel: {
         configFile: resolve(__dirname, '../../babel.config.json'),
         envName: 'production',

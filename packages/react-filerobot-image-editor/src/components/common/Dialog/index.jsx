@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -13,7 +13,14 @@ const FOCUSABLE =
 const openDialogs = [];
 let preserveBodyClass = false;
 
-const Dialog = ({ open, onClose, modalStyles, style, children, ...props }) => {
+const Dialog = ({
+  open = false,
+  onClose,
+  modalStyles,
+  style,
+  children,
+  ...props
+}) => {
   const { theme } = useStore();
   const panel = useRef(null);
   const close = useRef(onClose);
@@ -123,7 +130,6 @@ const Dialog = ({ open, onClose, modalStyles, style, children, ...props }) => {
   );
 };
 
-Dialog.defaultProps = { open: false, modalStyles: undefined, style: undefined };
 Dialog.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func.isRequired,

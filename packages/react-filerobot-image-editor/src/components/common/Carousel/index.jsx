@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { Children, useRef, useState, useEffect } from 'react';
+import { Children, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ArrowLeftOutline, ArrowRightOutline } from '@scaleflex/icons';
 
@@ -10,7 +10,7 @@ import getScrollOffset from 'utils/getScrollOffset';
 
 import styles from './Carousel.module.css';
 
-const Carousel = ({ children, style, className }) => {
+const Carousel = ({ children, style = null, className }) => {
   const scrollingByDraggingLatestX = useRef(false);
   const carouselRef = useRef();
 
@@ -147,10 +147,6 @@ const Carousel = ({ children, style, className }) => {
       )}
     </div>
   );
-};
-
-Carousel.defaultProps = {
-  style: null,
 };
 
 Carousel.propTypes = {

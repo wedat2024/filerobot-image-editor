@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import Tippy from '@tippyjs/react';
+import { cloneElement, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import tippy from 'tippy.js';
 import PropTypes from 'prop-types';
 
 import { useStore } from 'hooks';
@@ -26,10 +27,43 @@ const Tooltip = ({ title, children }) => {
   const {
     theme: { palette, typography, shape },
   } = useStore();
+  const [reference, setReference] = useState(null);
+  const [content] = useState(() => document.createElement('div'));
   const instanceRef = useRef(null);
   const font = typography.font['text-extra-small'];
-  const applyTheme = (instance) => {
+
+  useLayoutEffect(() => {
+    if (!reference) return undefined;
+
+    const instance = tippy(reference, {
+      content,
+      placement: 'top',
+      interactive: true,
+      arrow: true,
+      delay: [0, 0],
+      offset: [0, 10],
+      animation: 'scale',
+      appendTo: document.body,
+      ignoreAttributes: true,
+      aria: { content: 'describedby', expanded: false },
+      plugins: [hideOnEscape],
+    });
+
+    instance.popper.firstElementChild.classList.add(
+      ...tooltipClassName.split(' '),
+    );
     instanceRef.current = instance;
+
+    return () => {
+      instance.destroy();
+      instanceRef.current = null;
+    };
+  }, [reference, content]);
+
+  useLayoutEffect(() => {
+    const instance = instanceRef.current;
+    if (!instance) return;
+
     const variables = {
       '--fie-tooltip-radius': shape.borderRadius.md,
       '--fie-tooltip-background': palette['icons-placeholder'],
@@ -43,29 +77,16 @@ const Tooltip = ({ title, children }) => {
     Object.entries(variables).forEach(([key, value]) =>
       instance.popper.style.setProperty(key, value),
     );
-  };
-
-  useEffect(() => {
-    if (instanceRef.current) applyTheme(instanceRef.current);
-  }, [palette, typography, shape]);
+  }, [reference, palette, font, shape]);
 
   return (
-    <Tippy
-      className={tooltipClassName}
-      content={<TooltipContent style={font}>{title}</TooltipContent>}
-      placement="top"
-      interactive
-      arrow
-      delay={[0, 0]}
-      offset={[0, 10]}
-      animation="scale"
-      appendTo={document.body}
-      aria={{ content: 'describedby', expanded: false }}
-      plugins={[hideOnEscape]}
-      onCreate={applyTheme}
-    >
-      {children}
-    </Tippy>
+    <>
+      {cloneElement(children, { ref: setReference })}
+      {createPortal(
+        <TooltipContent style={font}>{title}</TooltipContent>,
+        content,
+      )}
+    </>
   );
 };
 

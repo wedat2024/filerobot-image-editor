@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Tick from '@scaleflex/icons/tick';
@@ -6,7 +6,16 @@ import Tick from '@scaleflex/icons/tick';
 import styles from './SelectOption.module.css';
 
 const SelectOption = forwardRef(
-  ({ children, selected, highlighted, className, ...props }, ref) => (
+  (
+    {
+      children = null,
+      selected = false,
+      highlighted = false,
+      className,
+      ...props
+    },
+    ref,
+  ) => (
     <div className="SfxMenuItem-wrapper">
       <div
         {...props}
@@ -36,12 +45,6 @@ const SelectOption = forwardRef(
 );
 
 SelectOption.displayName = 'SelectOption';
-SelectOption.defaultProps = {
-  children: null,
-  selected: false,
-  highlighted: false,
-  className: undefined,
-};
 SelectOption.propTypes = {
   children: PropTypes.node,
   selected: PropTypes.bool,

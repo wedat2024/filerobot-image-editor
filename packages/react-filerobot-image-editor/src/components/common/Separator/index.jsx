@@ -1,11 +1,10 @@
 /** External Dependencies */
-import React from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import styles from './Separator.module.css';
 
-const Separator = ({ height, width }) => {
+const Separator = ({ height = '24px', width = '1px' }) => {
   return (
     <div
       className={styles.separator}
@@ -15,11 +14,6 @@ const Separator = ({ height, width }) => {
       }}
     />
   );
-};
-
-Separator.defaultProps = {
-  height: '24px',
-  width: '1px',
 };
 
 Separator.propTypes = {

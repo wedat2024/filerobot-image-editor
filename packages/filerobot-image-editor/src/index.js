@@ -50,7 +50,7 @@ class FilerobotImageEditor {
       updateStateFnRef: this.#updateStateFnRef,
     };
 
-    if (!this.#root._internalRoot) {
+    if (!this.#root) {
       this.#root = createRoot(this.container);
     }
 
@@ -58,7 +58,8 @@ class FilerobotImageEditor {
   }
 
   terminate() {
-    this.#root.unmount();
+    this.#root?.unmount();
+    this.#root = null;
   }
 
   getCurrentImgData(imageFileInfo, pixelRatio, keepLoadingSpinnerShown) {

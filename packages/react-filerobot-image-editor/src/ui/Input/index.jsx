@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -15,12 +15,12 @@ const Input = forwardRef(
       inputStyle,
       inputProps,
       inputRef,
-      endAdornment,
+      endAdornment = null,
       onFocusRequest,
-      disabled,
-      readOnly,
-      error,
-      fullWidth,
+      disabled = false,
+      readOnly = false,
+      error = false,
+      fullWidth = false,
     },
     ref,
   ) => (
@@ -55,19 +55,6 @@ const Input = forwardRef(
 );
 
 Input.displayName = 'Input';
-Input.defaultProps = {
-  className: undefined,
-  style: undefined,
-  inputStyle: undefined,
-  inputProps: undefined,
-  inputRef: undefined,
-  endAdornment: null,
-  onFocusRequest: undefined,
-  disabled: false,
-  readOnly: false,
-  error: false,
-  fullWidth: false,
-};
 Input.propTypes = {
   className: PropTypes.string,
   style: PropTypes.instanceOf(Object),

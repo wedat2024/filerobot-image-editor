@@ -106,29 +106,9 @@ The Filerobot Image Editor is the easiest way to integrate an easy-to-use image 
 
 ## Prerequisites
 
-> Following prerequisites are required only in React Component installation, but they're included in CDN bundle installation and added as dependencies of other bridges/adapters packages.
+This fork supports React 18.2/18.3 and React 19.3.1 using one implementation and the shared forwardRef API. React, React DOM and react-konva are peers from the consuming application; the React package does not install or bundle a second React runtime.
 
-> All of the following libraries are required, as the plugin is depending on them in the implementation.
-
-- react, react-dom: >= v17.0.0
-- react-konva >= v17.0.1-1
-- styled-components: >= v5.3.5
-
-**Compatability table (installed version of react should meet the opposite react-konva version in the table).**
-
-| react & react-dom versions | react-konva version       |
-| -------------------------- | ------------------------- |
-| v17.x.x                    | >= v17.0.1-1 <= v17.0.2-6 |
-| v18.x.x                    | v18.x.x                   |
-
-<details>
-  <summary>Prerequisites Installation (Click to show)</summary>
-
-- react, react-dom, react-konva & styled-components:
-```bash
-npm install --save react react-dom react-konva styled-components
-```
-</details>
+Use matching React/React DOM and react-konva major versions. The editor supplies Konva 8.4.3 and injects its CSS. The standalone JS UMD bundle includes React 19.3.1 and react-konva 19.3.2. See the [React package README](packages/react-filerobot-image-editor/README.md) for the exact version matrix, React 18.2 reconciler requirement and local installation.
 
 <hr />
 
@@ -139,8 +119,10 @@ npm install --save react react-dom react-konva styled-components
 #### React component
 
 ```bash
-npm install --save react-filerobot-image-editor
+npm install --save @wedat2024/react-filerobot-image-editor
 ```
+
+> The React 18/19 changes on this branch are not published yet. Use a local tarball for verification; the commands and CDN links below describe upstream VanillaJS distribution.
 
 #### VanillaJS
 

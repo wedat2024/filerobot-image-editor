@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useStore } from 'hooks';
@@ -106,7 +106,6 @@ const Drawer = ({ open, onClose, returnFocusRef, ...props }) => {
   );
 };
 
-Drawer.defaultProps = { returnFocusRef: undefined };
 Drawer.propTypes = {
   returnFocusRef: PropTypes.shape({ current: PropTypes.instanceOf(Object) }),
   open: PropTypes.bool.isRequired,

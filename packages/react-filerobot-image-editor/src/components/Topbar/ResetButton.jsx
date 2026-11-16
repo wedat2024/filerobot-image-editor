@@ -1,6 +1,5 @@
 import FieHistoryButton from 'components/common/IconButton';
 /** External Dependencies */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Reset from '@scaleflex/icons/reset';
@@ -35,10 +34,6 @@ const ResetButton = ({ margin }) => {
       </FieHistoryButton>
     </ConfirmationModal>
   );
-};
-
-ResetButton.defaultProps = {
-  margin: undefined,
 };
 
 ResetButton.propTypes = {

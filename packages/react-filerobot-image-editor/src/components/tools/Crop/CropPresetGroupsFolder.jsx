@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Arrow from '@scaleflex/icons/arrow';
 
@@ -189,7 +189,6 @@ const CropPresetGroupsFolder = ({
   );
 };
 
-CropPresetGroupsFolder.defaultProps = { Icon: undefined };
 CropPresetGroupsFolder.propTypes = {
   titleKey: PropTypes.string.isRequired,
   groups: PropTypes.instanceOf(Array).isRequired,

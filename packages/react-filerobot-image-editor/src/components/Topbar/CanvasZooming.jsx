@@ -1,7 +1,7 @@
 import FieSmallButton from 'components/common/IconButton';
 import FieZoomPercentageLabel from 'ui/TextButton';
 /** External Dependencies */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { MinusOutline, PlusOutline } from '@scaleflex/icons';
@@ -23,7 +23,7 @@ import { ZOOM_FACTORS_PRESETS } from './Topbar.constants';
 
 const MULTIPLY_ZOOM_FACTOR = 1.1;
 
-const CanvasZooming = ({ showBackButton }) => {
+const CanvasZooming = ({ showBackButton = false }) => {
   const {
     dispatch,
     zoom = {},
@@ -190,10 +190,6 @@ const CanvasZooming = ({ showBackButton }) => {
       )}
     </div>
   );
-};
-
-CanvasZooming.defaultProps = {
-  showBackButton: false,
 };
 
 CanvasZooming.propTypes = {

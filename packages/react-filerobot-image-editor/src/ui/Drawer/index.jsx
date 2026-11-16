@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -30,7 +30,6 @@ const Drawer = forwardRef(
 );
 
 Drawer.displayName = 'Drawer';
-Drawer.defaultProps = { className: undefined, style: undefined };
 Drawer.propTypes = {
   open: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,

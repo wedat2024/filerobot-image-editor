@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Crop as CropIcon } from '@scaleflex/icons/crop';
@@ -14,7 +14,7 @@ import ToolsBarStyles from 'components/ToolsBar/ToolsBar.module.css';
 
 import CropPresetsOption from './CropPresetsOption';
 
-const Crop = ({ selectTool, isSelected }) => {
+const Crop = ({ selectTool, isSelected = false }) => {
   const { config, t } = useStore();
 
   const [anchorEl, setAnchorEl] = useState();
@@ -50,10 +50,6 @@ const Crop = ({ selectTool, isSelected }) => {
       )}
     </ToolsBarItemButton>
   );
-};
-
-Crop.defaultProps = {
-  isSelected: false,
 };
 
 Crop.propTypes = {

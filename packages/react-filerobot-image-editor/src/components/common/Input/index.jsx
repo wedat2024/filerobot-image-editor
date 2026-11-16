@@ -1,5 +1,5 @@
 /** External Dependencies */
-import React, { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
@@ -10,15 +10,15 @@ import InputView from 'ui/Input';
 const Input = forwardRef(
   (
     {
-      size,
-      error,
-      disabled,
-      readOnly,
-      fullWidth,
-      focusOnMount,
+      size = 'md',
+      error = false,
+      disabled = false,
+      readOnly = false,
+      fullWidth = false,
+      focusOnMount = false,
       className,
       style,
-      iconEnd,
+      iconEnd = null,
       inputProps,
       ...props
     },
@@ -80,18 +80,6 @@ const Input = forwardRef(
 );
 
 Input.displayName = 'Input';
-Input.defaultProps = {
-  size: 'md',
-  error: false,
-  disabled: false,
-  readOnly: false,
-  fullWidth: false,
-  focusOnMount: false,
-  className: undefined,
-  style: undefined,
-  iconEnd: null,
-  inputProps: undefined,
-};
 Input.propTypes = {
   size: PropTypes.oneOf(['sm', 'md']),
   error: PropTypes.bool,
