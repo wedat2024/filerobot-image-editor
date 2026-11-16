@@ -138,7 +138,6 @@ const ButtonWithMenu = ({
 };
 
 ButtonWithMenu.defaultProps = {
-  ButtonComponent: FieMainButton,
   title: '',
   label: '',
   color: 'primary',
