@@ -1,0 +1,47 @@
+.folder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 32px;
+  padding: 8px 16px;
+  border-radius: 0;
+  background: var(--fie-menu-background);
+  color: var(--fie-menu-color);
+  text-align: left;
+  cursor: pointer;
+  transition: all 100ms ease-out;
+}
+
+.folder[data-active] {
+  background: var(--fie-menu-active);
+}
+
+.folder:hover {
+  background: var(--fie-menu-hover);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.prefix {
+  display: flex;
+  align-items: center;
+}
+
+.suffix {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  min-height: 32px;
+  background: var(--fie-menu-background);
+  color: var(--fie-menu-color);
+}

@@ -1,5 +1,35 @@
-import { ThemeOverride } from '@scaleflex/ui/theme';
-import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
+import {
+  FunctionComponent,
+  RefObject,
+  Dispatch,
+  SetStateAction,
+  CSSProperties,
+} from 'react';
+
+/** Theme overrides accepted by the editor, without a styled-components type dependency. */
+export interface ThemeOverride {
+  readonly palette?: Readonly<Partial<Record<string, string>>>;
+  readonly typography?: {
+    readonly fontFamily?: string;
+    readonly baseLineHeight?: string | number;
+    readonly font?: Readonly<Partial<Record<string, CSSProperties>>>;
+  };
+  readonly shape?: {
+    readonly borderRadius?: Readonly<Partial<Record<'sm' | 'md' | 'lg', string>>>;
+  };
+  readonly shadows?: Readonly<Partial<Record<string, string>>>;
+  // Accepted for compatibility; editor navigation uses its own screen breakpoints.
+  readonly breakpoints?: {
+    keys?: string[];
+    values?: Record<string, number>;
+    classes?: Record<string, string>;
+    getBreakpointClass?: (width: number, hideSelector?: boolean) => string;
+    up?: (key: string | number) => string;
+    down?: (key: string) => string;
+    between?: (start: string, end: string) => string;
+    only?: (key: string) => string;
+  };
+}
 
 declare const TABS = {
   FINETUNE: 'Finetune',

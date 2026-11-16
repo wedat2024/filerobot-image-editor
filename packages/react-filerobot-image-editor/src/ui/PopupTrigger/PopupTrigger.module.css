@@ -1,0 +1,12 @@
+.button {
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--fie-accent-stateless, currentColor);
+  outline-offset: 2px;
+}

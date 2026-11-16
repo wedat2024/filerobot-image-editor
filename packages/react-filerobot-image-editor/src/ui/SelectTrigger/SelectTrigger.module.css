@@ -1,0 +1,69 @@
+.container {
+  position: relative;
+  display: inline-flex;
+}
+
+.container[data-full-width],
+.trigger[data-full-width] {
+  width: 100%;
+}
+
+.trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  column-gap: 8px;
+  width: 300px;
+  height: 32px;
+  padding: 8px 12px;
+  margin: 0;
+  border: 1px solid rgb(204, 214, 222);
+  border-radius: var(--fie-select-radius);
+  background: var(--fie-select-background);
+  color: var(--fie-select-color);
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+  outline: none;
+  transition: all 100ms ease-out;
+}
+
+.trigger:hover {
+  color: rgb(55, 65, 75);
+  border-color: var(--fie-select-hover-border);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--fie-select-focus);
+  outline-offset: 2px;
+}
+
+.label {
+  flex-grow: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.label:global(.SfxSelect-Placeholder) {
+  width: 100%;
+  margin-right: 6px;
+  color: var(--fie-select-placeholder);
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  padding: 2px;
+  margin-left: 6px;
+  color: var(--fie-select-icon);
+}
+
+.arrow {
+  display: inline-flex;
+}
+
+.trigger[aria-expanded='true'] .arrow {
+  transform: rotate(180deg);
+}

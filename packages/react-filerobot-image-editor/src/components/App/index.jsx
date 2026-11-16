@@ -1,5 +1,6 @@
 /** External Dependencies */
 import React, { memo, useCallback, useEffect, useState, useRef } from 'react';
+import cx from 'classnames';
 
 /** Internal Dependencies */
 import MainCanvas from 'components/MainCanvas';
@@ -25,6 +26,7 @@ import {
   useTransformedImgData,
 } from 'hooks';
 import Spinner from 'components/common/Spinner';
+import ThemeScope from 'context/CssTheme';
 import { getBackendTranslations } from 'utils/translator';
 import cloudimageQueryToDesignState from 'utils/cloudimageQueryToDesignState';
 import finetunesStrsToClasses from 'utils/finetunesStrsToClasses';
@@ -32,12 +34,8 @@ import filterStrToClass from 'utils/filterStrToClass';
 import isSameImage from 'utils/isSameImage';
 import useUpdateEffect from 'hooks/useUpdateEffect';
 import TabsDrawer from 'components/TabsDrawer';
-import {
-  StyledAppWrapper,
-  StyledMainContent,
-  StyledTabs,
-  StyledCanvasAndTools,
-} from './App.styled';
+
+import AppStyles from './App.module.css';
 
 const App = () => {
   const {
@@ -48,9 +46,9 @@ const App = () => {
     originalImage,
     shownImageDimensions,
     t,
-    theme,
     feedback = {},
   } = useStore();
+
   const {
     loadableDesignState,
     useCloudimage,
@@ -73,17 +71,22 @@ const App = () => {
   const showTabsDrawer = window.matchMedia('(max-width: 760px)').matches;
 
   const [observeResize, unobserveElement] = useResizeObserver();
+
   const [rootSize, setRootSize] = useState({
     width: undefined,
     height: undefined,
   });
+
   const isPhoneScreen = usePhoneScreen();
+
   const pluginRootRef = useRef(null);
+  const tabsMenuButtonRef = useRef(null);
   const cloudimageQueryLoaded = useRef(false);
   const imageBeingLoadedSrc = useRef(null);
   // Hacky solution, For being used in beforeunload event
   // as it won't be possible to have the latest value of the state variable in js event handler.
   const haveNotSavedChangesRef = useRef(haveNotSavedChanges);
+
   const transformImgFn = useTransformedImgData();
 
   const setNewOriginalImage = useCallback((newOriginalImage) => {
@@ -111,6 +114,7 @@ const App = () => {
   const loadAndSetOriginalImage = (imgToLoad) =>
     new Promise((resolve) => {
       const imgSrc = imgToLoad?.src || imgToLoad;
+
       if (
         imageBeingLoadedSrc.current === imgSrc ||
         (!imgSrc && originalImage) ||
@@ -119,6 +123,7 @@ const App = () => {
         if (!imageBeingLoadedSrc.current) {
           resolve();
         }
+
         return;
       }
 
@@ -148,11 +153,13 @@ const App = () => {
             // eslint-disable-next-line no-param-reassign
             imgToLoad.name = defaultSavedImageName;
           }
+
           if (!imgToLoad.complete) {
             imgToLoad.addEventListener('load', () => {
               setNewOriginalImage(imgToLoad);
               triggerResolve();
             });
+
             return;
           }
 
@@ -210,6 +217,7 @@ const App = () => {
 
   useUpdateEffect(() => {
     const newImgSrc = loadableDesignState?.imgSrc;
+
     if (newImgSrc && !isSameImage(newImgSrc, originalImage)) {
       handleLoading(() => [
         loadAndSetOriginalImage(newImgSrc).then(
@@ -246,6 +254,7 @@ const App = () => {
 
   useEffect(() => {
     let isUnmounted = false;
+
     if (observePluginContainerSize && pluginRootRef.current) {
       observeResize(pluginRootRef.current.parentNode, ({ width, height }) =>
         setRootSize({ width, height }),
@@ -321,41 +330,59 @@ const App = () => {
     <>
       {!showCanvasOnly && (
         <>
-          {showTabsDrawer && <TabsDrawer toggleMainMenu={toggleMainMenu} />}
-          <Topbar toggleMainMenu={toggleMainMenu} />
+          {showTabsDrawer && (
+            <TabsDrawer
+              toggleMainMenu={toggleMainMenu}
+              menuButtonRef={tabsMenuButtonRef}
+            />
+          )}
+          <Topbar
+            toggleMainMenu={toggleMainMenu}
+            menuButtonRef={tabsMenuButtonRef}
+          />
         </>
       )}
       {originalImage && feedback.duration !== 0 && (
-        <StyledMainContent className="FIE_main-container">
+        <div className={cx(AppStyles.mainContent, 'FIE_main-container')}>
           {!showCanvasOnly && !showTabsDrawer && (
-            <StyledTabs className="FIE_tabs">
+            <div className={cx(AppStyles.tabs, 'FIE_tabs')}>
               <Tabs toggleMainMenu={toggleMainMenu} />
-            </StyledTabs>
+            </div>
           )}
-          <StyledCanvasAndTools
-            className="FIE_editor-content"
-            showTabsDrawer={showTabsDrawer}
+          <div
+            className={cx(
+              AppStyles.canvasAndTools,
+              showTabsDrawer && AppStyles.drawerShown,
+              'FIE_editor-content',
+            )}
           >
             <MainCanvas controls={controls} />
             {!showCanvasOnly && <ToolsBar isPhoneScreen={isPhoneScreen} />}
-          </StyledCanvasAndTools>
-        </StyledMainContent>
+          </div>
+        </div>
       )}
     </>
   );
 
   return (
-    <StyledAppWrapper
-      className={ROOT_CONTAINER_CLASS_NAME}
+    <ThemeScope
+      as="div"
       data-phone={isPhoneScreen}
-      showTabsDrawer={showTabsDrawer}
       ref={pluginRootRef}
-      $size={rootSize}
+      style={{
+        width: rootSize?.width ?? '100%',
+        height: rootSize?.height ?? '100%',
+      }}
+      className={cx(
+        AppStyles.appWrapper,
+        showTabsDrawer && AppStyles.drawerShown,
+        ROOT_CONTAINER_CLASS_NAME,
+      )}
     >
-      {isLoadingGlobally && <Spinner theme={theme} />}
+      {isLoadingGlobally && <Spinner />}
       {renderContent()}
       <FeedbackPopup />
-    </StyledAppWrapper>
+    </ThemeScope>
   );
 };
 

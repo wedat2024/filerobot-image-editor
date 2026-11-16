@@ -1,11 +1,14 @@
 /** External Dependencies */
 import React from 'react';
+import { useStore } from 'hooks';
 import PropTypes from 'prop-types';
 
 /** Internal Dependencies */
 import restrictNumber from 'utils/restrictNumber';
 import ColorInput from 'components/common/ColorInput';
-import { StyledSpacedOptionFields } from './AnnotationOptions.styled';
+
+import AnnotationOptionsStyles from './AnnotationOptions.module.css';
+
 import Slider from '../Slider';
 
 const MIN_PERCENTANGE = 0;
@@ -17,6 +20,8 @@ const StrokeFields = ({
   showStroke,
   isPhone,
 }) => {
+  const { t } = useStore();
+
   const { stroke, strokeWidth } = annotation;
 
   const changeStrokeWidth = (newStrokeWidth) => {
@@ -34,8 +39,9 @@ const StrokeFields = ({
   };
 
   return (
-    <StyledSpacedOptionFields>
+    <div className={AnnotationOptionsStyles.spacedOptionFields}>
       <Slider
+        aria-label={t('stroke')}
         annotation="px"
         onChange={changeStrokeWidth}
         value={strokeWidth}
@@ -48,7 +54,7 @@ const StrokeFields = ({
           colorFor="stroke"
         />
       )}
-    </StyledSpacedOptionFields>
+    </div>
   );
 };
 

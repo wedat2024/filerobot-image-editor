@@ -1,0 +1,25 @@
+.pin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
+.pin:focus-visible {
+  outline: 2px solid var(--fie-color-focus);
+  outline-offset: 2px;
+}
+
+.select {
+  width: 35%;
+}
+
+.select[data-format='rgb'] {
+  width: 25%;
+}

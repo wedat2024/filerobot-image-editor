@@ -1,30 +1,41 @@
 /** External Dependencies */
 import React, { useEffect, useMemo, useState } from 'react';
-import IconButton from '@scaleflex/ui/core/icon-button';
 // import { DeleteOutline, Duplicate, LayerOrder } from '@scaleflex/icons';
 import DeleteOutline from '@scaleflex/icons/delete-outline';
 import Duplicate from '@scaleflex/icons/duplicate';
 
 /** Internal Dependencies */
+import IconButton from 'components/common/IconButton';
 import { useStore } from 'hooks';
 import { DUPLICATE_ANNOTATIONS, REMOVE_ANNOTATIONS } from 'actions';
 import { NODES_TRANSFORMER_ID, WATERMARK_ANNOTATION_ID } from 'utils/constants';
 import debounce from 'utils/debounce';
-import { StyledNodeControls } from './NodeControls.styled';
+
+import styles from './NodeControls.module.css';
 
 const NodeControls = () => {
-  const { selectionsIds = [], designLayer, annotations, dispatch } = useStore();
+  const {
+    selectionsIds = [],
+    designLayer,
+    annotations,
+    dispatch,
+    t,
+  } = useStore();
+
   const [position, setPosition] = useState({ left: 0, top: 0 });
+
   const nodesTransformer = useMemo(
     () => designLayer?.getStage()?.findOne(`#${NODES_TRANSFORMER_ID}`),
     [designLayer],
   );
+
   const selectionsLength = selectionsIds.length;
 
   const updatePosition = debounce(() => {
     if (!nodesTransformer) {
       return;
     }
+
     setPosition({
       left:
         (nodesTransformer.x() + nodesTransformer.width() / 2) *
@@ -63,10 +74,12 @@ const NodeControls = () => {
   };
 
   return (
-    <StyledNodeControls
-      className="FIE_annotation-controls-overlay"
-      left={position.left}
-      top={position.top}
+    <div
+      className={`${styles.controls} FIE_annotation-controls-overlay`}
+      style={{
+        '--fie-node-controls-left': `${(position.left || 0) + 4}px`,
+        '--fie-node-controls-top': `${(position.top || 0) + 8}px`,
+      }}
     >
       {/* {selectionsLength === 1 && (
         <IconButton color="basic" size="sm" onClick={changeAnnotationOrder}>
@@ -74,14 +87,24 @@ const NodeControls = () => {
         </IconButton>
       )} */}
       {selectionsIds[0] !== WATERMARK_ANNOTATION_ID && (
-        <IconButton color="basic" size="sm" onClick={duplicateSelectedNodes}>
+        <IconButton
+          color="basic"
+          size="sm"
+          onClick={duplicateSelectedNodes}
+          aria-label={t('duplicateAnnotation')}
+        >
           <Duplicate />
         </IconButton>
       )}
-      <IconButton color="basic" size="sm" onClick={removeSelectedNodes}>
+      <IconButton
+        color="basic"
+        size="sm"
+        onClick={removeSelectedNodes}
+        aria-label={t('deleteAnnotation')}
+      >
         <DeleteOutline />
       </IconButton>
-    </StyledNodeControls>
+    </div>
   );
 };
 

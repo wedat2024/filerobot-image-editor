@@ -1,16 +1,20 @@
 /** External Dependencies */
 import React from 'react';
-import CrossOutline from '@scaleflex/icons/cross-outline';
+import cx from 'classnames';
 
 /** Internal Dependencies */
+import FieCloseButton from 'components/common/CrossButton';
 import { useStore } from 'hooks';
 import Separator from 'components/common/Separator';
-import { StyledCloseButton } from './Topbar.styled';
+
+import TopbarStyles from './Topbar.module.css';
+
 import ConfirmationModal from './ConfirmationModal';
 
 const CloseButton = () => {
   const {
     config: { onClose },
+    t,
   } = useStore();
 
   if (typeof onClose !== 'function') {
@@ -21,13 +25,10 @@ const CloseButton = () => {
     <>
       <Separator />
       <ConfirmationModal>
-        <StyledCloseButton
-          className="FIE_topbar-close-button"
-          color="basic"
-          size="md"
-        >
-          <CrossOutline />
-        </StyledCloseButton>
+        <FieCloseButton
+          aria-label={t('close')}
+          className={cx(TopbarStyles.closeButton, 'FIE_topbar-close-button')}
+        />
       </ConfirmationModal>
     </>
   );

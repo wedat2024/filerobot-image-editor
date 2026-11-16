@@ -1,0 +1,104 @@
+.button.button {
+  display: inline-flex;
+  flex-shrink: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: var(--fie-button-height, auto);
+  padding: var(--fie-button-padding, 8px 12px);
+  border: 0;
+  border-radius: var(--fie-button-radius);
+  background-color: var(--fie-button-background);
+  color: var(--fie-button-color);
+  box-shadow: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 100ms ease-out;
+}
+
+.button.button:hover {
+  background-color: var(--fie-button-hover);
+}
+
+.button.button:active,
+.button.button[data-active='true'] {
+  background-color: var(--fie-button-active);
+}
+
+.button.secondary {
+  color: var(--fie-button-secondary-color);
+  border: 1px solid var(--fie-button-secondary-color);
+}
+
+.button.secondary:hover {
+  color: var(--fie-button-color);
+}
+
+.button.secondary:focus {
+  color: var(--fie-button-active);
+  background-color: var(--fie-button-focus-background);
+  border-color: var(--fie-button-active);
+}
+
+.button.secondary:active,
+.button.secondary[data-active='true'] {
+  color: var(--fie-button-color);
+  background-color: var(--fie-button-active);
+  border-color: var(--fie-button-active);
+}
+
+.button.secondary:disabled {
+  border: none;
+}
+
+.button.button:disabled {
+  background-color: var(--fie-button-disabled-background);
+  color: var(--fie-button-disabled-color);
+  cursor: default;
+}
+
+.body {
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  display: flex;
+}
+
+.button.basic {
+  border: 1px solid var(--fie-button-border);
+}
+
+.button.basic:hover,
+.button.basic:active,
+.button.basic[data-active='true'] {
+  color: var(--fie-button-hover-color);
+}
+
+.button.basic:disabled {
+  border: none;
+  color: var(--fie-button-disabled-color);
+}
+
+.button.button:focus-visible {
+  outline: 2px solid var(--fie-button-focus-outline);
+  outline-offset: 2px;
+}
+
+.startIcon {
+  display: flex;
+  align-items: center;
+  margin-right: var(--fie-button-icon-gap, 7px);
+}
+
+.button.link:hover {
+  background-color: transparent;
+  color: var(--fie-button-hover);
+}
+
+.button.link:active,
+.button.link[data-active='true'] {
+  background-color: transparent;
+  color: var(--fie-button-active);
+}

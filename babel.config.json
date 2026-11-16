@@ -24,12 +24,9 @@
         ],
         "alias": {
           "react-filerobot-image-editor/src/": "react-filerobot-image-editor",
-          "react-filerobot-image-editor/src/utils/deepMerge": "react-filerobot-image-editor/lib/utils/deepMerge",
+          "react-filerobot-image-editor/src/utils/deepMerge": "react-filerobot-image-editor/lib/utils/deepMerge"
         }
       }
-    ],
-    [
-      "babel-plugin-styled-components"
     ],
     [
       "@babel/plugin-transform-runtime"
@@ -38,13 +35,6 @@
   "env": {
     "production": {
       "plugins": [
-        [
-          "babel-plugin-styled-components",
-          {
-            "pure": true,
-            "displayName": false
-          }
-        ],
         [
           "transform-react-remove-prop-types",
           {

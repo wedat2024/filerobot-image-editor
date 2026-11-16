@@ -1,0 +1,106 @@
+.position {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1400;
+}
+
+.position[data-horizontal='left'] {
+  left: 25px;
+}
+.position[data-horizontal='right'] {
+  right: 25px;
+}
+.position[data-horizontal='center'] {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.position[data-vertical='top'] {
+  top: 25px;
+}
+.position[data-vertical='bottom'] {
+  bottom: 25px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 360px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px var(--fie-notice-shadow);
+}
+
+.status {
+  position: absolute;
+  display: flex;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  min-width: 44px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 4px 0 0 4px;
+  background: var(--fie-notice-status-background);
+}
+
+.labelWrapper {
+  display: flex;
+  flex-grow: 1;
+  margin: 0 28px 0 44px;
+  padding: 16px 0 16px 16px;
+  overflow: hidden;
+  background: var(--fie-notice-background);
+}
+
+.label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--fie-notice-color);
+  font-family: var(--fie-notice-font-family);
+  font-size: var(--fie-notice-font-size);
+  font-weight: var(--fie-notice-font-weight);
+  line-height: var(--fie-notice-line-height);
+}
+
+.closeWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 2px;
+  height: fit-content;
+  background: var(--fie-notice-close-background);
+  border-radius: 0 4px 4px 0;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: 0;
+  color: var(--fie-notice-close-color);
+  background: transparent;
+  cursor: pointer;
+  transition: all 100ms ease-out;
+}
+
+.close:hover {
+  color: var(--fie-notice-close-hover-color);
+  background: var(--fie-notice-hover);
+}
+.close:active {
+  color: var(--fie-notice-close-active-color);
+  background: var(--fie-notice-active);
+}
+.close:focus-visible {
+  outline: 2px solid var(--fie-notice-focus);
+  outline-offset: -2px;
+}

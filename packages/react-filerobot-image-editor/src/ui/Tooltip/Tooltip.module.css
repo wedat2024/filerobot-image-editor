@@ -1,0 +1,27 @@
+.tooltip {
+  display: inline-flex;
+  align-items: center;
+  min-width: 54px;
+  min-height: 20px;
+  border-radius: var(--fie-tooltip-radius);
+  background: var(--fie-tooltip-background);
+  color: var(--fie-tooltip-color);
+  padding: 4px 8px;
+}
+
+.tooltip :global(.tippy-arrow) {
+  color: var(--fie-tooltip-background);
+}
+.tooltip :global(.tippy-content) {
+  padding: 0;
+  font-family: var(--fie-tooltip-font-family);
+  font-size: var(--fie-tooltip-font-size);
+  font-weight: var(--fie-tooltip-font-weight);
+  line-height: var(--fie-tooltip-line-height);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  color: var(--fie-tooltip-color);
+}

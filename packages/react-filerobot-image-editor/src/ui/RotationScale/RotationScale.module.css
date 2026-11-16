@@ -1,0 +1,32 @@
+.list {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0;
+  width: 100%;
+  list-style: none;
+}
+
+.mark {
+  display: block;
+  padding: 2px;
+}
+.dot {
+  display: block;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background-color: var(--fie-range-dot);
+  cursor: pointer;
+}
+.major {
+  width: 8px;
+  height: 8px;
+}
+.label {
+  position: absolute;
+  top: 20px;
+  font-size: 14px;
+  transform: translateX(-10%);
+  color: var(--fie-range-text);
+}

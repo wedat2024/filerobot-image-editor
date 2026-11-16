@@ -1,0 +1,7 @@
+.separator {
+  display: inline-block;
+  height: var(--fie-separator-height);
+  width: var(--fie-separator-width);
+  border-radius: 1px;
+  background: var(--fie-borders-secondary);
+}

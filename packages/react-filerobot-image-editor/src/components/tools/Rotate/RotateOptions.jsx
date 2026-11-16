@@ -1,5 +1,9 @@
+import FieRotationSlider from 'components/common/RotationSlider';
+import FieRotateButton from 'components/common/IconButton';
+
 /** External Dependencies */
 import React from 'react';
+import cx from 'classnames';
 import RotationLeft from '@scaleflex/icons/rotation-left';
 import RotationRight from '@scaleflex/icons/rotation-right';
 import { Rotate90 } from '@scaleflex/icons';
@@ -11,20 +15,20 @@ import restrictNumber from 'utils/restrictNumber';
 import getSizeAfterRotation from 'utils/getSizeAfterRotation';
 import { TOOLS_IDS } from 'utils/constants';
 import ToolsBarItemButton from 'components/ToolsBar/ToolsBarItemButton';
-import {
-  StyledRotationOptions,
-  StyledRotationSlider,
-  StyledRotateButton,
-} from './Rotate.styled';
+
+import RotateStyles from './Rotate.module.css';
 
 const RotateOptions = () => {
   const {
     dispatch,
+    t,
     adjustments: { rotation = 0 },
     resize = {},
     config,
   } = useStore();
+
   const rotateConfig = config[TOOLS_IDS.ROTATE];
+
   const isPhoneScreen = usePhoneScreen();
 
   const changeRotation = useDebouncedCallback((_e, newRotation) => {
@@ -43,6 +47,7 @@ const RotateOptions = () => {
         resize.height,
         rotationAngle,
       );
+
       dispatch({
         type: SET_RESIZE,
         payload: {
@@ -55,10 +60,13 @@ const RotateOptions = () => {
 
   const changeRotationButtonPositive = (e) => {
     const newAngle = rotation + rotateConfig.angle;
+
     changeRotation(e, newAngle);
   };
+
   const changeRotationButtonNegative = (e) => {
     const newAngle = rotation - rotateConfig.angle;
+
     changeRotation(e, newAngle);
   };
 
@@ -84,25 +92,26 @@ const RotateOptions = () => {
   }
 
   return (
-    <StyledRotationOptions>
-      <StyledRotationSlider
-        className="FIE_rotate-slider"
-        showCurrentMarkText
+    <div className={RotateStyles.rotationOptions}>
+      <FieRotationSlider
         min={-180}
         max={180}
         step={isPhoneScreen ? rotateConfig.angle / 3 : 1}
         value={rotation}
         angle={rotateConfig.angle || 90}
         onChange={changeRotation}
+        className={cx(RotateStyles.rotationSlider, 'FIE_rotate-slider')}
       />
-      <StyledRotateButton
+      <FieRotateButton
+        aria-label={`${t('rotateTool')} +90°`}
         size="sm"
         color="basic"
         onClick={(e) => changeRotation(e, rotation + 90)}
+        className={RotateStyles.rotateButton}
       >
         <Rotate90 width={15} />
-      </StyledRotateButton>
-    </StyledRotationOptions>
+      </FieRotateButton>
+    </div>
   );
 };
 

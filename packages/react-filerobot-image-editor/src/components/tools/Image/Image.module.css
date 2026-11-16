@@ -1,0 +1,9 @@
+.gallery {
+  background: var(--fie-bg-secondary);
+  box-shadow: 0px 1px 2px var(--fie-light-shadow);
+  border-radius: 4px;
+  padding: 8px;
+  overflow-y: auto;
+  max-height: 350px;
+  max-width: 300px;
+}

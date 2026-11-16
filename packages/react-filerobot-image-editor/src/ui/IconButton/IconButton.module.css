@@ -1,0 +1,33 @@
+.button {
+  display: inline-flex;
+  flex-shrink: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--fie-icon-button-radius);
+  transition: all 100ms ease-out;
+  border: none;
+  padding: var(--fie-icon-button-padding);
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  color: var(--fie-icon-button-color);
+}
+
+.button:hover {
+  background-color: var(--fie-icon-button-hover-background);
+  color: var(--fie-icon-button-hover-color);
+}
+
+.button:focus,
+.button:active,
+.button[data-active='true'] {
+  background-color: var(--fie-icon-button-active-background);
+  color: var(--fie-icon-button-active-color);
+}
+
+.button.button:disabled {
+  background-color: transparent;
+  color: var(--fie-icon-button-disabled-color);
+  cursor: default;
+}
